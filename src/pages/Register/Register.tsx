@@ -14,6 +14,7 @@ export const Register: FC = () => {
     confirmPassword: "",
     password: "",
     email: "",
+    role: "",
   });
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -28,9 +29,10 @@ export const Register: FC = () => {
     routerStore.goTo(RoutesEnum.LOGIN);
   };
 
-  const handleRegisterClick = () => {
-    appStore.setRegisterData(registerData);
-    routerStore.goTo(RoutesEnum.LOGIN);
+  const handleRegisterClick = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    if (registerData.password !== registerData.password) return;
+    appStore.setRegisterData(registerData, routerStore);
   };
 
   const inputsArray = [
@@ -82,6 +84,28 @@ export const Register: FC = () => {
             onChange={input.onChange}
           />
         ))}
+        <div className="radio">
+          <label>
+            <input
+              type="radio"
+              name="role"
+              value="manufacturer"
+              checked={registerData.role === "manufacturer"}
+              onChange={handleInputChange}
+            />
+            Я Производитель
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="role"
+              value="customer"
+              checked={registerData.role === "customer"}
+              onChange={handleInputChange}
+            />
+            Я Заказчик
+          </label>
+        </div>
         <Button onClick={handleRegisterClick}>Зарегистрироваться</Button>
         <p>
           Есть аккаунт? {""}

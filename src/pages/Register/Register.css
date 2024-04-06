@@ -1,12 +1,19 @@
 .register-a {
-  color: #0056b3;
+    color: #0056b3;
 }
 
 .register-form {
-  width: 340px;
-  min-height: 320px;
-  margin: 50px auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+    width: 340px;
+    min-height: 380px;
+    margin: 50px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
+
+.radio {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+

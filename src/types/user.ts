@@ -8,4 +8,10 @@ export type TRegisterData = {
   password: string;
   confirmPassword: string;
   username: string;
+  role: string;
+};
+
+export type TData = {
+  access: string;
+  refresh: string;
 };
