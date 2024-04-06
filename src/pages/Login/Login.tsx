@@ -26,10 +26,9 @@ export const Login: FC = () => {
     routerStore.goTo(RoutesEnum.REGISTER);
   };
 
-  const handleLoginClick = () => {
-    appStore.setLoginData(loginData);
-    appStore.setToken(true);
-    routerStore.goTo(RoutesEnum.HOME);
+  const handleLoginClick = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    appStore.setLoginData(loginData, routerStore);
   };
 
   const inputsArray = [

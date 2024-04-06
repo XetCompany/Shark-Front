@@ -1,1 +1,6 @@
-export const BASE_URL = "http://localhost:8080/api/v1";
+import * as process from "process";
+
+const host =
+  process.env?.REACT_APP_BACKEND_URL || "http://docs-google.ru:8000/";
+
+export const BASE_URL = `${host}api/`;

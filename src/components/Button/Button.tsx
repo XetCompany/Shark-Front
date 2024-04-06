@@ -3,7 +3,7 @@ import { classNames } from "@common/classNames.ts";
 import "./Button.css";
 
 interface IButton {
-  onClick: () => void;
+  onClick: (e: never) => void;
   disabled?: boolean;
   className?: string;
   children?: ReactNode;
