@@ -1,0 +1,53 @@
+.header {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  gap: 50px;
+}
+
+.header-img {
+  display: flex;
+  margin-left: 50px;
+}
+
+.header-links {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 100px;
+  margin: 0 30px;
+}
+
+.header-a {
+  position: relative;
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+}
+
+.header-a-logo {
+  width: 70px;
+  height: 70px;
+}
+
+.header-a:hover::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -10px;
+  height: 2px;
+  background-color: #000;
+  animation: underlineAnimation 0.3s forwards;
+}
+
+@keyframes underlineAnimation {
+  from {
+    width: 0;
+    right: 0;
+  }
+  to {
+    width: 100%;
+    right: 50%;
+  }
+}
