@@ -73,7 +73,7 @@ export const Register: FC = () => {
   return (
     <div className="register">
       <h1>Регистрация</h1>
-      <form className="register-form">
+      <form onSubmit={handleRegisterClick} className="register-form">
         {inputsArray.map((input) => (
           <Input
             key={input.id}
@@ -82,6 +82,7 @@ export const Register: FC = () => {
             placeholder={input.placeholder}
             value={input.value}
             onChange={input.onChange}
+            required={true}
           />
         ))}
         <div className="radio">
@@ -92,6 +93,7 @@ export const Register: FC = () => {
               value="manufacturer"
               checked={registerData.role === "manufacturer"}
               onChange={handleInputChange}
+              required
             />
             Я Производитель
           </label>
@@ -102,11 +104,12 @@ export const Register: FC = () => {
               value="customer"
               checked={registerData.role === "customer"}
               onChange={handleInputChange}
+              required
             />
             Я Заказчик
           </label>
         </div>
-        <Button onClick={handleRegisterClick}>Зарегистрироваться</Button>
+        <Button type="submit">Зарегистрироваться</Button>
         <p>
           Есть аккаунт? {""}
           <a onClick={handleLoginClick} className="register-a" href="/login">
