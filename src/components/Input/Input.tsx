@@ -9,6 +9,7 @@ interface IInput {
   type?: string;
   placeholder?: string;
   value?: string | number;
+  required?: boolean;
 }
 
 export const Input: FC<IInput> = ({
@@ -18,6 +19,7 @@ export const Input: FC<IInput> = ({
   type = "text",
   onChange,
   placeholder,
+  required,
 }) => {
   return (
     <input
@@ -26,6 +28,7 @@ export const Input: FC<IInput> = ({
         input: true,
       })}
       type={type}
+      required={required}
       onChange={onChange}
       placeholder={placeholder}
       name={name}

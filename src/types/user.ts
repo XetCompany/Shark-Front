@@ -15,3 +15,8 @@ export type TData = {
   access: string;
   refresh: string;
 };
+
+export type TResetInput = {
+  email?: string;
+  reset_password?: string;
+};

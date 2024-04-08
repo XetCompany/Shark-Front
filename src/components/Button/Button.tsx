@@ -3,10 +3,11 @@ import { classNames } from "@common/classNames.ts";
 import "./Button.css";
 
 interface IButton {
-  onClick: (e: never) => void;
+  onClick?: (e: never) => void;
   disabled?: boolean;
   className?: string;
   children?: ReactNode;
+  type?: "submit" | "reset" | "button" | undefined;
 }
 
 export const Button: FC<IButton> = ({
@@ -14,6 +15,7 @@ export const Button: FC<IButton> = ({
   disabled = false,
   children,
   className = "",
+  type = "button",
 }) => {
   return (
     <button
@@ -22,6 +24,7 @@ export const Button: FC<IButton> = ({
         button: true,
       })}
       onClick={onClick}
+      type={type}
       disabled={disabled}
     >
       {children}

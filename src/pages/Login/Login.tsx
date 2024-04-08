@@ -4,7 +4,6 @@ import { appStore } from "@store/AppStore/AppStore.ts";
 import { Input } from "@components/Input/Input.tsx";
 import { Button } from "@components/Button/Button.tsx";
 import { TLoginData } from "../../types/user.ts";
-import { RoutesEnum } from "../../router";
 import "./Login.css";
 
 export const Login: FC = () => {
@@ -20,10 +19,6 @@ export const Login: FC = () => {
       ...prevState,
       [name]: value,
     }));
-  };
-
-  const handleRegisterClick = () => {
-    routerStore.goTo(RoutesEnum.REGISTER);
   };
 
   const handleLoginClick = (e: { preventDefault: () => void }) => {
@@ -53,7 +48,7 @@ export const Login: FC = () => {
   return (
     <div className="login">
       <h1>Вход</h1>
-      <form className="login-form">
+      <form onSubmit={handleLoginClick} className="login-form">
         {inputsArray.map((input) => (
           <Input
             key={input.id}
@@ -62,12 +57,19 @@ export const Login: FC = () => {
             placeholder={input.placeholder}
             value={input.value}
             onChange={input.onChange}
+            required={true}
           />
         ))}
-        <Button onClick={handleLoginClick}>Войти</Button>
+        <p>
+          Забыли пароль? {""}
+          <a className="login-a" href="/reset-password">
+            Восстановить
+          </a>
+        </p>
+        <Button type="submit">Войти</Button>
         <p>
           Нет аккаунта? {""}
-          <a onClick={handleRegisterClick} className="login-a" href="/register">
+          <a className="login-a" href="/register">
             Зарегистрироваться
           </a>
         </p>
