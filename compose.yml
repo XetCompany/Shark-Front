@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  web:
+    build: .
+    container_name: sharkfront
+    ports:
+      - ${FRONTEND_PORT}:5173
+    networks:
+      - sharkfront_network
+
+networks:
+  sharkfront_network:
+    driver: bridge
