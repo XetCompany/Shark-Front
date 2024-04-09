@@ -11,10 +11,12 @@ import { RoutesEnum } from "../../router";
 export default class AppStore {
   loginData = {};
   registerData = {};
+  token = "";
 
   resetState() {
     this.loginData = {};
     this.registerData = {};
+    this.token = "";
   }
 
   constructor() {
@@ -24,6 +26,7 @@ export default class AppStore {
 
   setToken(token: string) {
     localStorage.setItem("token", token);
+    this.token = token;
   }
 
   get getToken() {

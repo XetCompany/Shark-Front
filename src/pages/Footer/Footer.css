@@ -1,0 +1,24 @@
+.footer {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    height: 55px;
+    padding: 0 60px;
+    position: relative;
+}
+
+.footer::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: -40px;
+    height: 2px;
+    width: 100%;
+    background-color: rgb(128, 128, 128);
+}
+
+.footer-first {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 20px;
+}

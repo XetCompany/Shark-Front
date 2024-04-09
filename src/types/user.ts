@@ -20,3 +20,8 @@ export type TResetInput = {
   email?: string;
   reset_password?: string;
 };
+
+export enum RoleEnum {
+  MANUFACTURER = "manufacturer",
+  CUSTOMER = "customer",
+}

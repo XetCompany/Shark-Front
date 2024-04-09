@@ -3,6 +3,7 @@ import { Home } from "@pages/Home/Home.tsx";
 import { Login } from "@pages/Login/Login.tsx";
 import { ResetPassword } from "@pages/ResetPassword/ResetPassword.tsx";
 import { RequestResetPassword } from "@pages/RequestResetPassword/RequestResetPassword.tsx";
+import { Products } from "@pages/Products/Products.tsx";
 
 export enum RoutesEnum {
   HOME = "home",
@@ -10,14 +11,16 @@ export enum RoutesEnum {
   REGISTER = "register",
   RESET_PASSWORD = "reset_password",
   RESET_PASSWORD_REQUEST = "reset_password_request",
+  PRODUCTS = "products",
 }
 
 export const PATHS: Record<RoutesEnum, string> = {
-  [RoutesEnum.HOME]: "/",
+  [RoutesEnum.HOME]: "/about-us",
   [RoutesEnum.LOGIN]: "/login",
   [RoutesEnum.REGISTER]: "/register",
   [RoutesEnum.RESET_PASSWORD]: "/reset-password",
   [RoutesEnum.RESET_PASSWORD_REQUEST]: `/reset-password/`,
+  [RoutesEnum.PRODUCTS]: "/",
   // ToDo: нужно норм токен смотреть после reset-password
 };
 
@@ -36,8 +39,12 @@ export const Routes = [
     pattern: PATHS.reset_password,
   },
   {
-    name: RoutesEnum.RESET_PASSWORD,
+    name: RoutesEnum.RESET_PASSWORD_REQUEST,
     pattern: PATHS.reset_password_request,
+  },
+  {
+    name: RoutesEnum.PRODUCTS,
+    pattern: PATHS.products,
   },
 ];
 
@@ -47,4 +54,5 @@ export const viewMap = {
   register: <Register />,
   reset_password: <ResetPassword />,
   reset_password_request: <RequestResetPassword />,
+  products: <Products />,
 };

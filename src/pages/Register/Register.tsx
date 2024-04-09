@@ -2,7 +2,7 @@ import { ChangeEvent, FC, useState } from "react";
 import { Button } from "@components/Button/Button.tsx";
 import { Input } from "@components/Input/Input.tsx";
 import { useRouterStore } from "mobx-state-router";
-import { TRegisterData } from "../../types/user.ts";
+import { RoleEnum, TRegisterData } from "../../types/user.ts";
 import { RoutesEnum } from "../../router";
 import { appStore } from "@store/AppStore/AppStore.ts";
 import "./Register.css";
@@ -90,8 +90,8 @@ export const Register: FC = () => {
             <input
               type="radio"
               name="role"
-              value="manufacturer"
-              checked={registerData.role === "manufacturer"}
+              value={RoleEnum.MANUFACTURER}
+              checked={registerData.role === RoleEnum.MANUFACTURER}
               onChange={handleInputChange}
               required
             />
@@ -101,8 +101,8 @@ export const Register: FC = () => {
             <input
               type="radio"
               name="role"
-              value="customer"
-              checked={registerData.role === "customer"}
+              value={RoleEnum.CUSTOMER}
+              checked={registerData.role === RoleEnum.CUSTOMER}
               onChange={handleInputChange}
               required
             />
