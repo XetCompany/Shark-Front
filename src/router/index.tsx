@@ -50,9 +50,25 @@ export const Routes = [
 
 export const viewMap = {
   home: <Home />,
-  login: <Login />,
-  register: <Register />,
-  reset_password: <ResetPassword />,
-  reset_password_request: <RequestResetPassword />,
+  login: (
+    <div className="layout">
+      <Login />
+    </div>
+  ),
+  register: (
+    <div className="layout">
+      <Register />
+    </div>
+  ),
+  reset_password: (
+    <div className="layout">
+      <ResetPassword />
+    </div>
+  ),
+  reset_password_request: (
+    <div className="layout">
+      <RequestResetPassword />
+    </div>
+  ),
   products: <Products />,
 };

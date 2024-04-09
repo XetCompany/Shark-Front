@@ -1,7 +1,14 @@
 #root {
     text-align: center;
+    padding: 0;
+    margin: 0;
+    height: 100%;
 }
 
 .main {
     padding-top: 95px;
+}
+
+.layout {
+    height: calc(100vh - 172px);
 }
