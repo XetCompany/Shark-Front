@@ -4,7 +4,7 @@ import { Header } from "@components/Header/Header.tsx";
 import { viewMap } from "./router";
 import { Router } from "./router/Router.ts";
 import "./App.css";
-import { Footer } from "@pages/Footer/Footer.tsx";
+// import { Footer } from "@pages/Footer/Footer.tsx";
 
 export const App: FC = () => {
   const routerStore = Router();
@@ -15,7 +15,8 @@ export const App: FC = () => {
       <div className="main">
         <RouterView viewMap={viewMap} />
       </div>
-      <Footer />
+      {/*ToDo: пока не нужен*/}
+      {/*<Footer />*/}
     </RouterContext.Provider>
   );
 };
