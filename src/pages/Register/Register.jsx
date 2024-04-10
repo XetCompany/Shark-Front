@@ -3,8 +3,8 @@ import { Button } from "@components/Button/Button.jsx";
 import { Input } from "@components/Input/Input.jsx";
 import { useRouterStore } from "mobx-state-router";
 import { RoutesEnum } from "../../router/index.jsx";
-import { appStore } from "@store/AppStore/AppStore.js";
 import "./Register.css";
+import UserApi from "@/api/UserApi.js";
 
 export const Register = () => {
   const routerStore = useRouterStore();
@@ -28,10 +28,19 @@ export const Register = () => {
     routerStore.goTo(RoutesEnum.LOGIN);
   };
 
+  const register = async () => {
+    const response = await UserApi.register(registerData);
+    if (response?.status !== 200) {
+      return;
+    }
+    await routerStore.goTo(RoutesEnum.LOGIN);
+  };
+
   const handleRegisterClick = (e) => {
     e.preventDefault();
+    // ToDo: модалка при неверном вводе
     if (registerData.password !== registerData.password) return;
-    appStore.setRegisterData(registerData, routerStore);
+    register()
   };
 
   const inputsArray = [

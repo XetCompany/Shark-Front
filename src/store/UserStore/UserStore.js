@@ -1,58 +1,53 @@
 import { makeAutoObservable } from "mobx";
+import { getAccessTokenFromLocalStorage } from "@/api/utils.js";
+import UserApi from "@/api/UserApi.js";
 
 class UserStore {
-  userId = null;
   accessToken = null;
-  refreshToken = null;
+
+  userId = null;
   role = null;
-  isAuth = false;
-  user = null;
-  userIsLoaded = false;
-  resetPassword = null;
-  isShowNotification = false;
-  notifications = [];
+  isLoad = false;
 
   constructor() {
     this.userId = null;
-    this.accessToken = null;
-    this.refreshToken = null;
     this.role = null;
-    this.isAuth = false;
-    this.user = null;
-    this.userIsLoaded = false;
-    this.resetPassword = null;
-    this.isShowNotification = false;
-    this.notifications = [];
+    this.isLoad = false;
 
     this.init();
     makeAutoObservable(this);
   }
 
   init() {
-    const accessToken = JSON.parse(localStorage.getItem("token"));
-    const refreshToken = JSON.parse(localStorage.getItem("refreshToken"));
-    this.accessToken = accessToken;
-    this.refreshToken = refreshToken;
+    this.accessToken = getAccessTokenFromLocalStorage();
+    setTimeout(() => {
+      this.updateUser();
+    })
   }
 
-  // setUser(user) {
-  //   this.user = user;
-  // }
-  //
-  // setIsAuth(isAuth) {
-  //   this.isAuth = isAuth;
-  // }
-  //
-  // setUserById(id) {
-  //   this.userId = id;
-  // }
-  //
-  // setRole(role) {
-  //   this.role = role;
-  // }
+  async updateUser() {
+    const response = await UserApi.getUserInfo();
+    if (response?.status !== 200) {
+      return;
+    }
+    const user = response.data;
+    this.userId = user.id;
+    if (user.groups.length !== 1) {
+      console.error("User has more than one group");
+      return;
+    }
+    this.role = user.groups[0];
+    this.isLoad = true;
+  }
 
-  setResetPasswordToken(resetPassword) {
-    this.resetPassword = resetPassword;
+  setAccessToken(accessToken) {
+    localStorage.setItem("accessToken", accessToken);
+    this.accessToken = accessToken;
+  }
+
+  removeAccessToken() {
+    localStorage.removeItem("accessToken");
+    this.accessToken = null;
   }
 }
 

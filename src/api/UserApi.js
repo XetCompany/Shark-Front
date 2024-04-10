@@ -6,6 +6,21 @@ class  UserApi extends ApiClass {
     return await this.sendPost({ url, data });
   }
 
+  static async register(data) {
+    const url = this.buildUrl('auth/signup/');
+    return await this.sendPost({ url, data });
+  }
+
+  static async resetPassword(data) {
+    const url = this.buildUrl('auth/reset_password/request/');
+    return await this.sendPost({ url, data });
+  }
+
+  static async requestResetPassword(data) {
+    const url = this.buildUrl('auth/reset_password/reset/');
+    return await this.sendPost({ url, data });
+  }
+
   static async getUserInfo() {
     const url = this.buildUrl('app/common/account/');
     return await this.sendGet({ url, isAuth: true });

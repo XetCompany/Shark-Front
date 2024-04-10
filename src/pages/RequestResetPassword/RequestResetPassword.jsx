@@ -5,28 +5,35 @@ import { appStore } from "@store/AppStore/AppStore.js";
 import "./RequestResetPassword.css";
 import { RouterContext } from "mobx-state-router";
 import { observer } from "mobx-react";
+import UserApi from "@/api/UserApi.js";
 
 export const RequestResetPassword = observer(() => {
   const [newPassword, setNewPassword] = useState({ password: "" });
   const [passwordReseted, setPasswordReseted] = useState(false);
   const routerStore = useContext(RouterContext);
-  const userId = routerStore?.routerState.params.userId ?? "";
+  const paramToken = routerStore?.routerState.params.userId ?? "";
 
   const handleInputChange = (e) => {
     const { value } = e.target;
     setNewPassword({ password: value });
   };
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  const requestResetPassword = async () => {
     const data = {
       password: newPassword.password,
-      token: userId,
+      token: paramToken,
     };
-    (await appStore.setRequestResetPassword(data))
-      ? setPasswordReseted(true)
-      : setPasswordReseted(false);
-    appStore.setToken(userId);
+    const response = await UserApi.requestResetPassword(data);
+    if (response?.status !== 200) {
+      setPasswordReseted(false);
+      return;
+    }
+    setPasswordReseted(true);
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    requestResetPassword();
   };
 
   return !passwordReseted ? (

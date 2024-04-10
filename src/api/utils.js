@@ -1,3 +1,3 @@
 export const getAccessTokenFromLocalStorage = () => {
-  return localStorage.getItem('access_token');
+  return localStorage.getItem('accessToken');
 };

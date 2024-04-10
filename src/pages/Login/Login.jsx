@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useRouterStore } from "mobx-state-router";
-import { appStore } from "@store/AppStore/AppStore.js";
 import { Input } from "@components/Input/Input.jsx";
 import { Button } from "@components/Button/Button.jsx";
 import "./Login.css";
 import UserApi from "@/api/UserApi.js";
 import { RoutesEnum } from "@/router/index.jsx";
+import userStore from "@store/UserStore/UserStore.js";
 
 export const Login = () => {
   const routerStore = useRouterStore();
@@ -27,7 +27,8 @@ export const Login = () => {
     if (response?.status !== 200) {
       return;
     }
-    appStore.setToken(response.access);
+    userStore.setAccessToken(response.data.access);
+    await userStore.updateUser();
     await routerStore.goTo(RoutesEnum.HOME);
   }
 

@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { observer } from "mobx-react";
-import { appStore } from "@store/AppStore/AppStore.js";
 import "./Header.css";
+import { RouterLink, useRouterStore } from "mobx-state-router";
+import { RoutesEnum } from "@/router/index.jsx";
+import userStore from "@store/UserStore/UserStore.js";
 
 export const Header = observer(() => {
-  const token = appStore.token;
+  const routerStore = useRouterStore();
   const [showModal, setShowModal] = useState(false);
 
   const defaultUserImage =
@@ -16,41 +18,47 @@ export const Header = observer(() => {
 
   return (
     <header className="header ">
-      <a className="header--brand" href="/about-us">
+      <RouterLink className="header--brand" routeName={RoutesEnum.HOME}>
         <img
           src="https://cdn.dorik.com/661154201d6c29001119b9a0/images/SharkCat-photoaidcom-cropped-uGz5G.png"
           alt="Logo Shark Cat"
           width="70px"
         />
         <h4 className="header-brand--title">Shark Cat</h4>
-      </a>
-      {!!token && (
+      </RouterLink>
+      {userStore.isLoad && (
         <ul className="header-nav--links">
           <li>
-            <a href="/about-us" className="header-nav--link">
-              О нас
-            </a>
+            <RouterLink
+              className="header-nav--link"
+              routeName={RoutesEnum.HOME}
+            >О нас</RouterLink>
           </li>
           <li>
-            <a href="/" className="header-nav--link">
-              Товары
-            </a>
+            <RouterLink
+              className="header-nav--link"
+              routeName={RoutesEnum.PRODUCTS}
+            >Товары</RouterLink>
           </li>
           <li>
-            <a href="/cart" className="header-nav--link">
-              Корзина
-            </a>
+            <RouterLink
+              className="header-nav--link"
+              // ToDo: сделать роутинг на корзину
+              routeName={RoutesEnum.PRODUCTS}
+            >Корзина</RouterLink>
           </li>
           <li>
-            <a href="/order/history" className="header-nav--link">
-              История заказов
-            </a>
+            <RouterLink
+              className="header-nav--link"
+              // ToDo: сделать роутинг на историю заказов
+              routeName={RoutesEnum.PRODUCTS}
+            >История заказов</RouterLink>
           </li>
         </ul>
       )}
       <div className="header--navs">
         <ul className="header-nav--links">
-          {token && (
+          {userStore.isLoad && (
             <li>
               <img
                 src={defaultUserImage}
@@ -70,24 +78,26 @@ export const Header = observer(() => {
             </li>
           )}
           <li>
-            {!token ? (
+            {!userStore.isLoad ? (
               <div className="header-nav--buttons">
-                <a href="/login" className="header-nav--button">
+                <RouterLink className="header-nav--button" routeName={RoutesEnum.LOGIN}>
                   Войти
-                </a>
-                <a href="/register" className="header-nav--button">
+                </RouterLink>
+                <RouterLink className="header-nav--button" routeName={RoutesEnum.REGISTER}>
                   Зарегистрироваться
-                </a>
+                </RouterLink>
               </div>
             ) : (
               <>
-                <a
-                  href="/login"
-                  onClick={appStore.removeToken}
+                <button
+                  onClick={() => {
+                    userStore.removeAccessToken();
+                    routerStore.goTo(RoutesEnum.LOGIN);
+                  }}
                   className="header-nav--button"
                 >
                   Выйти из аккаунта
-                </a>
+                </button>
               </>
             )}
           </li>
