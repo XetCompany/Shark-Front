@@ -15,6 +15,11 @@ class AppStore {
     });
   }
 
+  getCityNameById(id) {
+    const city = this.cities.find((city) => city.id === id);
+    return city ? city.name : "";
+  }
+
   async updateCities() {
     const response = await CommonApi.getCities();
     if (response.statusText !== "OK") {

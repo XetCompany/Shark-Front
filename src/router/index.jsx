@@ -6,6 +6,7 @@ import { RequestResetPassword } from "@pages/RequestResetPassword/RequestResetPa
 import { CustomerProducts } from "@pages/Customer/CustomerProducts/CustomerProducts.jsx";
 import { CustomerProduct } from "@pages/Customer/CustomerProduct/CustomerProduct.jsx";
 import { Cart } from "@pages/Customer/Cart/Cart.jsx";
+import { Points } from "@pages/Manufacturer/Points/Points.jsx";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const RoutesEnum = Object.freeze({
@@ -18,6 +19,9 @@ export const RoutesEnum = Object.freeze({
   PRODUCT: "product",
   CART: "cart",
   ORDER: "order",
+
+  // Manufacturer routes
+  POINTS: "points",
 });
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -31,6 +35,9 @@ export const PATHS = {
   [RoutesEnum.PRODUCT]: "/product/:prodId",
   [RoutesEnum.CART]: "/cart",
   [RoutesEnum.ORDER]: "/order",
+
+  // Manufacturer routes
+  [RoutesEnum.POINTS]: "/points",
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -67,6 +74,12 @@ export const Routes = [
   {
     name: RoutesEnum.ORDER,
     pattern: PATHS.order,
+  },
+
+  // Manufacturer routes
+  {
+    name: RoutesEnum.POINTS,
+    pattern: PATHS.points,
   },
 ];
 
@@ -111,6 +124,13 @@ export const viewMap = {
   order: (
     <div className="layout">
       <Cart />
+    </div>
+  ),
+
+  // Manufacturer routes
+  points: (
+    <div className="layout">
+      <Points />
     </div>
   ),
 };

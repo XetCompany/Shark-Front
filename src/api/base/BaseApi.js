@@ -15,7 +15,7 @@ class ApiClass {
     return {};
   }
 
-  static buildUrl(route) {
+  static buildUrl(route = "") {
     route = this.INTERMEDIARY_URL + route;
     return new Url({ route }).defaultUrl;
   }
