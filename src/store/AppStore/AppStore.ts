@@ -100,8 +100,7 @@ export default class AppStore {
         body: JSON.stringify(data),
       });
       if (response.ok) {
-        const data = await response.json();
-        this.setToken(data.token);
+        console.log("Request reset password success");
       } else {
         throw new Error("Ошибка при регистрации");
       }
@@ -111,7 +110,6 @@ export default class AppStore {
   }
 
   async setRequestResetPassword(data: TResetInput) {
-    console.log(data);
     try {
       const response = await fetch(`${BASE_URL}auth/reset_password/reset/`, {
         method: "POST",
@@ -122,6 +120,7 @@ export default class AppStore {
       });
       if (response.ok) {
         console.log("Пароль успешно изменен");
+        return true;
       } else {
         throw new Error("Ошибка при изменении пароля");
       }

@@ -15,7 +15,6 @@ export const App: FC = () => {
       <div className="main">
         <RouterView viewMap={viewMap} />
       </div>
-      {/*ToDo: пока не нужен*/}
       <Footer />
     </RouterContext.Provider>
   );

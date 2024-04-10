@@ -18,7 +18,8 @@ export type TData = {
 
 export type TResetInput = {
   email?: string;
-  reset_password?: string;
+  password?: string;
+  token?: string;
 };
 
 export enum RoleEnum {

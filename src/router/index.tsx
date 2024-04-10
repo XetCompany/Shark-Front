@@ -18,8 +18,8 @@ export const PATHS: Record<RoutesEnum, string> = {
   [RoutesEnum.HOME]: "/about-us",
   [RoutesEnum.LOGIN]: "/login",
   [RoutesEnum.REGISTER]: "/register",
-  [RoutesEnum.RESET_PASSWORD]: "/reset-password",
-  [RoutesEnum.RESET_PASSWORD_REQUEST]: `/reset-password/`,
+  [RoutesEnum.RESET_PASSWORD]: "/reset-password/request",
+  [RoutesEnum.RESET_PASSWORD_REQUEST]: `/reset-password/:userId`,
   [RoutesEnum.PRODUCTS]: "/",
   // ToDo: нужно норм токен смотреть после reset-password
 };
@@ -40,7 +40,7 @@ export const Routes = [
   },
   {
     name: RoutesEnum.RESET_PASSWORD_REQUEST,
-    pattern: PATHS.reset_password_request,
+    pattern: PATHS[RoutesEnum.RESET_PASSWORD_REQUEST],
   },
   {
     name: RoutesEnum.PRODUCTS,

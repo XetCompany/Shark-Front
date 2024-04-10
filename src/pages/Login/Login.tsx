@@ -62,7 +62,7 @@ export const Login: FC = () => {
         ))}
         <p>
           Забыли пароль? {""}
-          <a className="login-a" href="/reset-password">
+          <a className="login-a" href="/reset-password/request">
             Восстановить
           </a>
         </p>

@@ -5,6 +5,7 @@ import "./Header.css";
 
 export const Header: FC = observer(() => {
   const token = appStore.token;
+  console.log(token, "rok");
 
   return (
     <header className="header ">
