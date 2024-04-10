@@ -85,7 +85,7 @@ export const Header = observer(() => {
                 className="header-nav--link"
                 routeName={RoutesEnum.M_PRODUCTS}
               >
-                Товары
+                Каталог Товаров
               </RouterLink>
             </li>
             <li>

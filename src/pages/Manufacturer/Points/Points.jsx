@@ -9,6 +9,7 @@ import { SearchInput } from "@components/Input/SearchInput.jsx";
 import { POINT_TYPES_RUS } from "@common/common.js";
 import { appStore } from "@store/AppStore.js";
 import { ContentPageWrapper } from "@components/PageWrapper/ContentPageWrapper.jsx";
+import { SearchCreateComponent } from "@components/PageWrapper/SearchCreateComponent.jsx";
 
 const PointsContent = observer(({ isLoaded, points }) => {
   if (!isLoaded) {
@@ -77,23 +78,13 @@ export const Points = () => {
   }, []);
 
   return <ContentPageWrapper title="Пункты складов и ПВЗ" componentHeader={
-    <>
-      <Container sx={{
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: 2,
-      }}>
-        <SearchInput value={searchValue} onChange={(e) => setSearchValue(e.target.value)}
-                     placeholder="Поиск по названию" ariaLabel="поиск по названию" />
-        <Button variant="contained" color="primary" onClick={() => {
-          routerStore.goTo(RoutesEnum.POINT_CREATE);
-        }}>
-          Добавить пункт
-        </Button>
-      </Container>
-    </>
+    <SearchCreateComponent
+      searchValue={searchValue}
+      setSearchValue={setSearchValue}
+      routerStore={routerStore}
+      createText="Добавить пункт"
+      routerName={RoutesEnum.POINT_CREATE}
+    />
   }>
     <PointsContent isLoaded={isLoaded} points={filteredPoints} />
   </ContentPageWrapper>
