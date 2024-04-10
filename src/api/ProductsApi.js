@@ -10,6 +10,11 @@ class ProductsApi extends ApiClass {
     const url = this.buildUrl("app/customer/products/");
     return await this.sendGet({ url });
   }
+
+  static async cart() {
+    const url = this.buildUrl("app/customer/cart/");
+    return await this.sendGet({ url, isAuth: true });
+  }
 }
 
 export default ProductsApi;

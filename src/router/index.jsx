@@ -5,6 +5,7 @@ import { ResetPassword } from "@pages/ResetPassword/ResetPassword.jsx";
 import { RequestResetPassword } from "@pages/RequestResetPassword/RequestResetPassword.jsx";
 import { CustomerProducts } from "@pages/Customer/CustomerProducts/CustomerProducts.jsx";
 import { CustomerProduct } from "@pages/Customer/CustomerProduct/CustomerProduct.jsx";
+import { Cart } from "@pages/Customer/Cart/Cart.jsx";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const RoutesEnum = Object.freeze({
@@ -15,6 +16,7 @@ export const RoutesEnum = Object.freeze({
   RESET_PASSWORD_REQUEST: "reset_password_request",
   PRODUCTS: "products",
   PRODUCT: "product",
+  CART: "cart",
 });
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -26,6 +28,7 @@ export const PATHS = {
   [RoutesEnum.RESET_PASSWORD_REQUEST]: `/reset-password/:id`,
   [RoutesEnum.PRODUCTS]: "/",
   [RoutesEnum.PRODUCT]: "/product/:prodId",
+  [RoutesEnum.CART]: "/cart",
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -54,6 +57,10 @@ export const Routes = [
   {
     name: RoutesEnum.PRODUCT,
     pattern: PATHS.product,
+  },
+  {
+    name: RoutesEnum.CART,
+    pattern: PATHS.cart,
   },
 ];
 
@@ -88,6 +95,11 @@ export const viewMap = {
   product: (
     <div className="layout">
       <CustomerProduct />
+    </div>
+  ),
+  cart: (
+    <div className="layout">
+      <Cart />
     </div>
   ),
 };

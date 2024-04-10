@@ -6,7 +6,10 @@ import "./Product.css";
 
 export const CustomerProduct = observer(() => {
   const routerStore = useContext(RouterContext);
-  const productId = parseInt(routerStore?.routerState?.options?.id ?? "0", 10);
+  const productId = parseInt(
+    routerStore?.routerState?.options?.prodId ?? "0",
+    10,
+  );
   const product = customerStore.customerProducts.find(
     (product) => product.id === productId,
   );
