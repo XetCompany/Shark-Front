@@ -38,7 +38,9 @@ class ApiClass {
       }
     } catch (error) {
       console.error('Error in response:', error);
-      response = null;
+      response = {
+        statusText: "Error",
+      };
     }
 
     return response;
