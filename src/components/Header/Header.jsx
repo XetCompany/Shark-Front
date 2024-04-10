@@ -17,6 +17,11 @@ export const Header = observer(() => {
     setShowModal(!showModal);
   };
 
+  const logout = () => {
+    userStore.removeAuthData();
+    routerStore.goTo(RoutesEnum.HOME);
+  }
+
   return (
     <header className="header ">
       <RouterLink className="header--brand" routeName={RoutesEnum.HOME}>
@@ -142,10 +147,7 @@ export const Header = observer(() => {
             ) : (
               <>
                 <button
-                  onClick={() => {
-                    userStore.removeAccessToken();
-                    routerStore.goTo(RoutesEnum.LOGIN);
-                  }}
+                  onClick={logout}
                   className="header-nav--button"
                 >
                   Выйти из аккаунта

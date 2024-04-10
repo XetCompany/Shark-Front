@@ -51,6 +51,15 @@ class UserStore {
     this.accessToken = null;
   }
 
+  removeAuthData() {
+    this.removeAccessToken();
+    this.userId = null;
+    this.role = null;
+    this.username = null;
+    this.email = null;
+    this.isLoad = false;
+  }
+
   get meIsManufacturer() {
     return this.role === ROLES.MANUFACTURER;
   }
