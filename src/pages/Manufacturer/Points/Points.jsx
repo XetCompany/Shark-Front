@@ -1,7 +1,7 @@
 import { observer } from "mobx-react";
 import React, { useEffect, useState } from "react";
 import PointsApi from "@/api/Manufacturer/PointsApi.js";
-import { Point } from "@pages/Manufacturer/Points/Point.jsx";
+import { Point } from "@components/Manufacturer/Point.jsx";
 import { Button, Container, Grid, Typography } from "@mui/material";
 import { useRouterStore } from "mobx-state-router";
 import { RoutesEnum } from "@/router/index.jsx";

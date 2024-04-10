@@ -10,6 +10,10 @@ import { Points } from "@pages/Manufacturer/Points/Points.jsx";
 import { Order } from "@pages/Customer/Order/Order.jsx";
 import { CreateOrder } from "@pages/Customer/CreateOrder/CreateOrder.jsx";
 import { PointCreate } from "@pages/Manufacturer/Points/PointCreate.jsx";
+import { PointDetail } from "@pages/Manufacturer/Points/PointDetail.jsx";
+import { ManufacturerProducts } from "@pages/Manufacturer/Products/Products.jsx";
+import { ManufacturerProductCreate } from "@pages/Manufacturer/Products/ProductCreate.jsx";
+import { ManufacturerProductDetails } from "@pages/Manufacturer/Products/ProductDetail.jsx";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const RoutesEnum = Object.freeze({
@@ -29,6 +33,11 @@ export const RoutesEnum = Object.freeze({
   // Manufacturer routes
   POINTS: "points",
   POINT_CREATE: "point_create",
+  POINT_DETAILS: "point_details",
+
+  M_PRODUCTS: "m_products",
+  M_PRODUCTS_CREATE: "m_products_create",
+  M_PRODUCTS_DETAILS: "m_products_details",
 });
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -49,6 +58,11 @@ export const PATHS = {
   // Manufacturer routes
   [RoutesEnum.POINTS]: "/points",
   [RoutesEnum.POINT_CREATE]: "/points/create",
+  [RoutesEnum.POINT_DETAILS]: "/points/:id",
+
+  [RoutesEnum.M_PRODUCTS]: "/m_products",
+  [RoutesEnum.M_PRODUCTS_CREATE]: "/m_products/create",
+  [RoutesEnum.M_PRODUCTS_DETAILS]: "/m_products/:id",
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -101,6 +115,22 @@ export const Routes = [
   {
     name: RoutesEnum.POINT_CREATE,
     pattern: PATHS.point_create,
+  },
+  {
+    name: RoutesEnum.POINT_DETAILS,
+    pattern: PATHS.point_details,
+  },
+  {
+    name: RoutesEnum.M_PRODUCTS,
+    pattern: PATHS.m_products,
+  },
+  {
+    name: RoutesEnum.M_PRODUCTS_CREATE,
+    pattern: PATHS.m_products_create,
+  },
+  {
+    name: RoutesEnum.M_PRODUCTS_DETAILS,
+    pattern: PATHS.m_products_details,
   },
 ];
 
@@ -164,6 +194,26 @@ export const viewMap = {
   point_create: (
     <div className="layout">
       <PointCreate />
+    </div>
+  ),
+  point_details: (
+    <div className="layout">
+      <PointDetail />
+    </div>
+  ),
+  m_products: (
+    <div className="layout">
+      <ManufacturerProducts />
+    </div>
+  ),
+  m_products_create: (
+    <div className="layout">
+      <ManufacturerProductCreate />
+    </div>
+  ),
+  m_products_details: (
+    <div className="layout">
+      <ManufacturerProductDetails />
     </div>
   ),
 };
