@@ -18,9 +18,13 @@ export const CustomerProduct = observer(() => {
   return (
     <div className="product-detail">
       <img
-        src={product.photo || "fallback-image-url.jpg"}
+        src={
+          product.photo ||
+          "https://www.interra-rus.com/storage/media/default.png"
+        }
         alt={product.name}
-        className="product-image"
+        width="200px"
+        height="200px"
       />
       <div className="product-info">
         <h1>{product.name}</h1>
