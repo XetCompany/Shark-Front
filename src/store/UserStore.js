@@ -30,6 +30,10 @@ class UserStore {
       return;
     }
     const user = response.data;
+    this.updateUserData(user);
+  }
+
+  updateUserData(user) {
     this.userId = user.id;
     if (user.groups.length !== 1) {
       console.error("User has more than one group");
