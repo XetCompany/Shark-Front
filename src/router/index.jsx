@@ -7,6 +7,8 @@ import { CustomerProducts } from "@pages/Customer/CustomerProducts/CustomerProdu
 import { CustomerProduct } from "@pages/Customer/CustomerProduct/CustomerProduct.jsx";
 import { Cart } from "@pages/Customer/Cart/Cart.jsx";
 import { Points } from "@pages/Manufacturer/Points/Points.jsx";
+import { Order } from "@pages/Customer/Order/Order.jsx";
+import { CreateOrder } from "@pages/Customer/CreateOrder/CreateOrder.jsx";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const RoutesEnum = Object.freeze({
@@ -15,10 +17,13 @@ export const RoutesEnum = Object.freeze({
   REGISTER: "register",
   RESET_PASSWORD: "reset_password",
   RESET_PASSWORD_REQUEST: "reset_password_request",
+
+  // Customer routes
   PRODUCTS: "products",
   PRODUCT: "product",
   CART: "cart",
   ORDER: "order",
+  CREATE_ORDER: "create_order",
 
   // Manufacturer routes
   POINTS: "points",
@@ -31,10 +36,13 @@ export const PATHS = {
   [RoutesEnum.REGISTER]: "/register",
   [RoutesEnum.RESET_PASSWORD]: "/reset-password/request",
   [RoutesEnum.RESET_PASSWORD_REQUEST]: `/reset-password/:id`,
+
+  // Customer routes
   [RoutesEnum.PRODUCTS]: "/",
   [RoutesEnum.PRODUCT]: "/product/:prodId",
   [RoutesEnum.CART]: "/cart",
   [RoutesEnum.ORDER]: "/order",
+  [RoutesEnum.CREATE_ORDER]: "/create/order",
 
   // Manufacturer routes
   [RoutesEnum.POINTS]: "/points",
@@ -59,6 +67,8 @@ export const Routes = [
     name: RoutesEnum.RESET_PASSWORD_REQUEST,
     pattern: PATHS[RoutesEnum.RESET_PASSWORD_REQUEST],
   },
+
+  // Customer routes
   {
     name: RoutesEnum.PRODUCTS,
     pattern: PATHS.products,
@@ -74,6 +84,10 @@ export const Routes = [
   {
     name: RoutesEnum.ORDER,
     pattern: PATHS.order,
+  },
+  {
+    name: RoutesEnum.CREATE_ORDER,
+    pattern: PATHS.create_order,
   },
 
   // Manufacturer routes
@@ -106,6 +120,8 @@ export const viewMap = {
       <RequestResetPassword />
     </div>
   ),
+
+  // Customer routes
   products: (
     <div className="layout">
       <CustomerProducts />
@@ -121,9 +137,14 @@ export const viewMap = {
       <Cart />
     </div>
   ),
+  create_order: (
+    <div className="layout">
+      <CreateOrder />
+    </div>
+  ),
   order: (
     <div className="layout">
-      <Cart />
+      <Order />
     </div>
   ),
 

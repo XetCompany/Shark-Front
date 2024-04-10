@@ -1,10 +1,14 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { observer } from "mobx-react";
 import productsApi from "@/api/ProductsApi.js";
 import { customerStore } from "@store/CustomerStore.js";
+import { RouterContext } from "mobx-state-router";
+import { RoutesEnum } from "@/router/index.jsx";
 import { Button } from "@components/Button/Button.jsx";
-import { observer } from "mobx-react";
+import "./Cart.css";
 
 export const Cart = observer(() => {
+  const routerStore = useContext(RouterContext);
   useEffect(() => {
     async function fetchCart() {
       try {
@@ -58,6 +62,17 @@ export const Cart = observer(() => {
     }
   };
 
+  const handleCreateOrder = () => {
+    routerStore.goTo(RoutesEnum.CREATE_ORDER);
+  };
+
+  // ToDo: допилить итоговую цену
+  // const calculateTotalPrice = () => {
+  //   return customerStore.customerCart.reduce((total, item) => {
+  //     return total + item.product.price * item.count;
+  //   }, 0);
+  // };
+
   return (
     <div className="cart">
       {customerStore.customerCart.length === 0 ? (
@@ -79,17 +94,10 @@ export const Cart = observer(() => {
                 />
                 <div className="cart-item-details">
                   <p>{item.product.name}</p>
-                  <span className="cart-item-price">{item.product.price}</span>
+                  <span className="cart-item-price">
+                    {item.product.price} руб.
+                  </span>
                   <div className="cart-item-quantity">
-                    <Button
-                      className="control-btn"
-                      onClick={() =>
-                        handleQuantityChange(item.product.id, item.count - 1)
-                      }
-                    >
-                      -
-                    </Button>
-                    <span className="product-count">{item.count}</span>
                     <Button
                       className="control-btn"
                       onClick={() =>
@@ -98,17 +106,30 @@ export const Cart = observer(() => {
                     >
                       +
                     </Button>
+                    <span className="product-count">{item.count}</span>
+                    <Button
+                      className="control-btn"
+                      onClick={() =>
+                        handleQuantityChange(item.product.id, item.count - 1)
+                      }
+                    >
+                      -
+                    </Button>
                   </div>
-                  <button
+                  <Button
                     className="remove-from-cart"
                     onClick={() => handleRemoveFromCart(item.product.id)}
                   >
                     Удалить
-                  </button>
+                  </Button>
                 </div>
               </div>
             </li>
           ))}
+
+          {/*ToDo: допилить итоговую цену*/}
+          {/*{calculateTotalPrice}*/}
+          <Button onClick={handleCreateOrder}>Оформить заказ</Button>
         </ul>
       )}
     </div>

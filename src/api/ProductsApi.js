@@ -35,6 +35,12 @@ class ProductsApi extends ApiClass {
     const url = this.buildUrl(`app/customer/cart/${productId}/`);
     return await this.sendDelete({ url, isAuth: true });
   }
+
+  static async createOrder() {
+    // ToDo: доделать создание заказа со всеми путями и т.д., скорее всего нужно будет несколько запросов и переименовать этот
+    // const url = this.buildUrl(`app/customer/cart/${productId}/`);
+    // return await this.sendDelete({ url, isAuth: true });
+  }
 }
 
 export default ProductsApi;
