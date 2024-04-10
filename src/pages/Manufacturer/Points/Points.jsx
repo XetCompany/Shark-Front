@@ -2,25 +2,15 @@ import { observer } from "mobx-react";
 import React, { useEffect, useState } from "react";
 import PointsApi from "@/api/Manufacturer/PointsApi.js";
 import { Point } from "@pages/Manufacturer/Points/Point.jsx";
-import { Button, Container, Grid, List, Typography } from "@mui/material";
+import { Button, Container, Grid, Typography } from "@mui/material";
 import { useRouterStore } from "mobx-state-router";
 import { RoutesEnum } from "@/router/index.jsx";
+import { SearchInput } from "@components/Input/SearchInput.jsx";
+import { POINT_TYPES_RUS } from "@common/common.js";
+import { appStore } from "@store/AppStore.js";
+import { ContentPageWrapper } from "@components/PageWrapper/ContentPageWrapper.jsx";
 
-const PointsContent = observer(() => {
-  const [points, setPoints] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  const loadPoints = async () => {
-    setIsLoaded(false);
-    const response = await PointsApi.getPoints();
-    setPoints(response.data);
-    setIsLoaded(true);
-  };
-
-  useEffect(() => {
-    loadPoints();
-  }, []);
-
+const PointsContent = observer(({ isLoaded, points }) => {
   if (!isLoaded) {
     return (
       <Typography variant="body1">Загрузка...</Typography>
@@ -47,7 +37,9 @@ const PointsContent = observer(() => {
     //     <Point key={point.id} point={point} />
     //   ))}
     // </List>
-    <Grid container spacing={2} justifyContent="center">
+    <Grid container spacing={2} justifyContent="center" style={{
+      paddingTop: "16px",
+    }}>
       {points.map((point) => (
         <Grid item xs={12} sm={6} md={4} key={point.id}>
           <Point point={point} />
@@ -57,35 +49,52 @@ const PointsContent = observer(() => {
   );
 });
 
-// Верстка с использованием материалов из material-ui
 export const Points = () => {
   const routerStore = useRouterStore();
+  const [points, setPoints] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
 
-  return (
-    <Container sx={{
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-    }}>
+  const lowerCaseSearchValue = searchValue.toLowerCase();
+  const filteredPoints = points.filter((point) => {
+    return (
+      point.name.toLowerCase().includes(lowerCaseSearchValue) ||
+      point.id.toString().includes(lowerCaseSearchValue) ||
+      POINT_TYPES_RUS[point.type].toLowerCase().includes(lowerCaseSearchValue) ||
+      appStore.getCityNameById(point.city).toLowerCase().includes(lowerCaseSearchValue)
+    );
+  });
+
+  const loadPoints = async () => {
+    setIsLoaded(false);
+    const response = await PointsApi.getPoints();
+    setPoints(response.data);
+    setIsLoaded(true);
+  };
+
+  useEffect(() => {
+    loadPoints();
+  }, []);
+
+  return <ContentPageWrapper title="Пункты складов и ПВЗ" componentHeader={
+    <>
       <Container sx={{
         display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
+        flexDirection: "row",
+        justifyContent: "center",
         alignItems: "center",
         gap: 2,
-        padding: 2,
-        margin: 2,
       }}>
-        <Typography variant="h5" component="h1" gutterBottom>
-          Пункты складов и ПВЗ
-        </Typography>
+        <SearchInput value={searchValue} onChange={(e) => setSearchValue(e.target.value)}
+                     placeholder="Поиск по названию" ariaLabel="поиск по названию" />
         <Button variant="contained" color="primary" onClick={() => {
           routerStore.goTo(RoutesEnum.POINT_CREATE);
         }}>
           Добавить пункт
         </Button>
       </Container>
-      <PointsContent />
-    </Container>
-  );
+    </>
+  }>
+    <PointsContent isLoaded={isLoaded} points={filteredPoints} />
+  </ContentPageWrapper>
 };

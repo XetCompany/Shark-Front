@@ -17,6 +17,7 @@ import PointsApi from "@/api/Manufacturer/PointsApi.js";
 import { useRouterStore } from "mobx-state-router";
 import { RoutesEnum } from "@/router/index.jsx";
 import { appStore } from "@store/AppStore.js";
+import { ContentPageWrapper } from "@components/PageWrapper/ContentPageWrapper.jsx";
 
 const PointCreateForm = observer(() => {
   const routerStore = useRouterStore();
@@ -50,7 +51,7 @@ const PointCreateForm = observer(() => {
     <form onSubmit={handleSubmit} style={{
       display: 'flex',
       flexDirection: 'column',
-      gap: '20px',
+      gap: '10px',
       width: '500px',
     }}>
       <TextField
@@ -89,9 +90,7 @@ const PointCreateForm = observer(() => {
             label="Город"
             margin="normal"
             variant="outlined"
-            style={{
-              WebkitUserSelect: 'none',
-            }}
+            autoComplete={false}
           />
         )}
       />
@@ -104,18 +103,10 @@ const PointCreateForm = observer(() => {
 
 export const PointCreate = observer(() => {
   return (
-    <Container sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      marginTop: '20px',
-    }}>
-      <Typography variant="h4" gutterBottom>
-        Создание новой точки
-      </Typography>
+    <ContentPageWrapper title="Создание новой точки">
       <PointCreateForm />
-    </Container>
-  );
+    </ContentPageWrapper>
+  )
 });
 
 

@@ -90,14 +90,6 @@ export const Header = observer(() => {
             <li>
               <RouterLink
                 className="header-nav--link"
-                routeName={RoutesEnum.PRODUCTS}
-              >
-                Товары
-              </RouterLink>
-            </li>
-            <li>
-              <RouterLink
-                className="header-nav--link"
                 routeName={RoutesEnum.POINTS}
               >
                 Склады и ПВЗ
