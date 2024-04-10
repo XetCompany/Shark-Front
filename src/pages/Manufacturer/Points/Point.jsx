@@ -25,6 +25,7 @@ export const Point = observer(({ point }) => {
         </Typography>
       </CardContent>
       <CardActions>
+        <Button size="small" onClick={() => appStore.deletePoint(point.id)}>Перейти</Button>
         <Button size="small" onClick={() => appStore.deletePoint(point.id)}>Удалить</Button>
       </CardActions>
     </Card>
