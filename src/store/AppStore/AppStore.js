@@ -2,13 +2,11 @@ import { makeAutoObservable } from "mobx";
 import { BASE_URL } from "@/api/constants.js";
 import { RoutesEnum } from "../../router/index.jsx";
 
-export default class AppStore {
-  loginData = {};
+class AppStore {
   registerData = {};
   token = "";
 
   resetState() {
-    this.loginData = {};
     this.registerData = {};
     this.token = "";
   }
@@ -19,34 +17,13 @@ export default class AppStore {
   }
 
   setToken(token) {
-    localStorage.setItem("token", token);
+    localStorage.setItem("accessToken", token);
     this.token = token;
   }
 
   removeToken() {
-    localStorage.removeItem("token");
-  }
-
-  async setLoginData(data, router) {
-    this.loginData = data;
-    try {
-      const response = await fetch(`${BASE_URL}auth/login/token/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        this.setToken(data.access);
-        router.goTo(RoutesEnum.HOME);
-      } else {
-        throw new Error("Ошибка при регистрации");
-      }
-    } catch (error) {
-      console.error("Ошибка при обращении к серверу:", error);
-    }
+    localStorage.removeItem("accessToken");
+    this.token = "";
   }
 
   async setRegisterData(data, router) {

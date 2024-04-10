@@ -4,6 +4,8 @@ import { appStore } from "@store/AppStore/AppStore.js";
 import { Input } from "@components/Input/Input.jsx";
 import { Button } from "@components/Button/Button.jsx";
 import "./Login.css";
+import UserApi from "@/api/UserApi.js";
+import { RoutesEnum } from "@/router/index.jsx";
 
 export const Login = () => {
   const routerStore = useRouterStore();
@@ -20,9 +22,18 @@ export const Login = () => {
     }));
   };
 
+  const login = async () => {
+    const response = await UserApi.login(loginData);
+    if (response?.status !== 200) {
+      return;
+    }
+    appStore.setToken(response.access);
+    await routerStore.goTo(RoutesEnum.HOME);
+  }
+
   const handleLoginClick = (e) => {
     e.preventDefault();
-    appStore.setLoginData(loginData, routerStore);
+    login();
   };
 
   const inputsArray = [

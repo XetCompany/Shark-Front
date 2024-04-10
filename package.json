@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@types/node": "^20.11.30",
+    "axios": "^1.6.8",
     "mobx": "^6.12.1",
     "mobx-react": "^9.1.0",
     "mobx-react-lite": "^4.0.6",

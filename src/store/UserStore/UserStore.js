@@ -51,7 +51,7 @@ class UserStore {
   //   this.role = role;
   // }
 
-  setResetPasswordToken(resetPassword: null) {
+  setResetPasswordToken(resetPassword) {
     this.resetPassword = resetPassword;
   }
 }
