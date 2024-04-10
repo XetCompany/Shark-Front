@@ -1,11 +1,18 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { observer } from "mobx-react";
 import { appStore } from "@store/AppStore/AppStore.ts";
 import "./Header.css";
 
 export const Header: FC = observer(() => {
   const token = appStore.token;
-  console.log(token, "rok");
+  const [showModal, setShowModal] = useState(false);
+
+  const defaultUserImage =
+    "https://cdn-icons-png.freepik.com/512/3177/3177440.png";
+
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
 
   return (
     <header className="header ">
@@ -43,6 +50,25 @@ export const Header: FC = observer(() => {
       )}
       <div className="header--navs">
         <ul className="header-nav--links">
+          {token && (
+            <li>
+              <img
+                src={defaultUserImage}
+                alt="User"
+                className="header-user-icon"
+                width="40px"
+                height="40px"
+                onClick={toggleModal}
+              />
+              {showModal && (
+                <div className="user-modal">
+                  <span>Username: </span>
+                  <span>Email: </span>
+                  <span>Role: </span>
+                </div>
+              )}
+            </li>
+          )}
           <li>
             {!token ? (
               <div className="header-nav--buttons">
