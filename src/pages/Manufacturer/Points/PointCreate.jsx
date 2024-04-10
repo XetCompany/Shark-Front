@@ -83,6 +83,7 @@ const PointCreateForm = observer(() => {
         onChange={(event, newValue) => {
           setFormData({...formData, city: newValue ? newValue.id : ''});
         }}
+        autoComplete={false}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -90,7 +91,6 @@ const PointCreateForm = observer(() => {
             label="Город"
             margin="normal"
             variant="outlined"
-            autoComplete={false}
           />
         )}
       />
