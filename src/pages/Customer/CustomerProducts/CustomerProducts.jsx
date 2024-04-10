@@ -1,5 +1,5 @@
 import { observer } from "mobx-react";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./Products.css";
 import productsApi from "@/api/ProductsApi.js";
 import { RouterContext } from "mobx-state-router";
@@ -9,6 +9,9 @@ import { Button } from "@components/Button/Button.jsx";
 
 export const CustomerProducts = observer(() => {
   const routerStore = useContext(RouterContext);
+  const [addedToCart, setAddedToCart] = useState({
+    ids: [],
+  });
 
   useEffect(() => {
     async function fetchProducts() {
@@ -31,26 +34,13 @@ export const CustomerProducts = observer(() => {
     };
   };
 
-  const handleAddToCart = (product) => {
+  const handleAddToCart = async (product) => {
     const newData = data(product);
+    setAddedToCart((prevAddedToCart) => ({
+      ids: [...prevAddedToCart.ids, product.id],
+    }));
     productsApi.addToCart(newData);
   };
-  //
-  // const incrementCount = (product) => {
-  //   setCount((prevCount) => prevCount + 1);
-  //   const newData = data(product);
-  //   productsApi
-  //     .customerProductCount({ newData })
-  //     .then((r) => setCount(r.count));
-  // };
-  //
-  // const decrementCount = (product) => {
-  //   setCount((prevCount) => (prevCount - 1 > 0 ? prevCount - 1 : 1));
-  //   const newData = data(product);
-  //   productsApi
-  //     .customerProductCount({ newData })
-  //     .then((r) => setCount(r.count));
-  // };
 
   const handleProductClick = async (prodId) => {
     await routerStore.goTo(RoutesEnum.PRODUCT, { prodId: `${prodId}` });
@@ -71,11 +61,15 @@ export const CustomerProducts = observer(() => {
             className="product-photo"
           />
           <Button
-            disabled={!product.is_can_add_to_cart}
+            disabled={
+              !product.is_can_add_to_cart ||
+              addedToCart.ids.find((id) => id === product.id)
+            }
             className="add-to-cart-btn"
             onClick={() => handleAddToCart(product)}
           >
-            {!product.is_can_add_to_cart
+            {!product.is_can_add_to_cart ||
+            addedToCart.ids.find((id) => id === product.id)
               ? "Товар в корзине"
               : "Добавить в корзину"}
           </Button>
@@ -86,13 +80,6 @@ export const CustomerProducts = observer(() => {
             <span>{product.price} руб.</span>
             <h3>{product.name}</h3>
           </div>
-          {/*<AddToCartButtons*/}
-          {/*  incrementCount={() => incrementCount(product)}*/}
-          {/*  decrementCount={() => decrementCount(product)}*/}
-          {/*  count={count}*/}
-          {/*  handleAddToCart={() => handleAddToCart(product)}*/}
-          {/*/>*/}
-          {/*ToDo: перенести в корзину, у самих продуктов будет только одна кнопка */}
         </div>
       ))}
     </div>

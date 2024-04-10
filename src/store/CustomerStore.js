@@ -3,6 +3,7 @@ import { makeAutoObservable } from "mobx";
 class CustomerStore {
   customerProducts = [];
   customerProduct = {};
+  customerCart = [];
 
   resetState() {}
 
@@ -17,6 +18,10 @@ class CustomerStore {
 
   setCustomerProduct(product) {
     this.customerProduct = product;
+  }
+
+  setCustomerCart(cart) {
+    this.customerCart = cart;
   }
 }
 

@@ -8,7 +8,7 @@ class ProductsApi extends ApiClass {
 
   static async customerProducts() {
     const url = this.buildUrl("app/customer/products/");
-    return await this.sendGet({ url });
+    return await this.sendGet({ url, isAuth: true });
   }
 
   static async customerProduct(productId) {
@@ -16,9 +16,9 @@ class ProductsApi extends ApiClass {
     return await this.sendGet({ url });
   }
 
-  static async customerProductCount(productId) {
-    const url = this.buildUrl(`app/customer/cart/${productId}/`);
-    return await this.sendPut({ url });
+  static async customerProductCount(data) {
+    const url = this.buildUrl(`app/customer/cart/${data.product_id}/`);
+    return await this.sendPut({ url, data, isAuth: true });
   }
 
   static async cart() {
@@ -29,6 +29,11 @@ class ProductsApi extends ApiClass {
   static async addToCart(data) {
     const url = this.buildUrl(`app/customer/cart/${data.product_id}/`);
     return await this.sendPost({ url, data, isAuth: true });
+  }
+
+  static async removerFromCart(productId) {
+    const url = this.buildUrl(`app/customer/cart/${productId}/`);
+    return await this.sendDelete({ url, isAuth: true });
   }
 }
 
