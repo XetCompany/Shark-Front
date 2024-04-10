@@ -20,7 +20,7 @@ export const Header = observer(() => {
   const logout = () => {
     userStore.removeAuthData();
     routerStore.goTo(RoutesEnum.HOME);
-  }
+  };
 
   return (
     <header className="header ">
@@ -53,8 +53,7 @@ export const Header = observer(() => {
           <li>
             <RouterLink
               className="header-nav--link"
-              // ToDo: сделать роутинг на корзину
-              routeName={RoutesEnum.PRODUCTS}
+              routeName={RoutesEnum.CART}
             >
               Корзина
             </RouterLink>
@@ -146,10 +145,7 @@ export const Header = observer(() => {
               </div>
             ) : (
               <>
-                <button
-                  onClick={logout}
-                  className="header-nav--button"
-                >
+                <button onClick={logout} className="header-nav--button">
                   Выйти из аккаунта
                 </button>
               </>

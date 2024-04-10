@@ -17,6 +17,7 @@ export const RoutesEnum = Object.freeze({
   PRODUCTS: "products",
   PRODUCT: "product",
   CART: "cart",
+  ORDER: "order",
 });
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -29,6 +30,7 @@ export const PATHS = {
   [RoutesEnum.PRODUCTS]: "/",
   [RoutesEnum.PRODUCT]: "/product/:prodId",
   [RoutesEnum.CART]: "/cart",
+  [RoutesEnum.ORDER]: "/order",
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -61,6 +63,10 @@ export const Routes = [
   {
     name: RoutesEnum.CART,
     pattern: PATHS.cart,
+  },
+  {
+    name: RoutesEnum.ORDER,
+    pattern: PATHS.order,
   },
 ];
 
@@ -98,6 +104,11 @@ export const viewMap = {
     </div>
   ),
   cart: (
+    <div className="layout">
+      <Cart />
+    </div>
+  ),
+  order: (
     <div className="layout">
       <Cart />
     </div>
