@@ -5,6 +5,7 @@ import productsApi from "@/api/ProductsApi.js";
 import { RouterContext } from "mobx-state-router";
 import { RoutesEnum } from "@/router/index.jsx";
 import { customerStore } from "@store/CustomerStore.js";
+import { Button } from "@components/Button/Button.jsx";
 
 export const CustomerProducts = observer(() => {
   const routerStore = useContext(RouterContext);
@@ -22,19 +23,18 @@ export const CustomerProducts = observer(() => {
 
     fetchProducts();
   }, []);
-  //
-  // const data = (product) => {
-  //   return {
-  //     product_id: product.id,
-  //     count: count,
-  //   };
-  // };
-  //
-  // const handleAddToCart = (product) => {
-  //   setCount((prevCount) => prevCount + 1);
-  //   const newData = data(product);
-  //   productsApi.addToCart(newData).then((r) => setCount(r.count));
-  // };
+
+  const data = (product) => {
+    return {
+      product_id: product.id,
+      count: 1,
+    };
+  };
+
+  const handleAddToCart = (product) => {
+    const newData = data(product);
+    productsApi.addToCart(newData);
+  };
   //
   // const incrementCount = (product) => {
   //   setCount((prevCount) => prevCount + 1);
@@ -70,6 +70,15 @@ export const CustomerProducts = observer(() => {
             alt={product.name}
             className="product-photo"
           />
+          <Button
+            disabled={!product.is_can_add_to_cart}
+            className="add-to-cart-btn"
+            onClick={() => handleAddToCart(product)}
+          >
+            {!product.is_can_add_to_cart
+              ? "Товар в корзине"
+              : "Добавить в корзину"}
+          </Button>
           <div
             className="product-info"
             onClick={() => handleProductClick(product.id)}
