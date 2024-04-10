@@ -20,7 +20,7 @@ class UserStore {
   init() {
     this.accessToken = getAccessTokenFromLocalStorage();
     setTimeout(() => {
-      this.updateUser();
+      this.accessToken && this.updateUser();
     });
   }
 

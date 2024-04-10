@@ -3,8 +3,8 @@ import { Home } from "@pages/Home/Home.jsx";
 import { Login } from "@pages/Login/Login.jsx";
 import { ResetPassword } from "@pages/ResetPassword/ResetPassword.jsx";
 import { RequestResetPassword } from "@pages/RequestResetPassword/RequestResetPassword.jsx";
-import { Products } from "@pages/Products/Products.jsx";
-import { Product } from "@pages/Product/Product.jsx";
+import { CustomerProducts } from "@pages/Customer/CustomerProducts/CustomerProducts.jsx";
+import { CustomerProduct } from "@pages/Customer/CustomerProduct/CustomerProduct.jsx";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const RoutesEnum = Object.freeze({
@@ -23,7 +23,7 @@ export const PATHS = {
   [RoutesEnum.LOGIN]: "/login",
   [RoutesEnum.REGISTER]: "/register",
   [RoutesEnum.RESET_PASSWORD]: "/reset-password/request",
-  [RoutesEnum.RESET_PASSWORD_REQUEST]: `/reset-password/:userId`,
+  [RoutesEnum.RESET_PASSWORD_REQUEST]: `/reset-password/:id`,
   [RoutesEnum.PRODUCTS]: "/",
   [RoutesEnum.PRODUCT]: "/product/:prodId",
 };
@@ -82,12 +82,12 @@ export const viewMap = {
   ),
   products: (
     <div className="layout">
-      <Products />
+      <CustomerProducts />
     </div>
   ),
   product: (
     <div className="layout">
-      <Product />
+      <CustomerProduct />
     </div>
   ),
 };

@@ -1,19 +1,20 @@
 import { observer } from "mobx-react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import "./Products.css";
 import productsApi from "@/api/ProductsApi.js";
 import { Button } from "@components/Button/Button.jsx";
-import { RouterLink } from "mobx-state-router";
+import { RouterContext } from "mobx-state-router";
 import { RoutesEnum } from "@/router/index.jsx";
+import { customerStore } from "@store/CustomerStore.js";
 
-export const Products = observer(() => {
-  const [products, setProducts] = useState([]);
+export const CustomerProducts = observer(() => {
+  const routerStore = useContext(RouterContext);
 
   useEffect(() => {
     async function fetchProducts() {
       try {
         const response = await productsApi.customerProducts();
-        setProducts(response.data);
+        customerStore.setCustomerProducts(response.data);
         console.log(response.data, "Продукты загружены");
       } catch (error) {
         console.error("Ошибка при получении продуктов:", error);
@@ -23,9 +24,13 @@ export const Products = observer(() => {
     fetchProducts();
   }, []);
 
+  const handleProductClick = async (id) => {
+    await routerStore.goTo(RoutesEnum.PRODUCT, { id: id });
+  };
+
   return (
     <div className="products">
-      {products.map((product) => (
+      {customerStore.customerProducts.map((product) => (
         <div key={product.id} className="product">
           <img
             src={
@@ -37,15 +42,14 @@ export const Products = observer(() => {
             alt={product.name}
             className="product-photo"
           />
-          <div className="product-info">
+          <div
+            className="product-info"
+            onClick={() => handleProductClick(product.id)}
+          >
             <span>{product.price} руб.</span>
             <h3>{product.name}</h3>
           </div>
-          <Button>
-            <RouterLink routeName={RoutesEnum.PRODUCT}>
-              Добавить в корзину
-            </RouterLink>
-          </Button>
+          <Button>Добавить в корзину</Button>
         </div>
       ))}
     </div>
