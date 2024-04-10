@@ -4,6 +4,7 @@ import { Login } from "@pages/Login/Login.jsx";
 import { ResetPassword } from "@pages/ResetPassword/ResetPassword.jsx";
 import { RequestResetPassword } from "@pages/RequestResetPassword/RequestResetPassword.jsx";
 import { Products } from "@pages/Products/Products.jsx";
+import { Product } from "@pages/Product/Product.jsx";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const RoutesEnum = Object.freeze({
@@ -13,8 +14,10 @@ export const RoutesEnum = Object.freeze({
   RESET_PASSWORD: "reset_password",
   RESET_PASSWORD_REQUEST: "reset_password_request",
   PRODUCTS: "products",
+  PRODUCT: "product",
 });
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const PATHS = {
   [RoutesEnum.HOME]: "/about-us",
   [RoutesEnum.LOGIN]: "/login",
@@ -22,9 +25,10 @@ export const PATHS = {
   [RoutesEnum.RESET_PASSWORD]: "/reset-password/request",
   [RoutesEnum.RESET_PASSWORD_REQUEST]: `/reset-password/:userId`,
   [RoutesEnum.PRODUCTS]: "/",
-  // ToDo: нужно норм токен смотреть после reset-password
+  [RoutesEnum.PRODUCT]: "/product/:prodId",
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const Routes = [
   { name: RoutesEnum.HOME, pattern: PATHS.home },
   {
@@ -47,8 +51,13 @@ export const Routes = [
     name: RoutesEnum.PRODUCTS,
     pattern: PATHS.products,
   },
+  {
+    name: RoutesEnum.PRODUCT,
+    pattern: PATHS.product,
+  },
 ];
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const viewMap = {
   home: <Home />,
   login: (
@@ -71,5 +80,14 @@ export const viewMap = {
       <RequestResetPassword />
     </div>
   ),
-  products: <Products />,
+  products: (
+    <div className="layout">
+      <Products />
+    </div>
+  ),
+  product: (
+    <div className="layout">
+      <Product />
+    </div>
+  ),
 };

@@ -1,48 +1,51 @@
 import { observer } from "mobx-react";
+import { useEffect, useState } from "react";
 import "./Products.css";
-// import { useEffect } from "react";
+import productsApi from "@/api/ProductsApi.js";
+import { Button } from "@components/Button/Button.jsx";
+import { RouterLink } from "mobx-state-router";
+import { RoutesEnum } from "@/router/index.jsx";
 
-// const productExample = {
-//   id: 0,
-//   company: {
-//     id: 0,
-//     username: "string",
-//     email: "user@example.com",
-//     groups: [0],
-//   },
-//   evaluations: [
-//     {
-//       id: 0,
-//       evaluation: 9223372036854776000,
-//       comment: "string",
-//     },
-//   ],
-//   name: "string",
-//   photo: "string",
-//   price: "-",
-//   sizes: "string",
-//   weight: "57040918",
-//   description: "string",
-//   is_available: true,
-//   category: 0,
-// };
+export const Products = observer(() => {
+  const [products, setProducts] = useState([]);
 
-export const Products = observer(({ products }) => {
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const response = await productsApi.customerProducts();
+        setProducts(response.data);
+        console.log(response.data, "Продукты загружены");
+      } catch (error) {
+        console.error("Ошибка при получении продуктов:", error);
+      }
+    }
+
+    fetchProducts();
+  }, []);
+
   return (
     <div className="products">
       {products.map((product) => (
         <div key={product.id} className="product">
           <img
-            src={product.photo}
+            src={
+              product.photo ||
+              "https://www.interra-rus.com/storage/media/default.png"
+            }
+            width="150px"
+            height="150px"
             alt={product.name}
             className="product-photo"
           />
           <div className="product-info">
+            <span>{product.price} руб.</span>
             <h3>{product.name}</h3>
-            <p>{product.description}</p>
-            <p>Price: {product.price}</p>
-            <p>Weight: {product.weight}</p>
           </div>
+          <Button>
+            <RouterLink routeName={RoutesEnum.PRODUCT}>
+              Добавить в корзину
+            </RouterLink>
+          </Button>
         </div>
       ))}
     </div>

@@ -56,8 +56,13 @@
     z-index: 100;
     color: white;
     display: flex;
+    flex-direction: column;
     font-family: Aldhabi, serif;
     font-size: 28px;
+}
+
+.user-modal span {
+    font-size: 24px;
 }
 
 .header-user-icon {

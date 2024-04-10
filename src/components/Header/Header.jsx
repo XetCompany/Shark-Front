@@ -3,7 +3,8 @@ import { observer } from "mobx-react";
 import "./Header.css";
 import { RouterLink, useRouterStore } from "mobx-state-router";
 import { RoutesEnum } from "@/router/index.jsx";
-import userStore from "@store/UserStore/UserStore.js";
+import userStore from "@store/UserStore.js";
+import { ROLES_RUS } from "@common/common.js";
 
 export const Header = observer(() => {
   const routerStore = useRouterStore();
@@ -26,35 +27,80 @@ export const Header = observer(() => {
         />
         <h4 className="header-brand--title">Shark Cat</h4>
       </RouterLink>
-      {userStore.isLoad && (
+      {userStore.isLoad && !userStore.meIsManufacturer ? (
         <ul className="header-nav--links">
           <li>
             <RouterLink
               className="header-nav--link"
               routeName={RoutesEnum.HOME}
-            >О нас</RouterLink>
+            >
+              О нас
+            </RouterLink>
           </li>
           <li>
             <RouterLink
               className="header-nav--link"
               routeName={RoutesEnum.PRODUCTS}
-            >Товары</RouterLink>
+            >
+              Товары
+            </RouterLink>
           </li>
           <li>
             <RouterLink
               className="header-nav--link"
               // ToDo: сделать роутинг на корзину
               routeName={RoutesEnum.PRODUCTS}
-            >Корзина</RouterLink>
+            >
+              Корзина
+            </RouterLink>
           </li>
           <li>
             <RouterLink
               className="header-nav--link"
               // ToDo: сделать роутинг на историю заказов
               routeName={RoutesEnum.PRODUCTS}
-            >История заказов</RouterLink>
+            >
+              История заказов
+            </RouterLink>
           </li>
         </ul>
+      ) : (
+        userStore.isLoad && (
+          <ul className="header-nav--links">
+            <li>
+              <RouterLink
+                className="header-nav--link"
+                routeName={RoutesEnum.HOME}
+              >
+                О нас
+              </RouterLink>
+            </li>
+            <li>
+              <RouterLink
+                className="header-nav--link"
+                routeName={RoutesEnum.PRODUCTS}
+              >
+                Товары
+              </RouterLink>
+            </li>
+            <li>
+              <RouterLink
+                className="header-nav--link"
+                routeName={RoutesEnum.PRODUCTS}
+              >
+                Создание товара
+              </RouterLink>
+            </li>
+            <li>
+              <RouterLink
+                className="header-nav--link"
+                routeName={RoutesEnum.PRODUCTS}
+              >
+                Мои склады и ПВЗ
+              </RouterLink>
+            </li>
+          </ul>
+        )
       )}
       <div className="header--navs">
         <ul className="header-nav--links">
@@ -70,9 +116,9 @@ export const Header = observer(() => {
               />
               {showModal && (
                 <div className="user-modal">
-                  <span>Username: </span>
-                  <span>Email: </span>
-                  <span>Role: </span>
+                  <span>{userStore.username} </span>
+                  <span>{userStore.email}</span>
+                  <span>{ROLES_RUS[userStore.role]}</span>
                 </div>
               )}
             </li>
@@ -80,10 +126,16 @@ export const Header = observer(() => {
           <li>
             {!userStore.isLoad ? (
               <div className="header-nav--buttons">
-                <RouterLink className="header-nav--button" routeName={RoutesEnum.LOGIN}>
+                <RouterLink
+                  className="header-nav--button"
+                  routeName={RoutesEnum.LOGIN}
+                >
                   Войти
                 </RouterLink>
-                <RouterLink className="header-nav--button" routeName={RoutesEnum.REGISTER}>
+                <RouterLink
+                  className="header-nav--button"
+                  routeName={RoutesEnum.REGISTER}
+                >
                   Зарегистрироваться
                 </RouterLink>
               </div>

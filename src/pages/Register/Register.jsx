@@ -5,6 +5,7 @@ import { useRouterStore } from "mobx-state-router";
 import { RoutesEnum } from "../../router/index.jsx";
 import "./Register.css";
 import UserApi from "@/api/UserApi.js";
+import { ROLES } from "@common/common.js";
 
 export const Register = () => {
   const routerStore = useRouterStore();
@@ -40,7 +41,7 @@ export const Register = () => {
     e.preventDefault();
     // ToDo: модалка при неверном вводе
     if (registerData.password !== registerData.password) return;
-    register()
+    register();
   };
 
   const inputsArray = [
@@ -98,8 +99,8 @@ export const Register = () => {
             <input
               type="radio"
               name="role"
-              value="manufacturer"
-              checked={registerData.role === "manufacturer"}
+              value={ROLES.MANUFACTURER}
+              checked={registerData.role === ROLES.MANUFACTURER}
               onChange={handleInputChange}
               required
             />
@@ -109,8 +110,8 @@ export const Register = () => {
             <input
               type="radio"
               name="role"
-              value="customer"
-              checked={registerData.role === "customer"}
+              value={ROLES.CUSTOMER}
+              checked={registerData.role === ROLES.CUSTOMER}
               onChange={handleInputChange}
               required
             />

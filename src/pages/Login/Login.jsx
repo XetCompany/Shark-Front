@@ -5,7 +5,7 @@ import { Button } from "@components/Button/Button.jsx";
 import "./Login.css";
 import UserApi from "@/api/UserApi.js";
 import { RoutesEnum } from "@/router/index.jsx";
-import userStore from "@store/UserStore/UserStore.js";
+import userStore from "@store/UserStore.js";
 
 export const Login = () => {
   const routerStore = useRouterStore();
@@ -30,7 +30,7 @@ export const Login = () => {
     userStore.setAccessToken(response.data.access);
     await userStore.updateUser();
     await routerStore.goTo(RoutesEnum.HOME);
-  }
+  };
 
   const handleLoginClick = (e) => {
     e.preventDefault();

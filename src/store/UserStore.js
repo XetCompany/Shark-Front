@@ -1,19 +1,18 @@
 import { makeAutoObservable } from "mobx";
 import { getAccessTokenFromLocalStorage } from "@/api/utils.js";
 import UserApi from "@/api/UserApi.js";
+import { ROLES } from "@common/common.js";
 
 class UserStore {
   accessToken = null;
 
   userId = null;
   role = null;
+  username = null;
+  email = null;
   isLoad = false;
 
   constructor() {
-    this.userId = null;
-    this.role = null;
-    this.isLoad = false;
-
     this.init();
     makeAutoObservable(this);
   }
@@ -22,7 +21,7 @@ class UserStore {
     this.accessToken = getAccessTokenFromLocalStorage();
     setTimeout(() => {
       this.updateUser();
-    })
+    });
   }
 
   async updateUser() {
@@ -36,6 +35,8 @@ class UserStore {
       console.error("User has more than one group");
       return;
     }
+    this.username = user.username;
+    this.email = user.email;
     this.role = user.groups[0];
     this.isLoad = true;
   }
@@ -48,6 +49,10 @@ class UserStore {
   removeAccessToken() {
     localStorage.removeItem("accessToken");
     this.accessToken = null;
+  }
+
+  get meIsManufacturer() {
+    return this.role === ROLES.MANUFACTURER;
   }
 }
 

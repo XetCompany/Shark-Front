@@ -1,8 +1,7 @@
 import { makeAutoObservable } from "mobx";
 
 class AppStore {
-  resetState() {
-  }
+  resetState() {}
 
   constructor() {
     this.resetState();
