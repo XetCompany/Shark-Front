@@ -30,17 +30,10 @@ class ApiClass {
     params.headers = headers;
 
     let response;
-    try {
-      if (data === undefined) {
-        response = await method(url, params);
-      } else {
-        response = await method(url, data, params);
-      }
-    } catch (error) {
-      console.error('Error in response:', error);
-      response = {
-        statusText: "Error",
-      };
+    if (data === undefined) {
+      response = await method(url, params);
+    } else {
+      response = await method(url, data, params);
     }
 
     return response;

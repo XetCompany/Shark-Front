@@ -26,9 +26,6 @@ class UserStore {
 
   async updateUser() {
     const response = await UserApi.getUserInfo();
-    if (response?.status !== 200) {
-      return;
-    }
     const user = response.data;
     this.updateUserData(user);
   }

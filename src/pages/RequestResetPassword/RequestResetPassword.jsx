@@ -22,12 +22,12 @@ export const RequestResetPassword = observer(() => {
       password: newPassword.password,
       token: paramToken,
     };
-    const response = await UserApi.requestResetPassword(data);
-    if (response?.status !== 200) {
+    try {
+      await UserApi.requestResetPassword(data);
+      setPasswordReseted(true);
+    } catch (error) {
       setPasswordReseted(false);
-      return;
     }
-    setPasswordReseted(true);
   };
 
   const onSubmit = async (e) => {

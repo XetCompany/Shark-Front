@@ -30,10 +30,7 @@ export const Register = () => {
   };
 
   const register = async () => {
-    const response = await UserApi.register(registerData);
-    if (response?.status !== 200) {
-      return;
-    }
+    await UserApi.register(registerData);
     await routerStore.goTo(RoutesEnum.LOGIN);
   };
 

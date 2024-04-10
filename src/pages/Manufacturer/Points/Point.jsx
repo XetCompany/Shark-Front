@@ -12,7 +12,9 @@ export const Point = observer(({ point }) => {
       alignItems: "center",
     }}>
       <CardContent>
-        <Typography variant="h5" component="h2">
+        <Typography variant="h5" component="h2" sx={{
+          marginBottom: 1,
+        }}>
           {point.name || "Без названия"}
         </Typography>
         <Typography variant="body2" component="p">

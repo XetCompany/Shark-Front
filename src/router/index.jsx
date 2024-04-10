@@ -9,6 +9,7 @@ import { Cart } from "@pages/Customer/Cart/Cart.jsx";
 import { Points } from "@pages/Manufacturer/Points/Points.jsx";
 import { Order } from "@pages/Customer/Order/Order.jsx";
 import { CreateOrder } from "@pages/Customer/CreateOrder/CreateOrder.jsx";
+import { PointCreate } from "@pages/Manufacturer/Points/PointCreate.jsx";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const RoutesEnum = Object.freeze({
@@ -27,6 +28,7 @@ export const RoutesEnum = Object.freeze({
 
   // Manufacturer routes
   POINTS: "points",
+  POINT_CREATE: "point_create",
 });
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -46,6 +48,7 @@ export const PATHS = {
 
   // Manufacturer routes
   [RoutesEnum.POINTS]: "/points",
+  [RoutesEnum.POINT_CREATE]: "/points/create",
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -94,6 +97,10 @@ export const Routes = [
   {
     name: RoutesEnum.POINTS,
     pattern: PATHS.points,
+  },
+  {
+    name: RoutesEnum.POINT_CREATE,
+    pattern: PATHS.point_create,
   },
 ];
 
@@ -152,6 +159,11 @@ export const viewMap = {
   points: (
     <div className="layout">
       <Points />
+    </div>
+  ),
+  point_create: (
+    <div className="layout">
+      <PointCreate />
     </div>
   ),
 };

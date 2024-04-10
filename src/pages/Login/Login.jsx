@@ -24,9 +24,6 @@ export const Login = () => {
 
   const login = async () => {
     const response = await UserApi.login(loginData);
-    if (response?.status !== 200) {
-      return;
-    }
     userStore.setAccessToken(response.data.access);
     await userStore.updateUser();
     await routerStore.goTo(RoutesEnum.HOME);

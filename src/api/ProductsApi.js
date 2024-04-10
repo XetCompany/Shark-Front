@@ -21,7 +21,7 @@ class ProductsApi extends ApiClass {
     return await this.sendPut({ url, data, isAuth: true });
   }
 
-  static async cart() {
+  static async getCart() {
     const url = this.buildUrl("app/customer/cart/");
     return await this.sendGet({ url, isAuth: true });
   }

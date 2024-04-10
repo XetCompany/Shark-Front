@@ -92,7 +92,7 @@ export const Header = observer(() => {
                 className="header-nav--link"
                 routeName={RoutesEnum.PRODUCTS}
               >
-                Создание товара
+                Товары
               </RouterLink>
             </li>
             <li>
@@ -100,7 +100,7 @@ export const Header = observer(() => {
                 className="header-nav--link"
                 routeName={RoutesEnum.POINTS}
               >
-                Мои склады и ПВЗ
+                Склады и ПВЗ
               </RouterLink>
             </li>
           </ul>

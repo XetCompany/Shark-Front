@@ -21,10 +21,7 @@ export const ResetPassword = observer(() => {
   };
 
   const resetPassword = async () => {
-    const response = await UserApi.resetPassword(resetInput);
-    if (response?.status !== 200) {
-      return;
-    }
+    await UserApi.resetPassword(resetInput);
     setHaveForm(true);
   }
 

@@ -2,7 +2,9 @@ import { observer } from "mobx-react";
 import React, { useEffect, useState } from "react";
 import PointsApi from "@/api/Manufacturer/PointsApi.js";
 import { Point } from "@pages/Manufacturer/Points/Point.jsx";
-import { Button, Container, List, Typography } from "@mui/material";
+import { Button, Container, Grid, List, Typography } from "@mui/material";
+import { useRouterStore } from "mobx-state-router";
+import { RoutesEnum } from "@/router/index.jsx";
 
 const PointsContent = observer(() => {
   const [points, setPoints] = useState([]);
@@ -11,9 +13,6 @@ const PointsContent = observer(() => {
   const loadPoints = async () => {
     setIsLoaded(false);
     const response = await PointsApi.getPoints();
-    if (response.statusText !== "OK") {
-      return;
-    }
     setPoints(response.data);
     setIsLoaded(true);
   };
@@ -35,24 +34,33 @@ const PointsContent = observer(() => {
   }
 
   return (
-    <List sx={{
-      display: "flex",
-      flexDirection: "column",
-      gap: 2,
-      padding: 0,
-      margin: 0,
-      listStyle: "none",
-      alignItems: "center",
-    }}>
+    // <List sx={{
+    //   display: "flex",
+    //   flexDirection: "column",
+    //   gap: 2,
+    //   padding: 0,
+    //   margin: 0,
+    //   listStyle: "none",
+    //   alignItems: "center",
+    // }}>
+    //   {points.map((point) => (
+    //     <Point key={point.id} point={point} />
+    //   ))}
+    // </List>
+    <Grid container spacing={2} justifyContent="center">
       {points.map((point) => (
-        <Point key={point.id} point={point} />
+        <Grid item xs={12} sm={6} md={4} key={point.id}>
+          <Point point={point} />
+        </Grid>
       ))}
-    </List>
+    </Grid>
   );
 });
 
 // Верстка с использованием материалов из material-ui
 export const Points = () => {
+  const routerStore = useRouterStore();
+
   return (
     <Container sx={{
       display: "flex",
@@ -69,9 +77,11 @@ export const Points = () => {
         margin: 2,
       }}>
         <Typography variant="h5" component="h1" gutterBottom>
-          Пункты
+          Пункты складов и ПВЗ
         </Typography>
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={() => {
+          routerStore.goTo(RoutesEnum.POINT_CREATE);
+        }}>
           Добавить пункт
         </Button>
       </Container>

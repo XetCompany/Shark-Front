@@ -6,7 +6,7 @@
     background-color: #242424;
     height: 95px;
     width: 100%;
-    position: fixed;
+    position: static;
 }
 
 .header--brand {

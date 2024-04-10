@@ -11,13 +11,9 @@ export const Cart = observer(() => {
   const routerStore = useContext(RouterContext);
   useEffect(() => {
     async function fetchCart() {
-      try {
-        const response = await productsApi.cart();
-        customerStore.setCustomerCart(response.data);
-        console.log(response.data, "Корзина загружена");
-      } catch (error) {
-        console.error("Ошибка при получении продуктов:", error);
-      }
+      const response = await productsApi.getCart();
+      customerStore.setCustomerCart(response.data);
+      console.log(response.data, "Корзина загружена");
     }
 
     fetchCart();
@@ -28,38 +24,28 @@ export const Cart = observer(() => {
       return;
     }
 
-    try {
-      const response = await productsApi.customerProductCount({
-        product_id: productId,
-        count: newCount,
-      });
-      if (response.status === 200 && newCount > 0) {
-        const updatedCart = customerStore.customerCart.map((item) =>
-          item.product.id === productId ? { ...item, count: newCount } : item,
-        );
-        customerStore.setCustomerCart(updatedCart);
-      } else {
-        return await handleRemoveFromCart(productId);
-      }
-      console.log(response.data, "Количество обновлено");
-    } catch (error) {
-      console.error("Ошибка при обновлении количества:", error);
+    const response = await productsApi.customerProductCount({
+      product_id: productId,
+      count: newCount,
+    });
+    if (newCount > 0) {
+      const updatedCart = customerStore.customerCart.map((item) =>
+        item.product.id === productId ? { ...item, count: newCount } : item,
+      );
+      customerStore.setCustomerCart(updatedCart);
+    } else {
+      return await handleRemoveFromCart(productId);
     }
+    console.log(response.data, "Количество обновлено");
   };
 
   const handleRemoveFromCart = async (productId) => {
-    try {
-      const response = await productsApi.removerFromCart(productId);
-      if (response.status === 200) {
-        const updatedCart = customerStore.customerCart.filter(
-          (item) => item.product.id !== productId,
-        );
-        customerStore.setCustomerCart(updatedCart);
-      }
-      console.log(response.data, "Продукт удален");
-    } catch (error) {
-      console.error("Ошибка при удалении продукта:", error);
-    }
+    const response = await productsApi.removerFromCart(productId);
+    const updatedCart = customerStore.customerCart.filter(
+      (item) => item.product.id !== productId,
+    );
+    customerStore.setCustomerCart(updatedCart);
+    console.log(response.data, "Продукт удален");
   };
 
   const handleCreateOrder = () => {

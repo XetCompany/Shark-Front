@@ -22,9 +22,6 @@ class AppStore {
 
   async updateCities() {
     const response = await CommonApi.getCities();
-    if (response.statusText !== "OK") {
-      return;
-    }
     this.setCities(response.data);
   }
 
