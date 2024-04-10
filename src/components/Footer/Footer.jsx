@@ -1,7 +1,6 @@
-import { FC } from "react";
 import "./Footer.css";
 
-export const Footer: FC = () => {
+export const Footer = () => {
   return (
     <div className="footer">
       <div className="footer-first">

@@ -1,12 +1,11 @@
-import { FC } from "react";
 import { RouterContext, RouterView } from "mobx-state-router";
-import { Header } from "@components/Header/Header.tsx";
-import { viewMap } from "./router";
-import { Router } from "./router/Router.ts";
+import { Header } from "@components/Header/Header.jsx";
+import { viewMap } from "./router/index.jsx";
+import { Router } from "./router/Router.js";
 import "./App.css";
-import { Footer } from "@pages/Footer/Footer.tsx";
+import { Footer } from "@components/Footer/Footer.jsx";
 
-export const App: FC = () => {
+export const App = () => {
   const routerStore = Router();
 
   return (

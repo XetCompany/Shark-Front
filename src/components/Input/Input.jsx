@@ -1,18 +1,7 @@
-import { ChangeEvent, FC } from "react";
-import { classNames } from "@common/classNames.ts";
+import { classNames } from "@common/classNames.js";
 import "./Input.css";
 
-interface IInput {
-  className?: string;
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-  name?: string;
-  type?: string;
-  placeholder?: string;
-  value?: string | number;
-  required?: boolean;
-}
-
-export const Input: FC<IInput> = ({
+export const Input = ({
   className = "",
   name,
   value,

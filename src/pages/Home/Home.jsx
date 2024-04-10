@@ -1,7 +1,7 @@
-import { FC, useEffect } from "react";
+import { useEffect } from "react";
 import "./Home.css";
 
-export const Home: FC = () => {
+export const Home = () => {
   useEffect(() => {}, []);
   return (
     <div className="home">

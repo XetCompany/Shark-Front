@@ -1,15 +1,14 @@
-import { ChangeEvent, FC, useState } from "react";
-import { Button } from "@components/Button/Button.tsx";
-import { Input } from "@components/Input/Input.tsx";
+import { useState } from "react";
+import { Button } from "@components/Button/Button.jsx";
+import { Input } from "@components/Input/Input.jsx";
 import { useRouterStore } from "mobx-state-router";
-import { RoleEnum, TRegisterData } from "../../types/user.ts";
-import { RoutesEnum } from "../../router";
-import { appStore } from "@store/AppStore/AppStore.ts";
+import { RoutesEnum } from "../../router/index.jsx";
+import { appStore } from "@store/AppStore/AppStore.js";
 import "./Register.css";
 
-export const Register: FC = () => {
+export const Register = () => {
   const routerStore = useRouterStore();
-  const [registerData, setRegisterData] = useState<TRegisterData>({
+  const [registerData, setRegisterData] = useState({
     username: "",
     confirmPassword: "",
     password: "",
@@ -17,7 +16,7 @@ export const Register: FC = () => {
     role: "",
   });
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setRegisterData((prevState) => ({
       ...prevState,
@@ -29,7 +28,7 @@ export const Register: FC = () => {
     routerStore.goTo(RoutesEnum.LOGIN);
   };
 
-  const handleRegisterClick = (e: { preventDefault: () => void }) => {
+  const handleRegisterClick = (e) => {
     e.preventDefault();
     if (registerData.password !== registerData.password) return;
     appStore.setRegisterData(registerData, routerStore);
@@ -90,8 +89,8 @@ export const Register: FC = () => {
             <input
               type="radio"
               name="role"
-              value={RoleEnum.MANUFACTURER}
-              checked={registerData.role === RoleEnum.MANUFACTURER}
+              value="manufacturer"
+              checked={registerData.role === "manufacturer"}
               onChange={handleInputChange}
               required
             />
@@ -101,8 +100,8 @@ export const Register: FC = () => {
             <input
               type="radio"
               name="role"
-              value={RoleEnum.CUSTOMER}
-              checked={registerData.role === RoleEnum.CUSTOMER}
+              value="customer"
+              checked={registerData.role === "customer"}
               onChange={handleInputChange}
               required
             />

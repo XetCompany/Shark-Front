@@ -1,12 +1,6 @@
 import { makeAutoObservable } from "mobx";
-import {
-  TData,
-  TLoginData,
-  TRegisterData,
-  TResetInput,
-} from "../../types/user.ts";
-import { BASE_URL } from "../../api/constants.ts";
-import { RoutesEnum } from "../../router";
+import { BASE_URL } from "@/api/constants.js";
+import { RoutesEnum } from "../../router/index.jsx";
 
 export default class AppStore {
   loginData = {};
@@ -38,10 +32,8 @@ export default class AppStore {
   }
 
   async setLoginData(
-    data: TLoginData,
-    router: {
-      goTo: (arg0: RoutesEnum) => void;
-    },
+    data,
+    router,
   ) {
     this.loginData = data;
     try {
@@ -53,7 +45,7 @@ export default class AppStore {
         body: JSON.stringify(data),
       });
       if (response.ok) {
-        const data: TData = await response.json();
+        const data = await response.json();
         this.setToken(data.access);
         router.goTo(RoutesEnum.HOME);
       } else {
@@ -65,10 +57,8 @@ export default class AppStore {
   }
 
   async setRegisterData(
-    data: TRegisterData,
-    router: {
-      goTo: (arg0: RoutesEnum) => void;
-    },
+    data,
+    router,
   ) {
     this.registerData = data;
     try {
@@ -89,7 +79,7 @@ export default class AppStore {
     }
   }
 
-  async setResetPassword(data: TResetInput) {
+  async setResetPassword(data) {
     console.log(data);
     try {
       const response = await fetch(`${BASE_URL}auth/reset_password/request/`, {
@@ -109,7 +99,7 @@ export default class AppStore {
     }
   }
 
-  async setRequestResetPassword(data: TResetInput) {
+  async setRequestResetPassword(data) {
     try {
       const response = await fetch(`${BASE_URL}auth/reset_password/reset/`, {
         method: "POST",

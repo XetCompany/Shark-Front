@@ -4,7 +4,7 @@ import {
   HistoryAdapter,
   RouterStore,
 } from "mobx-state-router";
-import { Routes } from "./index.tsx";
+import { Routes } from "./index.jsx";
 
 const notFound = createRouterState("notFound");
 

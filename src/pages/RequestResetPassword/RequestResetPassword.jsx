@@ -1,26 +1,23 @@
-import { Input } from "@components/Input/Input.tsx";
-import { Button } from "@components/Button/Button.tsx";
-import { ChangeEvent, useContext, useState } from "react";
-import { appStore } from "@store/AppStore/AppStore.ts";
-import { TResetInput } from "../../types/user.ts";
+import { Input } from "@components/Input/Input.jsx";
+import { Button } from "@components/Button/Button.jsx";
+import { useContext, useState } from "react";
+import { appStore } from "@store/AppStore/AppStore.js";
 import "./RequestResetPassword.css";
 import { RouterContext } from "mobx-state-router";
 import { observer } from "mobx-react";
 
 export const RequestResetPassword = observer(() => {
-  const [newPassword, setNewPassword] = useState<TResetInput>({
-    password: "",
-  });
+  const [newPassword, setNewPassword] = useState({ password: "" });
   const [passwordReseted, setPasswordReseted] = useState(false);
   const routerStore = useContext(RouterContext);
   const userId = routerStore?.routerState.params.userId ?? "";
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e) => {
     const { value } = e.target;
     setNewPassword({ password: value });
   };
 
-  const onSubmit = async (e: { preventDefault: () => void }) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const data = {
       password: newPassword.password,

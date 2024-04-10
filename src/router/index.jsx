@@ -1,9 +1,9 @@
-import { Register } from "@pages/Register/Register.tsx";
-import { Home } from "@pages/Home/Home.tsx";
-import { Login } from "@pages/Login/Login.tsx";
-import { ResetPassword } from "@pages/ResetPassword/ResetPassword.tsx";
-import { RequestResetPassword } from "@pages/RequestResetPassword/RequestResetPassword.tsx";
-import { Products } from "@pages/Products/Products.tsx";
+import { Register } from "@pages/Register/Register.jsx";
+import { Home } from "@pages/Home/Home.jsx";
+import { Login } from "@pages/Login/Login.jsx";
+import { ResetPassword } from "@pages/ResetPassword/ResetPassword.jsx";
+import { RequestResetPassword } from "@pages/RequestResetPassword/RequestResetPassword.jsx";
+import { Products } from "@pages/Products/Products.jsx";
 
 export enum RoutesEnum {
   HOME = "home",

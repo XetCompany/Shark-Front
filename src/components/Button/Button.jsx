@@ -1,16 +1,7 @@
-import { FC, ReactNode } from "react";
-import { classNames } from "@common/classNames.ts";
+import { classNames } from "@common/classNames.js";
 import "./Button.css";
 
-interface IButton {
-  onClick?: (e: never) => void;
-  disabled?: boolean;
-  className?: string;
-  children?: ReactNode;
-  type?: "submit" | "reset" | "button" | undefined;
-}
-
-export const Button: FC<IButton> = ({
+export const Button = ({
   onClick,
   disabled = false,
   children,

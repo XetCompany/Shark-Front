@@ -1,19 +1,18 @@
-import { ChangeEvent, FC, useState } from "react";
+import { useState } from "react";
 import { useRouterStore } from "mobx-state-router";
-import { appStore } from "@store/AppStore/AppStore.ts";
-import { Input } from "@components/Input/Input.tsx";
-import { Button } from "@components/Button/Button.tsx";
-import { TLoginData } from "../../types/user.ts";
+import { appStore } from "@store/AppStore/AppStore.js";
+import { Input } from "@components/Input/Input.jsx";
+import { Button } from "@components/Button/Button.jsx";
 import "./Login.css";
 
-export const Login: FC = () => {
+export const Login = () => {
   const routerStore = useRouterStore();
-  const [loginData, setLoginData] = useState<TLoginData>({
+  const [loginData, setLoginData] = useState({
     username: "",
     password: "",
   });
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setLoginData((prevState) => ({
       ...prevState,
@@ -21,7 +20,7 @@ export const Login: FC = () => {
     }));
   };
 
-  const handleLoginClick = (e: { preventDefault: () => void }) => {
+  const handleLoginClick = (e) => {
     e.preventDefault();
     appStore.setLoginData(loginData, routerStore);
   };

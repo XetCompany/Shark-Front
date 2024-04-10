@@ -29,8 +29,8 @@ class UserStore {
   }
 
   init() {
-    const accessToken = JSON.parse(localStorage.getItem("token")!);
-    const refreshToken = JSON.parse(localStorage.getItem("refreshToken")!);
+    const accessToken = JSON.parse(localStorage.getItem("token"));
+    const refreshToken = JSON.parse(localStorage.getItem("refreshToken"));
     this.accessToken = accessToken;
     this.refreshToken = refreshToken;
   }

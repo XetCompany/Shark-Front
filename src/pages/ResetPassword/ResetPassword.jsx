@@ -1,18 +1,17 @@
-import { ChangeEvent, FC, useState } from "react";
+import { useState } from "react";
 import { observer } from "mobx-react-lite";
-import { appStore } from "@store/AppStore/AppStore.ts";
-import { TResetInput } from "../../types/user.ts";
-import { Input } from "@components/Input/Input.tsx";
-import { Button } from "@components/Button/Button.tsx";
+import { appStore } from "@store/AppStore/AppStore.js";
+import { Input } from "@components/Input/Input.jsx";
+import { Button } from "@components/Button/Button.jsx";
 import "./ResetPassword.css";
 
-export const ResetPassword: FC = observer(() => {
-  const [resetInput, setResetInput] = useState<TResetInput>({
+export const ResetPassword = observer(() => {
+  const [resetInput, setResetInput] = useState({
     email: "",
   });
   const [haveForm, setHaveForm] = useState(false);
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     console.log(name, "name");
     setResetInput((prevState) => ({
@@ -21,7 +20,7 @@ export const ResetPassword: FC = observer(() => {
     }));
   };
 
-  const handleLoginClick = (e: { preventDefault: () => void }) => {
+  const handleLoginClick = (e) => {
     e.preventDefault();
     appStore.setResetPassword(resetInput);
     setHaveForm(true);

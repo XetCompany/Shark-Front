@@ -1,9 +1,9 @@
-import { FC, useState } from "react";
+import { useState } from "react";
 import { observer } from "mobx-react";
-import { appStore } from "@store/AppStore/AppStore.ts";
+import { appStore } from "@store/AppStore/AppStore.js";
 import "./Header.css";
 
-export const Header: FC = observer(() => {
+export const Header = observer(() => {
   const token = appStore.token;
   const [showModal, setShowModal] = useState(false);
 
