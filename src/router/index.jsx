@@ -5,16 +5,17 @@ import { ResetPassword } from "@pages/ResetPassword/ResetPassword.jsx";
 import { RequestResetPassword } from "@pages/RequestResetPassword/RequestResetPassword.jsx";
 import { Products } from "@pages/Products/Products.jsx";
 
-export enum RoutesEnum {
-  HOME = "home",
-  LOGIN = "login",
-  REGISTER = "register",
-  RESET_PASSWORD = "reset_password",
-  RESET_PASSWORD_REQUEST = "reset_password_request",
-  PRODUCTS = "products",
-}
+// eslint-disable-next-line react-refresh/only-export-components
+export const RoutesEnum = Object.freeze({
+  HOME: "home",
+  LOGIN: "login",
+  REGISTER: "register",
+  RESET_PASSWORD: "reset_password",
+  RESET_PASSWORD_REQUEST: "reset_password_request",
+  PRODUCTS: "products",
+});
 
-export const PATHS: Record<RoutesEnum, string> = {
+export const PATHS = {
   [RoutesEnum.HOME]: "/about-us",
   [RoutesEnum.LOGIN]: "/login",
   [RoutesEnum.REGISTER]: "/register",

@@ -18,23 +18,16 @@ export default class AppStore {
     makeAutoObservable(this);
   }
 
-  setToken(token: string) {
+  setToken(token) {
     localStorage.setItem("token", token);
     this.token = token;
-  }
-
-  get getToken() {
-    return localStorage.getItem("token");
   }
 
   removeToken() {
     localStorage.removeItem("token");
   }
 
-  async setLoginData(
-    data,
-    router,
-  ) {
+  async setLoginData(data, router) {
     this.loginData = data;
     try {
       const response = await fetch(`${BASE_URL}auth/login/token/`, {
@@ -56,10 +49,7 @@ export default class AppStore {
     }
   }
 
-  async setRegisterData(
-    data,
-    router,
-  ) {
+  async setRegisterData(data, router) {
     this.registerData = data;
     try {
       const response = await fetch(`${BASE_URL}auth/signup/`, {

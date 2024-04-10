@@ -1,7 +1,5 @@
-type ClassNamesArgs = string | { [s: string]: boolean };
-
 // функция, чтобы можно было использовать несколько классов сразу
-export const classNames = (...args: ClassNamesArgs[]) => {
+export const classNames = (...args) => {
   const classes = [];
 
   for (const arg of args) {

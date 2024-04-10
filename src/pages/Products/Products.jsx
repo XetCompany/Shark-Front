@@ -1,5 +1,6 @@
 import { observer } from "mobx-react";
 import "./Products.css";
+import { useEffect } from "react";
 
 // const productExample = {
 //   id: 0,
