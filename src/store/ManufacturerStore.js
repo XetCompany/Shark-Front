@@ -1,6 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import PointsApi from "@/api/Manufacturer/PointsApi.js";
 import MProductsApi from "@/api/Manufacturer/MProductsApi.js";
+import PathsApi from "@/api/Manufacturer/PathsApi.js";
 
 class ManufacturerStore {
   points = [];
@@ -8,6 +9,9 @@ class ManufacturerStore {
 
   products = [];
   productsIsLoading = false;
+
+  paths = [];
+  pathsIsLoading = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -17,6 +21,7 @@ class ManufacturerStore {
     setTimeout(() => {
       this.updatePoints();
       this.updateProducts();
+      this.updatePaths();
     });
   }
 
@@ -26,6 +31,10 @@ class ManufacturerStore {
 
   getPointById(id) {
     return this.points.find((point) => point.id === id);
+  }
+
+  getPathById(id) {
+    return this.paths.find((path) => path.id === id);
   }
 
   async updatePoints() {
@@ -50,6 +59,17 @@ class ManufacturerStore {
     this.setProducts(response.data);
   }
 
+  async updatePaths() {
+    this.setPathsIsLoading(true);
+    await this.loadPaths();
+    this.setPathsIsLoading(false);
+  }
+
+  async loadPaths() {
+    const response = await PathsApi.getPaths();
+    this.setPaths(response.data);
+  }
+
   setPointsIsLoading(value) {
     this.pointsIsLoading = value;
   }
@@ -64,6 +84,14 @@ class ManufacturerStore {
 
   setProducts(products) {
     this.products = products;
+  }
+
+  setPathsIsLoading(value) {
+    this.pathsIsLoading = value;
+  }
+
+  setPaths(paths) {
+    this.paths = paths;
   }
 }
 
