@@ -49,8 +49,8 @@ class ProductsApi extends ApiClass {
     return await this.sendGet({ url, isAuth: true });
   }
 
-  static async getPoints(pickupPointId) {
-    const url = this.buildUrl(`paths/${pickupPointId}/`);
+  static async getPoints(pickupPointId, params) {
+    const url = this.buildUrlWithParams(`paths/${pickupPointId}/`, params);
     return await this.sendGet({ url, isAuth: true });
   }
 }

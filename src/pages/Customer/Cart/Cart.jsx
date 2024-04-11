@@ -3,8 +3,8 @@ import { observer } from "mobx-react";
 import { useCart } from "./hooks.js";
 import { CartItem } from "./CartItem.jsx";
 import { customerStore } from "@store/CustomerStore.js";
-import CitySelectionModal from "@components/CitySelectionModal/CitySelectionModal.jsx";
 import { Button } from "@components/Button/Button.jsx";
+import { CitySelectionModal } from "@components/CitySelectionModal/CitySelectionModal.jsx";
 import "./Cart.css";
 
 export const Cart = observer(() => {

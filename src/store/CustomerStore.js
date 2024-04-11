@@ -8,6 +8,7 @@ class CustomerStore {
   customerAllPaths = [];
   customerCurrentPath = {};
   customerSearchInfo = [];
+  customerSorts = {};
 
   resetState() {}
 
@@ -42,6 +43,10 @@ class CustomerStore {
 
   setCustomerSearchInfo(searchInfo) {
     this.customerSearchInfo = searchInfo;
+  }
+
+  setCustomerSorts(sorts) {
+    this.customerSorts = sorts;
   }
 }
 
