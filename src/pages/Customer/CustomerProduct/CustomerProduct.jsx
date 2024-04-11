@@ -5,6 +5,7 @@ import { customerStore } from "@store/CustomerStore.js";
 import productsApi from "@/api/ProductsApi.js";
 import "./Product.css";
 import { Button } from "@components/Button/Button.jsx";
+import { MEDIA_URL } from "@/api/constants.js";
 
 export const CustomerProduct = observer(() => {
   const routerStore = useContext(RouterContext);
@@ -46,8 +47,9 @@ export const CustomerProduct = observer(() => {
     <div className="product-detail">
       <img
         src={
-          product.photo ||
-          "https://www.interra-rus.com/storage/media/default.png"
+          product.photo
+            ? `${MEDIA_URL}${product.photo}`
+            : "https://www.interra-rus.com/storage/media/default.png"
         }
         alt={product.name}
         width="200px"

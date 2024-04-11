@@ -5,7 +5,6 @@ import { RouterLink, useRouterStore } from "mobx-state-router";
 import { RoutesEnum } from "@/router/index.jsx";
 import userStore from "@store/UserStore.js";
 import { ROLES_RUS } from "@common/common.js";
-import { AccountCircle } from "@mui/icons-material";
 
 export const Header = observer(() => {
   const routerStore = useRouterStore();

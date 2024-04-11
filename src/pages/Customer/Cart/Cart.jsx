@@ -6,6 +6,7 @@ import { RouterContext } from "mobx-state-router";
 import { RoutesEnum } from "@/router/index.jsx";
 import { Button } from "@components/Button/Button.jsx";
 import "./Cart.css";
+import { MEDIA_URL } from "@/api/constants.js";
 
 export const Cart = observer(() => {
   const routerStore = useContext(RouterContext);
@@ -70,8 +71,9 @@ export const Cart = observer(() => {
               <div className="cart-item">
                 <img
                   src={
-                    item.product.photo ||
-                    "https://www.interra-rus.com/storage/media/default.png"
+                    item.product.photo
+                      ? `${MEDIA_URL}${item.product.photo}`
+                      : "https://www.interra-rus.com/storage/media/default.png"
                   }
                   width="150px"
                   height="150px"
