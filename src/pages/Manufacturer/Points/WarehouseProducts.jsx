@@ -14,7 +14,12 @@ import React, { useEffect, useState } from "react";
 import WHProductsApi from "@/api/Manufacturer/WarehouseProductsApi.js";
 import { manufacturerStore } from "@store/ManufacturerStore.js";
 
-const WarehouseProduct = ({ product, count }) => {
+const WarehouseProduct = ({ product, count, updateProducts, point }) => {
+  const handleDelete = async () => {
+    await WHProductsApi.removeProduct(point.id, product.product.id);
+    await updateProducts();
+  }
+
   return (
     <Accordion sx={{
       backgroundColor: "rgba(0, 0, 0, 0.1)",
@@ -23,6 +28,10 @@ const WarehouseProduct = ({ product, count }) => {
         <Typography variant="body1" gutterBottom>
           {count + 1}. {product.product.name} - {product.count}
         </Typography>
+        <Button sx={{ marginLeft: "auto" }} onClick={(event) => {
+          event.stopPropagation();
+          handleDelete();
+        }}>Удалить</Button>
       </AccordionSummary>
       <AccordionDetails>
         <Typography variant="body1" gutterBottom>
@@ -100,7 +109,7 @@ const WarehouseProductsContent = observer(({ products, loading, updateProducts, 
   return (
     <div>
       {products.map((product, count) => (
-        <WarehouseProduct key={product.id} product={product} count={count} />
+        <WarehouseProduct key={product.id} product={product} count={count} updateProducts={updateProducts} point={point} />
       ))}
       <Button sx={{ marginTop: "10px" }} onClick={handleOpen}>Добавить продукт</Button>
       <Modal open={open} onClose={handleClose}>

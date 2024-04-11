@@ -13,6 +13,11 @@ class WHProductsApi extends BaseApi {
     const data = { count };
     return await this.sendPost({ url, data, isAuth: true });
   }
+
+  static async removeProduct(warehouseId, productId) {
+    const url = this.buildUrl(`${warehouseId}/products/${productId}/`);
+    return await this.sendDelete({ url, isAuth: true });
+  }
 }
 
 export default WHProductsApi;

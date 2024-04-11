@@ -22,6 +22,7 @@ export const Point = observer(({ point }) => {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
+      height: "100%",
     }}>
       <CardContent>
         <Typography variant="h5" component="h2" sx={{
@@ -36,7 +37,9 @@ export const Point = observer(({ point }) => {
           {appStore.getCityNameById(point.city) || "Неизвестный город"}
         </Typography>
       </CardContent>
-      <CardActions>
+      <CardActions sx={{
+        marginTop: "auto",
+      }}>
         <Button size="small" onClick={() => {
           routerStore.goTo(RoutesEnum.POINT_DETAILS, { params: { id: point.id } });
         }}>Перейти</Button>
