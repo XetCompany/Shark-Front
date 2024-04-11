@@ -1,14 +1,14 @@
-import { observer } from "mobx-react";
 import React, { useEffect, useState } from "react";
-import { Point } from "@components/Manufacturer/Point.jsx";
-import { Grid, Typography } from "@mui/material";
+import { observer } from "mobx-react";
 import { useRouterStore } from "mobx-state-router";
-import { RoutesEnum } from "@/router/index.jsx";
+import { Grid, Typography } from "@mui/material";
 import { POINT_TYPES_RUS } from "@common/common.js";
 import { appStore } from "@store/AppStore.js";
+import { manufacturerStore } from "@store/ManufacturerStore.js";
+import { RoutesEnum } from "@/router/index.jsx";
 import { ContentPageWrapper } from "@components/PageWrapper/ContentPageWrapper.jsx";
 import { SearchCreateComponent } from "@components/PageWrapper/SearchCreateComponent.jsx";
-import { manufacturerStore } from "@store/ManufacturerStore.js";
+import { Point } from "@components/Manufacturer/Point.jsx";
 
 const PointsContent = observer(({ searchValue }) => {
   useEffect(() => {
@@ -16,15 +16,11 @@ const PointsContent = observer(({ searchValue }) => {
   }, []);
 
   if (manufacturerStore.pointsIsLoading) {
-    return (
-      <Typography variant="body1">Загрузка...</Typography>
-    );
+    return <Typography variant="body1">Загрузка...</Typography>;
   }
 
   if (manufacturerStore.points.length === 0) {
-    return (
-      <Typography variant="body1">Нет пунктов</Typography>
-    );
+    return <Typography variant="body1">Нет пунктов</Typography>;
   }
 
   const lowerCaseSearchValue = searchValue.toLowerCase();
@@ -32,15 +28,25 @@ const PointsContent = observer(({ searchValue }) => {
     return (
       point.name.toLowerCase().includes(lowerCaseSearchValue) ||
       point.id.toString().includes(lowerCaseSearchValue) ||
-      POINT_TYPES_RUS[point.type].toLowerCase().includes(lowerCaseSearchValue) ||
-      appStore.getCityNameById(point.city).toLowerCase().includes(lowerCaseSearchValue)
+      POINT_TYPES_RUS[point.type]
+        .toLowerCase()
+        .includes(lowerCaseSearchValue) ||
+      appStore
+        .getCityNameById(point.city)
+        .toLowerCase()
+        .includes(lowerCaseSearchValue)
     );
   });
 
   return (
-    <Grid container spacing={2} justifyContent="center" style={{
-      paddingTop: "16px",
-    }}>
+    <Grid
+      container
+      spacing={2}
+      justifyContent="center"
+      style={{
+        paddingTop: "16px",
+      }}
+    >
       {filteredPoints.map((point) => (
         <Grid item xs={12} sm={6} md={4} key={point.id}>
           <Point point={point} />
@@ -54,15 +60,20 @@ export const Points = observer(() => {
   const routerStore = useRouterStore();
   const [searchValue, setSearchValue] = useState("");
 
-  return <ContentPageWrapper title="Пункты складов и ПВЗ" componentHeader={
-    <SearchCreateComponent
-      searchValue={searchValue}
-      setSearchValue={setSearchValue}
-      routerStore={routerStore}
-      createText="Добавить пункт"
-      routerName={RoutesEnum.POINT_CREATE}
-    />
-  }>
-    <PointsContent searchValue={searchValue} />
-  </ContentPageWrapper>;
+  return (
+    <ContentPageWrapper
+      title="Пункты складов и ПВЗ"
+      componentHeader={
+        <SearchCreateComponent
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          routerStore={routerStore}
+          createText="Добавить пункт"
+          routerName={RoutesEnum.POINT_CREATE}
+        />
+      }
+    >
+      <PointsContent searchValue={searchValue} />
+    </ContentPageWrapper>
+  );
 });

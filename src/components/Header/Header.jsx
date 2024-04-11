@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { observer } from "mobx-react";
-import "./Header.css";
+import userStore from "@store/UserStore.js";
 import { RouterLink, useRouterStore } from "mobx-state-router";
 import { RoutesEnum } from "@/router/index.jsx";
-import userStore from "@store/UserStore.js";
 import { ROLES_RUS } from "@common/common.js";
+import "./Header.css";
 
 export const Header = observer(() => {
   const routerStore = useRouterStore();

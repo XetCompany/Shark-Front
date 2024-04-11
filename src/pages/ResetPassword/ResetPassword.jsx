@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { observer } from "mobx-react-lite";
+import UserApi from "@/api/UserApi.js";
 import { Input } from "@components/Input/Input.jsx";
 import { Button } from "@components/Button/Button.jsx";
 import "./ResetPassword.css";
-import UserApi from "@/api/UserApi.js";
 
 export const ResetPassword = observer(() => {
   const [resetInput, setResetInput] = useState({
@@ -23,7 +23,7 @@ export const ResetPassword = observer(() => {
   const resetPassword = async () => {
     await UserApi.resetPassword(resetInput);
     setHaveForm(true);
-  }
+  };
 
   const handleLoginClick = (e) => {
     e.preventDefault();

@@ -1,12 +1,12 @@
-import { ContentPageWrapper } from "@components/PageWrapper/ContentPageWrapper.jsx";
-import { POINT_TYPES, POINT_TYPES_RUS } from "@common/common.js";
-import { useRouterStore } from "mobx-state-router";
-import { manufacturerStore } from "@store/ManufacturerStore.js";
-import { Container, Divider, Paper, Typography } from "@mui/material";
 import { observer } from "mobx-react";
+import { useRouterStore } from "mobx-state-router";
+import { Container, Divider, Paper, Typography } from "@mui/material";
+import { manufacturerStore } from "@store/ManufacturerStore.js";
+import { POINT_TYPES, POINT_TYPES_RUS } from "@common/common.js";
 import { appStore } from "@store/AppStore.js";
-import "./PointDetail.css";
+import { ContentPageWrapper } from "@components/PageWrapper/ContentPageWrapper.jsx";
 import { WarehouseProducts } from "@pages/Manufacturer/Points/WarehouseProducts.jsx";
+import "./PointDetail.css";
 
 export const PointDetail = observer(() => {
   const routerStore = useRouterStore();
@@ -31,10 +31,12 @@ export const PointDetail = observer(() => {
   return (
     <ContentPageWrapper title="Информация о Точке">
       <Container className="point-detail">
-        <Paper sx={{
-          padding: 2,
-          marginBottom: 2,
-        }}>
+        <Paper
+          sx={{
+            padding: 2,
+            marginBottom: 2,
+          }}
+        >
           <Typography variant="h5" component="h1" gutterBottom>
             {point.name || "Без названия"}
           </Typography>

@@ -1,9 +1,9 @@
 import { RouterContext, RouterView } from "mobx-state-router";
-import { Header } from "@components/Header/Header.jsx";
 import { viewMap } from "./router/index.jsx";
 import { Router } from "./router/Router.js";
-import "./App.css";
+import { Header } from "@components/Header/Header.jsx";
 import { Footer } from "@components/Footer/Footer.jsx";
+import "./App.css";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";

@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom/client";
-import "./index.css";
-import { App } from "./App.jsx";
 import { manufacturerStore } from "@store/ManufacturerStore.js";
+import { App } from "./App.jsx";
+import "./index.css";
 
 window.manufacturerStore = manufacturerStore;
 

@@ -1,10 +1,16 @@
 import React, { useState } from "react";
-
-
 import { observer } from "mobx-react";
-import { Autocomplete, Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
-import PointsApi from "@/api/Manufacturer/PointsApi.js";
 import { useRouterStore } from "mobx-state-router";
+import {
+  Autocomplete,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
+import PointsApi from "@/api/Manufacturer/PointsApi.js";
 import { RoutesEnum } from "@/router/index.jsx";
 import { appStore } from "@store/AppStore.js";
 import { ContentPageWrapper } from "@components/PageWrapper/ContentPageWrapper.jsx";
@@ -21,7 +27,7 @@ const PointCreateForm = observer(() => {
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
       [name]: value,
     }));
@@ -41,12 +47,15 @@ const PointCreateForm = observer(() => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{
-      display: "flex",
-      flexDirection: "column",
-      gap: "10px",
-      width: "500px",
-    }}>
+    <form
+      onSubmit={handleSubmit}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "10px",
+        width: "500px",
+      }}
+    >
       <TextField
         name="name"
         label="Название"
@@ -72,7 +81,11 @@ const PointCreateForm = observer(() => {
         id="city-autocomplete"
         options={appStore.cities}
         getOptionLabel={(option) => option.name}
-        value={formData.city ? appStore.cities.find(city => city.id === formData.city) : null}
+        value={
+          formData.city
+            ? appStore.cities.find((city) => city.id === formData.city)
+            : null
+        }
         onChange={(event, newValue) => {
           setFormData({ ...formData, city: newValue ? newValue.id : "" });
         }}

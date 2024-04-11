@@ -1,11 +1,11 @@
 import { useState } from "react";
+import { useRouterStore } from "mobx-state-router";
+import { ROLES } from "@common/common.js";
+import { RoutesEnum } from "../../router/index.jsx";
+import UserApi from "@/api/UserApi.js";
 import { Button } from "@components/Button/Button.jsx";
 import { Input } from "@components/Input/Input.jsx";
-import { useRouterStore } from "mobx-state-router";
-import { RoutesEnum } from "../../router/index.jsx";
 import "./Register.css";
-import UserApi from "@/api/UserApi.js";
-import { ROLES } from "@common/common.js";
 
 export const Register = () => {
   const routerStore = useRouterStore();

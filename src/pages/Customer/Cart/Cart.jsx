@@ -4,10 +4,10 @@ import productsApi from "@/api/ProductsApi.js";
 import { customerStore } from "@store/CustomerStore.js";
 import { RouterContext } from "mobx-state-router";
 import { RoutesEnum } from "@/router/index.jsx";
-import { Button } from "@components/Button/Button.jsx";
-import "./Cart.css";
 import { MEDIA_URL } from "@/api/constants.js";
+import { Button } from "@components/Button/Button.jsx";
 import CitySelectionModal from "@components/CitySelectionModal/CitySelectionModal.jsx";
+import "./Cart.css";
 
 export const Cart = observer(() => {
   const routerStore = useContext(RouterContext);
@@ -69,7 +69,7 @@ export const Cart = observer(() => {
         return p;
       }
     });
-    console.log(path[0].id, "current point");
+    console.log(path[0].id, "Выбранная точка");
     customerStore.setCustomerCurrentPath(path[0].id);
   };
 

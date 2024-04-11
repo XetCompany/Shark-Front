@@ -1,11 +1,11 @@
 import { observer } from "mobx-react";
 import { useContext, useEffect } from "react";
 import { RouterContext } from "mobx-state-router";
-import { customerStore } from "@store/CustomerStore.js";
-import productsApi from "@/api/ProductsApi.js";
-import "./Product.css";
-import { Button } from "@components/Button/Button.jsx";
 import { MEDIA_URL } from "@/api/constants.js";
+import productsApi from "@/api/ProductsApi.js";
+import { customerStore } from "@store/CustomerStore.js";
+import { Button } from "@components/Button/Button.jsx";
+import "./Product.css";
 
 export const CustomerProduct = observer(() => {
   const routerStore = useContext(RouterContext);

@@ -1,10 +1,10 @@
+import { useContext, useState } from "react";
+import { observer } from "mobx-react";
+import { RouterContext } from "mobx-state-router";
+import UserApi from "@/api/UserApi.js";
 import { Input } from "@components/Input/Input.jsx";
 import { Button } from "@components/Button/Button.jsx";
-import { useContext, useState } from "react";
 import "./RequestResetPassword.css";
-import { RouterContext } from "mobx-state-router";
-import { observer } from "mobx-react";
-import UserApi from "@/api/UserApi.js";
 
 export const RequestResetPassword = observer(() => {
   const [newPassword, setNewPassword] = useState({ password: "" });
