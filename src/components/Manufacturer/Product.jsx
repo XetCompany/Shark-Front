@@ -1,18 +1,19 @@
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Typography,
-} from "@mui/material";
+import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
 import { useRouterStore } from "mobx-state-router";
 import { RoutesEnum } from "@/router/index.jsx";
 import { MEDIA_URL } from "@/api/constants.js";
 import logo from "@assets/img/no_image.png";
+import { manufacturerStore } from "@store/ManufacturerStore.js";
+import MProductsApi from "@/api/Manufacturer/MProductsApi.js";
 
 export function Product({ product }) {
   const routerStore = useRouterStore();
+
+  const handleDeleteProduct = async () => {
+    manufacturerStore.setProductsIsLoading(true);
+    await MProductsApi.deleteProduct(product.id);
+    await manufacturerStore.updateProducts();
+  };
 
   return (
     <Card>
@@ -44,7 +45,9 @@ export function Product({ product }) {
         >
           Перейти
         </Button>
-        <Button size="small">Удалить</Button>
+        <Button size="small" onClick={handleDeleteProduct}>
+          Удалить
+        </Button>
       </CardActions>
     </Card>
   );
