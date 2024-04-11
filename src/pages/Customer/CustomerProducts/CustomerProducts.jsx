@@ -44,7 +44,9 @@ export const CustomerProducts = observer(() => {
   };
 
   const handleProductClick = async (prodId) => {
-    await routerStore.goTo(RoutesEnum.PRODUCT, { prodId: `${prodId}` });
+    await routerStore.goTo(RoutesEnum.PRODUCT, {
+      params: { prodId: `${prodId}` },
+    });
   };
 
   return (
