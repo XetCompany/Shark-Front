@@ -43,6 +43,11 @@ class ProductsApi extends ApiClass {
     return await this.sendGet({ url, isAuth: true });
   }
 
+  static async order(orderId) {
+    const url = this.buildUrl(`orders/${orderId}/`);
+    return await this.sendGet({ url, isAuth: true });
+  }
+
   static async orderFromCart(orderId) {
     const url = this.buildUrl(`cart/from_order/${orderId}/`);
     return await this.sendPost({ url, isAuth: true });
@@ -56,6 +61,11 @@ class ProductsApi extends ApiClass {
   static async getPoints(pickupPointId, params) {
     const url = this.buildUrlWithParams(`paths/${pickupPointId}/`, params);
     return await this.sendGet({ url, isAuth: true });
+  }
+
+  static async postEvaluate(productId, data) {
+    const url = this.buildUrl(`products/${productId}/evaluate/`);
+    return await this.sendPost({ url, data, isAuth: true });
   }
 }
 

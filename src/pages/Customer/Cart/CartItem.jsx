@@ -1,8 +1,9 @@
 import React from "react";
-import { MEDIA_URL } from "@/api/constants.js";
-import { Button } from "@components/Button/Button.jsx";
-import trash from "./trash.svg";
-import "./Cart.css";
+import { MEDIA_URL, NO_PHOTO } from "@/api/constants.js";
+import { Card, CardContent, Typography, IconButton, Grid } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 
 export const CartItem = ({
   item,
@@ -11,52 +12,70 @@ export const CartItem = ({
   onProductClick,
 }) => {
   return (
-    <li>
-      <div className="cart-item">
-        <img
-          src={
-            item.product.photo
-              ? `${MEDIA_URL}${item.product.photo}`
-              : "https://www.interra-rus.com/storage/media/default.png"
-          }
-          width="150px"
-          height="150px"
-          alt={item.product.name}
-          className="product-photo"
-        />
-        <div className="cart-item-details">
-          <p onClick={() => onProductClick(item.product.id)}>
-            {item.product.name}
-          </p>
-          <span
-            onClick={() => onProductClick(item.product.id)}
-            className="cart-item-price"
+    <Card
+      sx={{
+        display: "flex",
+        marginBottom: 2,
+        width: "100%",
+        transition: "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
+        "&:hover": {
+          transform: "scale(1.03)",
+          boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.25)",
+        },
+      }}
+    >
+      <img
+        src={
+          item.product.photo
+            ? `${MEDIA_URL}${item.product.photo}`
+            : `${NO_PHOTO}`
+        }
+        alt={item.product.name}
+        style={{ width: 150, height: 150, objectFit: "cover" }}
+      />
+      <CardContent
+        sx={{
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
+      >
+        <Typography
+          variant="h6"
+          onClick={() => onProductClick(item.product.id)}
+          sx={{ cursor: "pointer" }}
+        >
+          {item.product.name}
+        </Typography>
+        <Typography
+          variant="body1"
+          onClick={() => onProductClick(item.product.id)}
+          sx={{ cursor: "pointer" }}
+        >
+          {item.product.price} руб.
+        </Typography>
+        <Grid container alignItems="center" spacing={1}>
+          <IconButton
+            onClick={() => onQuantityChange(item.product.id, item.count - 1)}
+            disabled={item.count <= 1}
           >
-            {item.product.price} руб.
-          </span>
-          <div className="cart-item-quantity">
-            <Button
-              className="control-btn"
-              onClick={() => onQuantityChange(item.product.id, item.count + 1)}
-            >
-              +
-            </Button>
-            <span className="product-count">{item.count}</span>
-            <Button
-              className="control-btn"
-              onClick={() => onQuantityChange(item.product.id, item.count - 1)}
-            >
-              -
-            </Button>
-            <Button
-              className="remove-from-cart"
-              onClick={() => onRemove(item.product.id)}
-            >
-              <img className="trash" src={trash} alt="trash" />
-            </Button>
-          </div>
-        </div>
-      </div>
-    </li>
+            <RemoveIcon />
+          </IconButton>
+          <Typography>{item.count}</Typography>
+          <IconButton
+            onClick={() => onQuantityChange(item.product.id, item.count + 1)}
+          >
+            <AddIcon />
+          </IconButton>
+          <IconButton
+            onClick={() => onRemove(item.product.id)}
+            sx={{ marginLeft: "auto" }}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </Grid>
+      </CardContent>
+    </Card>
   );
 };

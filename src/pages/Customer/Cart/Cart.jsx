@@ -3,9 +3,8 @@ import { observer } from "mobx-react";
 import { useCart } from "./hooks.js";
 import { CartItem } from "./CartItem.jsx";
 import { customerStore } from "@store/CustomerStore.js";
-import { Button } from "@components/Button/Button.jsx";
+import { Button, Box, List, ListItem, Typography } from "@mui/material";
 import { CitySelectionModal } from "@components/CitySelectionModal/CitySelectionModal.jsx";
-import "./Cart.css";
 
 export const Cart = observer(() => {
   const {
@@ -25,11 +24,22 @@ export const Cart = observer(() => {
   }, [fetchCart]);
 
   return (
-    <div className="cart">
+    <Box
+      sx={{ margin: "40px 0 35px", display: "flex", justifyContent: "center" }}
+    >
       {customerStore.customerCart.length === 0 ? (
-        <p>Ваша корзина пуста.</p>
+        <Typography>Ваша корзина пуста.</Typography>
       ) : (
-        <ul>
+        <List
+          sx={{
+            width: "90vw",
+            maxWidth: 600,
+            bgcolor: "background.paper",
+            borderRadius: 1,
+            boxShadow: 1,
+            padding: 2,
+          }}
+        >
           {customerStore.customerCart.map((item) => (
             <CartItem
               key={item.product.id}
@@ -39,15 +49,29 @@ export const Cart = observer(() => {
               onProductClick={handleProductClick}
             />
           ))}
-
-          <li className="cart-total">
-            <span>Итоговая цена:</span>
-            <span className="cart-total-price">
+          <ListItem
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              borderBottom: 1,
+              borderColor: "divider",
+              paddingBottom: 1,
+            }}
+          >
+            <Typography>Итоговая цена:</Typography>
+            <Typography sx={{ fontWeight: "bold" }}>
               {calculateTotalPrice()} руб.
-            </span>
-          </li>
-          <Button onClick={handleCreateOrder}>Оформить заказ</Button>
-        </ul>
+            </Typography>
+          </ListItem>
+          <ListItem
+            sx={{ display: "flex", justifyContent: "center", paddingTop: 2 }}
+          >
+            <Button variant="contained" onClick={handleCreateOrder}>
+              Оформить заказ
+            </Button>
+          </ListItem>
+        </List>
       )}
       <CitySelectionModal
         isOpen={isModalOpen}
@@ -56,6 +80,6 @@ export const Cart = observer(() => {
         onSelectCity={handleCitySelect}
         onClose={handleCloseModal}
       />
-    </div>
+    </Box>
   );
 });

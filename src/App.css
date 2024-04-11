@@ -1,5 +1,5 @@
 html {
-    overflow-y:scroll;
+    overflow-y: scroll;
 }
 
 #root {
@@ -10,9 +10,8 @@ html {
 }
 
 .main {
-    /*padding-top: 10px;*/
-}
-
-.layout {
-    height: calc(100vh - 172px);
+    min-height: calc(100vh - 55px);
+    display: flex;
+    flex-direction: column;
+    padding-top: 100px;
 }

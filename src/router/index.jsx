@@ -3,12 +3,12 @@ import { Home } from "@pages/Home/Home.jsx";
 import { Login } from "@pages/Login/Login.jsx";
 import { ResetPassword } from "@pages/ResetPassword/ResetPassword.jsx";
 import { RequestResetPassword } from "@pages/RequestResetPassword/RequestResetPassword.jsx";
-import { CustomerProducts } from "@pages/Customer/CustomerProducts/CustomerProducts.jsx";
-import { CustomerProduct } from "@pages/Customer/CustomerProduct/CustomerProduct.jsx";
+import { CustomerProducts } from "@pages/Customer/CustomerProducts.jsx";
+import { CustomerProduct } from "@pages/Customer/CustomerProduct.jsx";
 import { Cart } from "@pages/Customer/Cart/Cart.jsx";
 import { Points } from "@pages/Manufacturer/Points/Points.jsx";
-import { Order } from "@pages/Customer/Order/Order.jsx";
-import { CreateOrder } from "@pages/Customer/CreateOrder/CreateOrder.jsx";
+import { Orders } from "@pages/Customer/Orders.jsx";
+import { CreateOrder } from "@pages/Customer/CreateOrder.jsx";
 import { PointCreate } from "@pages/Manufacturer/Points/PointCreate.jsx";
 import { PointDetail } from "@pages/Manufacturer/Points/PointDetail.jsx";
 import { ManufacturerProducts } from "@pages/Manufacturer/Products/Products.jsx";
@@ -16,7 +16,8 @@ import { ManufacturerProductCreate } from "@pages/Manufacturer/Products/ProductC
 import { ManufacturerProductDetails } from "@pages/Manufacturer/Products/ProductDetail.jsx";
 import { Paths } from "@pages/Manufacturer/Paths/Paths.jsx";
 import { PathCreate } from "@pages/Manufacturer/Paths/PathCreate.jsx";
-import { MakeOrder } from "@pages/Customer/MakeOrder/MakeOrder.jsx";
+import { MakeOrder } from "@pages/Customer/MakeOrder.jsx";
+import { Order } from "@pages/Customer/Order.jsx";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const RoutesEnum = Object.freeze({
@@ -31,6 +32,7 @@ export const RoutesEnum = Object.freeze({
   PRODUCT: "product",
   CART: "cart",
   ORDERS: "orders",
+  ORDER: "order",
   CREATE_ORDER: "create_order",
   MAKE_ORDER: "make_order",
 
@@ -60,6 +62,7 @@ export const PATHS = {
   [RoutesEnum.PRODUCT]: "/product/:prodId",
   [RoutesEnum.CART]: "/cart",
   [RoutesEnum.ORDERS]: "/orders",
+  [RoutesEnum.ORDER]: "/order/:orderId",
   [RoutesEnum.CREATE_ORDER]: "/create/order",
   [RoutesEnum.MAKE_ORDER]: "/make/order",
 
@@ -114,6 +117,10 @@ export const Routes = [
     pattern: PATHS.orders,
   },
   {
+    name: RoutesEnum.ORDER,
+    pattern: PATHS.order,
+  },
+  {
     name: RoutesEnum.CREATE_ORDER,
     pattern: PATHS.create_order,
   },
@@ -160,98 +167,27 @@ export const Routes = [
 // eslint-disable-next-line react-refresh/only-export-components
 export const viewMap = {
   home: <Home />,
-  login: (
-    <div className="layout">
-      <Login />
-    </div>
-  ),
-  register: (
-    <div className="layout">
-      <Register />
-    </div>
-  ),
-  reset_password: (
-    <div className="layout">
-      <ResetPassword />
-    </div>
-  ),
-  reset_password_request: (
-    <div className="layout">
-      <RequestResetPassword />
-    </div>
-  ),
+  login: <Login />,
+  register: <Register />,
+  reset_password: <ResetPassword />,
+  reset_password_request: <RequestResetPassword />,
 
   // Customer routes
-  products: (
-    <div className="layout">
-      <CustomerProducts />
-    </div>
-  ),
-  product: (
-    <div className="layout">
-      <CustomerProduct />
-    </div>
-  ),
-  cart: (
-    <div className="layout">
-      <Cart />
-    </div>
-  ),
-  create_order: (
-    <div className="layout">
-      <CreateOrder />
-    </div>
-  ),
-  make_order: (
-    <div className="layout">
-      <MakeOrder />
-    </div>
-  ),
-  orders: (
-    <div className="layout">
-      <Order />
-    </div>
-  ),
+  products: <CustomerProducts />,
+  product: <CustomerProduct />,
+  cart: <Cart />,
+  create_order: <CreateOrder />,
+  make_order: <MakeOrder />,
+  orders: <Orders />,
+  order: <Order />,
 
   // Manufacturer routes
-  points: (
-    <div className="layout">
-      <Points />
-    </div>
-  ),
-  point_create: (
-    <div className="layout">
-      <PointCreate />
-    </div>
-  ),
-  point_details: (
-    <div className="layout">
-      <PointDetail />
-    </div>
-  ),
-  m_products: (
-    <div className="layout">
-      <ManufacturerProducts />
-    </div>
-  ),
-  m_products_create: (
-    <div className="layout">
-      <ManufacturerProductCreate />
-    </div>
-  ),
-  m_products_details: (
-    <div className="layout">
-      <ManufacturerProductDetails />
-    </div>
-  ),
-  paths: (
-    <div className="layout">
-      <Paths />
-    </div>
-  ),
-  path_create: (
-    <div className="layout">
-      <PathCreate />
-    </div>
-  ),
+  points: <Points />,
+  point_create: <PointCreate />,
+  point_details: <PointDetail />,
+  m_products: <ManufacturerProducts />,
+  m_products_create: <ManufacturerProductCreate />,
+  m_products_details: <ManufacturerProductDetails />,
+  paths: <Paths />,
+  path_create: <PathCreate />,
 };

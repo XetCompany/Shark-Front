@@ -80,55 +80,41 @@ export const CreateOrder = observer(() => {
                             (path) =>
                               `${path.path.point_a.name} --> ${path.path.point_b.name}`,
                           )
+                          .join(" | ")}
+                      </div>
+                    ))}
+                  </TableCell>
+                  <TableCell align="center">
+                    {info.groups_paths.map((group, idx) => (
+                      <div key={idx}>
+                        {group.paths
+                          .map((path) => PATH_TYPE_RUS[path.path.type])
                           .join(", ")}
-                        <br />
-                        <br />
                       </div>
                     ))}
                   </TableCell>
                   <TableCell align="center">
                     {info.groups_paths.map((group, idx) => (
                       <div key={idx}>
-                        {PATH_TYPE_RUS[group.paths[0].path.type]}
-                        <br />
-                        <br />
+                        {group.paths.map((path) => path.path.price).join(", ")}
                       </div>
                     ))}
                   </TableCell>
                   <TableCell align="center">
                     {info.groups_paths.map((group, idx) => (
                       <div key={idx}>
-                        {group.paths[0].path.price}
-                        <br />
-                        <br />
+                        {group.paths.map((path) => path.path.length).join(", ")}
                       </div>
                     ))}
                   </TableCell>
                   <TableCell align="center">
                     {info.groups_paths.map((group, idx) => (
-                      <div key={idx}>
-                        {group.paths[0].path.length}
-                        <br />
-                        <br />
-                      </div>
+                      <div key={idx}>{group.product.name}</div>
                     ))}
                   </TableCell>
                   <TableCell align="center">
                     {info.groups_paths.map((group, idx) => (
-                      <div key={idx}>
-                        {group.product.name}
-                        <br />
-                        <br />
-                      </div>
-                    ))}
-                  </TableCell>
-                  <TableCell align="center">
-                    {info.groups_paths.map((group, idx) => (
-                      <div key={idx}>
-                        {group.product.price}
-                        <br />
-                        <br />
-                      </div>
+                      <div key={idx}>{group.product.price}</div>
                     ))}
                   </TableCell>
                   <TableCell align="center">

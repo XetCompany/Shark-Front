@@ -5,12 +5,14 @@ class CustomerStore {
   customerProduct = {};
   customerCart = [];
   customerOrders = [];
+  customerOrder = null;
   customerAllPaths = [];
   customerCurrentPath = null;
   customerSearchInfo = [];
   customerSorts = {};
   customerSelectedOrder = null;
-  customerOrder = null;
+  customerCurrentOrder = null;
+  customerEvaluate = {};
 
   resetState() {}
 
@@ -35,6 +37,10 @@ class CustomerStore {
     this.customerOrders = orders;
   }
 
+  setCustomerCurrentOrder(currentOrder) {
+    this.customerCurrentOrder = currentOrder;
+  }
+
   setCustomerOrder(order) {
     this.customerOrder = order;
   }
@@ -57,6 +63,10 @@ class CustomerStore {
 
   setCustomerSelectedOrder(orderId) {
     this.customerSelectedOrder = orderId;
+  }
+
+  setCustomerEvaluate(evaluate) {
+    this.customerEvaluate = evaluate;
   }
 }
 
