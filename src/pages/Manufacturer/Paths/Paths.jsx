@@ -5,17 +5,72 @@ import { SearchCreateComponent } from "@components/PageWrapper/SearchCreateCompo
 import { RoutesEnum } from "@/router/index.jsx";
 import { manufacturerStore } from "@store/ManufacturerStore.js";
 import { Box, Button, Container, Link, Modal, Stack, Typography } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridToolbarColumnsButton,
+  GridToolbarContainer,
+  GridToolbarDensitySelector,
+  GridToolbarFilterButton,
+  useGridApiContext,
+  useGridApiRef,
+} from "@mui/x-data-grid";
 import { useRouterStore } from "mobx-state-router";
 import { GRID_DEFAULT_LOCALE_TEXT_RUS, PATH_TYPES_RUS } from "@common/common.js";
 import DownloadIcon from "@mui/icons-material/Download";
 import PublishIcon from "@mui/icons-material/Publish";
 import { EXCEL_PATHS_PATTERN_URL } from "@/api/constants.js";
 import { CustomFileInput } from "@components/Input/CustomFileInput.jsx";
-import WHProductsApi from "@/api/Manufacturer/WarehouseProductsApi.js";
 import PathsApi from "@/api/Manufacturer/PathsApi.js";
+import { makeAutoObservable } from "mobx";
+import DeleteIcon from "@mui/icons-material/Delete";
+
+class PathsStore {
+  rowSelectionModel = [];
+
+  constructor() {
+    makeAutoObservable(this);
+  }
+
+  setRowSelectionModel(rowSelectionModel) {
+    this.rowSelectionModel = rowSelectionModel;
+  }
+}
+
+const pathsStore = new PathsStore();
+
+const CustomToolbar = observer(() => {
+  const apiRef = useGridApiContext();
+
+  const handleDelete = async () => {
+    const selectedRows = pathsStore.rowSelectionModel.map((id) => apiRef.current.getRow(id).id);
+    await PathsApi.deletePaths(selectedRows);
+    await manufacturerStore.updatePaths();
+  };
+
+  return (
+    <GridToolbarContainer>
+      <GridToolbarColumnsButton />
+      <GridToolbarFilterButton />
+      <GridToolbarDensitySelector
+        slotProps={{ tooltip: { title: "Change density" } }}
+      />
+      <Box sx={{ flexGrow: 1 }} />
+      <Button
+        variant="outlined"
+        color="error"
+        onClick={handleDelete}
+        disabled={pathsStore.rowSelectionModel.length === 0}
+        endIcon={<DeleteIcon />}
+      >
+        Удалить
+      </Button>
+    </GridToolbarContainer>
+  );
+});
 
 const PathContent = observer(({ searchValue }) => {
+  const apiRef = useGridApiRef();
+
   useEffect(() => {
     manufacturerStore.loadPaths();
   }, []);
@@ -47,9 +102,12 @@ const PathContent = observer(({ searchValue }) => {
     { field: "length", headerName: "Протяженность(в км.)", width: 180 },
   ];
 
+  // console.log(rowSelectionModel.length && apiRef?.current?.getRow(rowSelectionModel[0]))
+
   return (
     <div style={{ height: 600, width: "100%" }}>
       <DataGrid
+        apiRef={apiRef}
         rows={filteredPaths}
         columns={columns}
         initialState={{
@@ -60,39 +118,15 @@ const PathContent = observer(({ searchValue }) => {
         pageSizeOptions={[10, 20]}
         checkboxSelection
         localeText={GRID_DEFAULT_LOCALE_TEXT_RUS}
+        onRowSelectionModelChange={(newRowSelectionModel) => {
+          pathsStore.setRowSelectionModel(newRowSelectionModel);
+        }}
+        rowSelectionModel={pathsStore.rowSelectionModel}
+        slots={{
+          toolbar: CustomToolbar,
+        }}
       />
     </div>
-    // <TableContainer component={Paper}>
-    //   <Table sx={{ minWidth: 650 }} aria-label="simple table">
-    //     <TableHead>
-    //       <TableRow>
-    //         <TableCell>Начальная точка</TableCell>
-    //         <TableCell align="right">Конечная точка</TableCell>
-    //         <TableCell align="right">Время(в часах)</TableCell>
-    //         <TableCell align="right">Цена(в руб.)</TableCell>
-    //         <TableCell align="right">Протяженность(в км.)</TableCell>
-    //         <TableCell align="right">Тип транспортировки</TableCell>
-    //       </TableRow>
-    //     </TableHead>
-    //     <TableBody>
-    //       {filteredPaths.map((row) => (
-    //         <TableRow
-    //           key={row.name}
-    //           sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-    //         >
-    //           <TableCell component="th" scope="row">
-    //             {row.point_a.name}
-    //           </TableCell>
-    //           <TableCell align="right">{row.point_b.name}</TableCell>
-    //           <TableCell align="right">{row.time}</TableCell>
-    //           <TableCell align="right">{row.price}</TableCell>
-    //           <TableCell align="right">{row.length}</TableCell>
-    //           <TableCell align="right">{PATH_TYPES_RUS[row.type]}</TableCell>
-    //         </TableRow>
-    //       ))}
-    //     </TableBody>
-    //   </Table>
-    // </TableContainer>
   );
 });
 
@@ -125,7 +159,8 @@ export const Paths = observer(() => {
         marginTop: 2,
       }}>
         <PathContent searchValue={searchValue} />
-        <PathExcel dataFile64={dataFile64} setDataFile64={setDataFile64} dataFile={dataFile} setDataFile={setDataFile} />
+        <PathExcel dataFile64={dataFile64} setDataFile64={setDataFile64} dataFile={dataFile}
+                   setDataFile={setDataFile} />
       </Container>
     </ContentPageWrapper>
   );

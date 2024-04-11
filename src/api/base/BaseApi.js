@@ -79,11 +79,14 @@ class ApiClass {
     });
   }
 
-  static async sendDelete({ url, params, isAuth }) {
+  static async sendDelete({ url, data, params, isAuth }) {
     return await this.sendRequest({
       method: axios.delete,
       url,
-      params,
+      params: {
+        ...params,
+        data,
+      },
       isAuth,
     });
   }

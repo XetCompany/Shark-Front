@@ -24,6 +24,16 @@ class PathsApi extends BaseApi {
       url, data, isAuth: true,
     });
   }
+
+  static async deletePaths(ids) {
+    const url = this.buildUrl();
+    const data = {
+      paths: ids,
+    };
+    return await this.sendDelete({
+      url, data, isAuth: true,
+    });
+  }
 }
 
 export default PathsApi;
