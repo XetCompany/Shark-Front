@@ -2,29 +2,21 @@ import React, { useState } from "react";
 
 
 import { observer } from "mobx-react";
-import {
-  Autocomplete,
-  Button,
-  Container,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Autocomplete, Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import PointsApi from "@/api/Manufacturer/PointsApi.js";
 import { useRouterStore } from "mobx-state-router";
 import { RoutesEnum } from "@/router/index.jsx";
 import { appStore } from "@store/AppStore.js";
 import { ContentPageWrapper } from "@components/PageWrapper/ContentPageWrapper.jsx";
 
+import { manufacturerStore } from "@store/ManufacturerStore.js";
+
 const PointCreateForm = observer(() => {
   const routerStore = useRouterStore();
   const [formData, setFormData] = useState({
-    name: '',
-    type: '', // 'warehouse' or 'pickup_point' for example
-    city: '',
+    name: "",
+    type: "", // 'warehouse' or 'pickup_point' for example
+    city: "",
   });
 
   const handleFormChange = (e) => {
@@ -36,8 +28,9 @@ const PointCreateForm = observer(() => {
   };
 
   const addPoint = async (data) => {
-    const response = await PointsApi.addPoint(data);
+    await PointsApi.addPoint(data);
     await routerStore.goTo(RoutesEnum.POINTS);
+    await manufacturerStore.updatePoints();
   };
 
   const handleSubmit = (e) => {
@@ -49,10 +42,10 @@ const PointCreateForm = observer(() => {
 
   return (
     <form onSubmit={handleSubmit} style={{
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '10px',
-      width: '500px',
+      display: "flex",
+      flexDirection: "column",
+      gap: "10px",
+      width: "500px",
     }}>
       <TextField
         name="name"
@@ -81,7 +74,7 @@ const PointCreateForm = observer(() => {
         getOptionLabel={(option) => option.name}
         value={formData.city ? appStore.cities.find(city => city.id === formData.city) : null}
         onChange={(event, newValue) => {
-          setFormData({...formData, city: newValue ? newValue.id : ''});
+          setFormData({ ...formData, city: newValue ? newValue.id : "" });
         }}
         autoComplete={false}
         renderInput={(params) => (
@@ -106,7 +99,7 @@ export const PointCreate = observer(() => {
     <ContentPageWrapper title="Создание новой точки">
       <PointCreateForm />
     </ContentPageWrapper>
-  )
+  );
 });
 
 

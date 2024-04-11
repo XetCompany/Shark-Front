@@ -2,6 +2,7 @@ import { makeAutoObservable } from "mobx";
 import { getAccessTokenFromLocalStorage } from "@/api/utils.js";
 import UserApi from "@/api/UserApi.js";
 import { ROLES } from "@common/common.js";
+import { manufacturerStore } from "@store/ManufacturerStore.js";
 
 class UserStore {
   accessToken = null;
@@ -28,6 +29,10 @@ class UserStore {
     const response = await UserApi.getUserInfo();
     const user = response.data;
     this.updateUserData(user);
+
+    if (this.meIsManufacturer) {
+      manufacturerStore.init();
+    }
   }
 
   updateUserData(user) {

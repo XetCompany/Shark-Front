@@ -1,9 +1,8 @@
 import { Button, Container } from "@mui/material";
 import { SearchInput } from "@components/Input/SearchInput.jsx";
-import { RoutesEnum } from "@/router/index.jsx";
 import React from "react";
 
-export function SearchCreateComponent({ searchValue, setSearchValue, routerStore, createText, routerName}) {
+export function SearchCreateComponent({ searchValue, setSearchValue, routerStore, createText, routerName }) {
   return <>
     <Container sx={{
       display: "flex",
@@ -20,5 +19,5 @@ export function SearchCreateComponent({ searchValue, setSearchValue, routerStore
         {createText}
       </Button>
     </Container>
-  </>
+  </>;
 }

@@ -12,6 +12,11 @@ class PointsApi extends BaseApi {
     const url = this.buildUrl();
     return await this.sendPost({ url, data, isAuth: true });
   }
+
+  static async deletePoint(id) {
+    const url = this.buildUrl(`${id}/`);
+    return await this.sendDelete({ url, isAuth: true });
+  }
 }
 
 export default PointsApi;
