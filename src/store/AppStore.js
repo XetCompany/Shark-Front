@@ -3,6 +3,7 @@ import CommonApi from "@/api/CommonApi.js";
 
 class AppStore {
   cities = [];
+  categories = [];
 
   constructor() {
     this.init();
@@ -12,6 +13,7 @@ class AppStore {
   init() {
     setTimeout(() => {
       this.updateCities();
+      this.updateCategories();
     });
   }
 
@@ -20,13 +22,27 @@ class AppStore {
     return city ? city.name : "";
   }
 
+  getCategoryNameById(id) {
+    const category = this.categories.find((category) => category.id === id);
+    return category ? category.name : "";
+  }
+
   async updateCities() {
     const response = await CommonApi.getCities();
     this.setCities(response.data);
   }
 
+  async updateCategories() {
+    const response = await CommonApi.getCategories();
+    this.setCategories(response.data);
+  }
+
   setCities(cities) {
     this.cities = cities;
+  }
+
+  setCategories(categories) {
+    this.categories = categories;
   }
 }
 
