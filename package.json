@@ -27,6 +27,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3",
+    "reagraph": "^4.16.0",
     "yarn": "^1.22.22"
   },
   "devDependencies": {

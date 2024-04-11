@@ -21,22 +21,10 @@ import PublishIcon from "@mui/icons-material/Publish";
 import { EXCEL_PATHS_PATTERN_URL } from "@/api/constants.js";
 import { CustomFileInput } from "@components/Input/CustomFileInput.jsx";
 import PathsApi from "@/api/Manufacturer/PathsApi.js";
-import { makeAutoObservable } from "mobx";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { ModalGraph } from "@components/Manufacturer/ModalGraphPaths.jsx";
+import { pathsStore } from "@store/PathsStore.js";
 
-class PathsStore {
-  rowSelectionModel = [];
-
-  constructor() {
-    makeAutoObservable(this);
-  }
-
-  setRowSelectionModel(rowSelectionModel) {
-    this.rowSelectionModel = rowSelectionModel;
-  }
-}
-
-const pathsStore = new PathsStore();
 
 const CustomToolbar = observer(() => {
   const apiRef = useGridApiContext();
@@ -55,6 +43,15 @@ const CustomToolbar = observer(() => {
         slotProps={{ tooltip: { title: "Change density" } }}
       />
       <Box sx={{ flexGrow: 1 }} />
+      <Button
+        variant="outlined"
+        color="primary"
+        onClick={() => {
+          pathsStore.setIsShowModalGraph(true);
+        }}
+      >
+        Визуализация графа
+      </Button>
       <Button
         variant="outlined"
         color="error"
@@ -162,6 +159,7 @@ export const Paths = observer(() => {
         <PathExcel dataFile64={dataFile64} setDataFile64={setDataFile64} dataFile={dataFile}
                    setDataFile={setDataFile} />
       </Container>
+      <ModalGraph />
     </ContentPageWrapper>
   );
 });
