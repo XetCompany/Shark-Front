@@ -4,8 +4,12 @@ import { appStore } from "@store/AppStore.js";
 import { Button, Card, CardActions, CardContent, Typography } from "@mui/material";
 import PointsApi from "@/api/Manufacturer/PointsApi.js";
 import { manufacturerStore } from "@store/ManufacturerStore.js";
+import { useRouterStore } from "mobx-state-router";
+import { RoutesEnum } from "@/router/index.jsx";
 
 export const Point = observer(({ point }) => {
+  const routerStore = useRouterStore();
+
   const handleDeletePoint = async () => {
     manufacturerStore.setPointsIsLoading(true);
     await PointsApi.deletePoint(point.id);
@@ -33,7 +37,9 @@ export const Point = observer(({ point }) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={() => appStore.deletePoint(point.id)}>Перейти</Button>
+        <Button size="small" onClick={() => {
+          routerStore.goTo(RoutesEnum.POINT_DETAILS, { params: { id: point.id } });
+        }}>Перейти</Button>
         <Button size="small" onClick={handleDeletePoint}>Удалить</Button>
       </CardActions>
     </Card>

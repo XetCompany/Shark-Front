@@ -20,6 +20,14 @@ class ManufacturerStore {
     });
   }
 
+  getProductById(id) {
+    return this.products.find((product) => product.id === id);
+  }
+
+  getPointById(id) {
+    return this.points.find((point) => point.id === id);
+  }
+
   async updatePoints() {
     this.setPointsIsLoading(true);
     await this.loadPoints();

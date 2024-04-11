@@ -1,7 +1,9 @@
+import { ContentPageWrapper } from "@components/PageWrapper/ContentPageWrapper.jsx";
+
 export function ManufacturerProductDetails() {
   return (
-    <div>
-      <h1>Manufacturer Product Details</h1>
-    </div>
+    <ContentPageWrapper title="Информация о продукте">
+
+    </ContentPageWrapper>
   );
 }

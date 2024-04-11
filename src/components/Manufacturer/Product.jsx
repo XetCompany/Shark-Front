@@ -7,30 +7,18 @@ import {
   Typography,
 } from "@mui/material";
 import { MEDIA_URL } from "@/api/constants.js";
+import { useRouterStore } from "mobx-state-router";
+import { RoutesEnum } from "@/router/index.jsx";
+import logo from "@assets/img/no_image.png";
 
 export function Product({ product }) {
-  // {
-  //   "id": 1,
-  //   "name": "Samsung",
-  //   "photo": null,
-  //   "price": "0.00",
-  //   "sizes": null,
-  //   "weight": "0.00",
-  //   "description": null,
-  //   "is_available": true,
-  //   "category": 1,
-  //   "evaluations": []
-  // },
+  const routerStore = useRouterStore();
 
   return (
     <Card>
       <CardMedia
         sx={{ height: 200 }}
-        image={
-          product.photo
-            ? `${MEDIA_URL}${product.photo}`
-            : "https://www.interra-rus.com/storage/media/default.png"
-        }
+        image={product.photo ? `${MEDIA_URL}${product.photo}` : logo}
         title={product.name}
       />
       <CardContent>
@@ -46,7 +34,9 @@ export function Product({ product }) {
           alignItems: "center",
         }}
       >
-        <Button size="small">Перейти</Button>
+        <Button size="small" onClick={() => {
+          routerStore.goTo(RoutesEnum.M_PRODUCTS_DETAILS, { params: { id: product.id } })
+        }}>Перейти</Button>
         <Button size="small">Удалить</Button>
       </CardActions>
     </Card>
