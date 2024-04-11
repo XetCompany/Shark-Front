@@ -1,5 +1,5 @@
 import { observer } from "mobx-react";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { RouterContext } from "mobx-state-router";
 import { MEDIA_URL } from "@/api/constants.js";
 import productsApi from "@/api/ProductsApi.js";
@@ -13,6 +13,7 @@ export const CustomerProduct = observer(() => {
     routerStore?.routerState?.options?.prodId ?? "0",
     10,
   );
+  const [addedToCart, setAddedToCart] = useState(false);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -30,17 +31,19 @@ export const CustomerProduct = observer(() => {
 
   const product = customerStore.customerProduct;
 
-  if (!product) {
-    return <div>Продукт не найден</div>;
-  }
+  if (!product) return <div>Продукт не найден</div>;
 
-  const data = {
-    product_id: product.id,
-    count: 1,
+  const data = (product) => {
+    return {
+      product_id: product.id,
+      count: 1,
+    };
   };
 
-  const handleAddToCart = () => {
-    productsApi.addToCart(data);
+  const handleAddToCart = async (product) => {
+    const newData = data(product);
+    setAddedToCart(true);
+    productsApi.addToCart(newData);
   };
 
   return (
@@ -56,11 +59,13 @@ export const CustomerProduct = observer(() => {
         height="200px"
       />
       <Button
-        disabled={!product.is_can_add_to_cart}
+        disabled={!product.is_can_add_to_cart || addedToCart}
         className="add-to-cart-btn"
-        onClick={handleAddToCart}
+        onClick={() => handleAddToCart(product)}
       >
-        {!product.is_can_add_to_cart ? "Товар в корзине" : "Добавить в корзину"}
+        {!product.is_can_add_to_cart || addedToCart
+          ? "Товар в корзине"
+          : "Добавить в корзину"}
       </Button>
       <div className="product-info">
         <h1>{product.name}</h1>
@@ -73,17 +78,17 @@ export const CustomerProduct = observer(() => {
         </p>
         <div className="company-info">
           <h3>Производитель</h3>
-          {/*  <p>Имя: {product.company.username}</p>*/}
-          {/*  <p>Email: {product.company.email}</p>*/}
-          {/*</div>*/}
-          {/*<div className="product-evaluations">*/}
-          {/*  <h3>Отзывы</h3>*/}
-          {/*  {product?.evaluations.map((evaluation) => (*/}
-          {/*    <div key={evaluation.id} className="evaluation">*/}
-          {/*      <p>Оценка: {evaluation.evaluation}</p>*/}
-          {/*      <p>Комментарий: {evaluation.comment}</p>*/}
-          {/*    </div>*/}
-          {/*  ))}*/}
+          <p>Имя: {product.company.username}</p>
+          <p>Email: {product.company.email}</p>
+        </div>
+        <div className="product-evaluations">
+          <h3>Отзывы</h3>
+          {product?.evaluations.map((evaluation) => (
+            <div key={evaluation.id} className="evaluation">
+              <p>Оценка: {evaluation.evaluation}</p>
+              <p>Комментарий: {evaluation.comment}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>
