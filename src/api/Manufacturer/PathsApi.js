@@ -17,6 +17,13 @@ class PathsApi extends BaseApi {
       url, data, isAuth: true,
     });
   }
+
+  static async createPath(data) {
+    const url = this.buildUrl();
+    return await this.sendPost({
+      url, data, isAuth: true,
+    });
+  }
 }
 
 export default PathsApi;
