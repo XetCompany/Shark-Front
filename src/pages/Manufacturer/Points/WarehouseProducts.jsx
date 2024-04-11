@@ -14,7 +14,12 @@ import {
 import WHProductsApi from "@/api/Manufacturer/WarehouseProductsApi.js";
 import { manufacturerStore } from "@store/ManufacturerStore.js";
 
-const WarehouseProduct = ({ product, count }) => {
+const WarehouseProduct = ({ product, count, updateProducts, point }) => {
+  const handleDelete = async () => {
+    await WHProductsApi.removeProduct(point.id, product.product.id);
+    await updateProducts();
+  }
+
   return (
     <Accordion
       sx={{
@@ -25,6 +30,10 @@ const WarehouseProduct = ({ product, count }) => {
         <Typography variant="body1" gutterBottom>
           {count + 1}. {product.product.name} - {product.count}
         </Typography>
+        <Button sx={{ marginLeft: "auto" }} onClick={(event) => {
+          event.stopPropagation();
+          handleDelete();
+        }}>Удалить</Button>
       </AccordionSummary>
       <AccordionDetails>
         <Typography variant="body1" gutterBottom>

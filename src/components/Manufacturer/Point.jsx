@@ -23,14 +23,13 @@ export const Point = observer(({ point }) => {
   };
 
   return (
-    <Card
-      sx={{
-        minWidth: 275,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
+    <Card sx={{
+      minWidth: 275,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      height: "100%",
+    }}>
       <CardContent>
         <Typography
           variant="h5"
@@ -48,20 +47,13 @@ export const Point = observer(({ point }) => {
           {appStore.getCityNameById(point.city) || "Неизвестный город"}
         </Typography>
       </CardContent>
-      <CardActions>
-        <Button
-          size="small"
-          onClick={() => {
-            routerStore.goTo(RoutesEnum.POINT_DETAILS, {
-              params: { id: point.id },
-            });
-          }}
-        >
-          Перейти
-        </Button>
-        <Button size="small" onClick={handleDeletePoint}>
-          Удалить
-        </Button>
+      <CardActions sx={{
+        marginTop: "auto",
+      }}>
+        <Button size="small" onClick={() => {
+          routerStore.goTo(RoutesEnum.POINT_DETAILS, { params: { id: point.id } });
+        }}>Перейти</Button>
+        <Button size="small" onClick={handleDeletePoint}>Удалить</Button>
       </CardActions>
     </Card>
   );
