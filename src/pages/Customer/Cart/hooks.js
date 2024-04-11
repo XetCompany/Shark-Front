@@ -38,7 +38,13 @@ export const useCart = () => {
 
   const handleCitySelect = useCallback((newValue) => {
     setSelectedCity(newValue);
-    customerStore.setCustomerCurrentPath(newValue);
+    const path = customerStore.customerAllPaths.filter((p) => {
+      if (p.city.id === newValue.id) {
+        return p;
+      }
+    });
+    console.log(path[0].id, "Выбранная точка");
+    customerStore.setCustomerCurrentPath(path[0].id);
   }, []);
 
   const handleProductClick = useCallback(async (prodId) => {
@@ -58,7 +64,6 @@ export const useCart = () => {
 
   const handleCloseModal = useCallback(async () => {
     setIsModalOpen(false);
-    await routerStore.goTo(RoutesEnum.CREATE_ORDER);
   }, []);
 
   const calculateTotalPrice = useCallback(() => {

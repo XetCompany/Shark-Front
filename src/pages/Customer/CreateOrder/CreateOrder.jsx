@@ -9,7 +9,6 @@ export const CreateOrder = observer(() => {
 
   useEffect(() => {
     async function fetchPoints() {
-      console.log(customerStore.customerSorts, "customerStore.customerSorts");
       const response = await productsApi.getPoints(
         customerStore.customerCurrentPath,
         customerStore.customerSorts,
