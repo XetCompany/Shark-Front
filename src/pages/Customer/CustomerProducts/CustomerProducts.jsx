@@ -59,6 +59,7 @@ export const CustomerProducts = observer(() => {
             }
             width="150px"
             height="150px"
+            sizes="contain"
             alt={product.name}
             className="product-photo"
           />
@@ -81,6 +82,7 @@ export const CustomerProducts = observer(() => {
           >
             <span>{product.price} руб.</span>
             <h3>{product.name}</h3>
+            <span>Производитель: {product.company.username}</span>
           </div>
         </div>
       ))}

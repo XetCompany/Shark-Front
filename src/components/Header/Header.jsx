@@ -61,8 +61,7 @@ export const Header = observer(() => {
           <li>
             <RouterLink
               className="header-nav--link"
-              // ToDo: сделать роутинг на историю заказов
-              routeName={RoutesEnum.PRODUCTS}
+              routeName={RoutesEnum.ORDERS}
             >
               История заказов
             </RouterLink>

@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import productsApi from "@/api/ProductsApi.js";
 import { customerStore } from "@store/CustomerStore.js";
@@ -7,9 +7,13 @@ import { RoutesEnum } from "@/router/index.jsx";
 import { Button } from "@components/Button/Button.jsx";
 import "./Cart.css";
 import { MEDIA_URL } from "@/api/constants.js";
+import CitySelectionModal from "@components/CitySelectionModal/CitySelectionModal.jsx";
 
 export const Cart = observer(() => {
   const routerStore = useContext(RouterContext);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCity, setSelectedCity] = useState(null);
+
   useEffect(() => {
     async function fetchCart() {
       const response = await productsApi.getCart();
@@ -49,16 +53,41 @@ export const Cart = observer(() => {
     console.log(response.data, "Продукт удален");
   };
 
-  const handleCreateOrder = () => {
-    routerStore.goTo(RoutesEnum.CREATE_ORDER);
+  const handleCreateOrder = async () => {
+    const response = await productsApi.getAllPaths();
+    customerStore.setCustomerAllPaths(response.data);
+    if (response.status === 200) {
+      setIsModalOpen(true);
+    }
+    console.log(response.data, "Доступные пути загружены");
   };
 
-  // ToDo: допилить итоговую цену
-  // const calculateTotalPrice = () => {
-  //   return customerStore.customerCart.reduce((total, item) => {
-  //     return total + item.product.price * item.count;
-  //   }, 0);
-  // };
+  const handleCitySelect = (newValue) => {
+    setSelectedCity(newValue);
+    const path = customerStore.customerAllPaths.filter((p) => {
+      if (p.city.id === newValue.id) {
+        return p;
+      }
+    });
+    console.log(path[0].id, "current point");
+    customerStore.setCustomerCurrentPath(path[0].id);
+  };
+
+  const handleCloseModal = async () => {
+    setIsModalOpen(false);
+    await routerStore.goTo(RoutesEnum.CREATE_ORDER);
+  };
+
+  const handleProductClick = async (prodId) => {
+    await routerStore.goTo(RoutesEnum.PRODUCT, { prodId: `${prodId}` });
+  };
+
+  const calculateTotalPrice = () => {
+    return customerStore.customerCart.reduce((total, item) => {
+      const productPrice = parseFloat(item.product.price);
+      return total + productPrice * item.count;
+    }, 0);
+  };
 
   return (
     <div className="cart">
@@ -81,8 +110,13 @@ export const Cart = observer(() => {
                   className="product-photo"
                 />
                 <div className="cart-item-details">
-                  <p>{item.product.name}</p>
-                  <span className="cart-item-price">
+                  <p onClick={() => handleProductClick(item.product.id)}>
+                    {item.product.name}
+                  </p>
+                  <span
+                    onClick={() => handleProductClick(item.product.id)}
+                    className="cart-item-price"
+                  >
                     {item.product.price} руб.
                   </span>
                   <div className="cart-item-quantity">
@@ -115,9 +149,21 @@ export const Cart = observer(() => {
             </li>
           ))}
 
-          {/*ToDo: допилить итоговую цену*/}
-          {/*{calculateTotalPrice}*/}
+          <li className="cart-total">
+            <span>Итоговая цена:</span>
+            <span className="cart-total-price">
+              {calculateTotalPrice()} руб.
+            </span>
+          </li>
+
           <Button onClick={handleCreateOrder}>Оформить заказ</Button>
+          <CitySelectionModal
+            isOpen={isModalOpen}
+            cities={customerStore.customerAllPaths}
+            selectedCity={selectedCity}
+            onSelectCity={handleCitySelect}
+            onClose={handleCloseModal}
+          />
         </ul>
       )}
     </div>

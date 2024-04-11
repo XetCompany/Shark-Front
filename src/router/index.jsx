@@ -27,7 +27,7 @@ export const RoutesEnum = Object.freeze({
   PRODUCTS: "products",
   PRODUCT: "product",
   CART: "cart",
-  ORDER: "order",
+  ORDERS: "orders",
   CREATE_ORDER: "create_order",
 
   // Manufacturer routes
@@ -52,7 +52,7 @@ export const PATHS = {
   [RoutesEnum.PRODUCTS]: "/",
   [RoutesEnum.PRODUCT]: "/product/:prodId",
   [RoutesEnum.CART]: "/cart",
-  [RoutesEnum.ORDER]: "/order",
+  [RoutesEnum.ORDERS]: "/orders",
   [RoutesEnum.CREATE_ORDER]: "/create/order",
 
   // Manufacturer routes
@@ -99,8 +99,8 @@ export const Routes = [
     pattern: PATHS.cart,
   },
   {
-    name: RoutesEnum.ORDER,
-    pattern: PATHS.order,
+    name: RoutesEnum.ORDERS,
+    pattern: PATHS.orders,
   },
   {
     name: RoutesEnum.CREATE_ORDER,
@@ -179,7 +179,7 @@ export const viewMap = {
       <CreateOrder />
     </div>
   ),
-  order: (
+  orders: (
     <div className="layout">
       <Order />
     </div>

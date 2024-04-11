@@ -10,7 +10,7 @@ class ProductsApi extends ApiClass {
 
   static async customerProduct(productId) {
     const url = this.buildUrl(`products/${productId}/`);
-    return await this.sendGet({ url });
+    return await this.sendGet({ url, isAuth: true });
   }
 
   static async customerProductCount(data) {
@@ -37,6 +37,21 @@ class ProductsApi extends ApiClass {
     // ToDo: доделать создание заказа со всеми путями и т.д., скорее всего нужно будет несколько запросов и переименовать этот
     // const url = this.buildUrl(`cart/${productId}/`);
     // return await this.sendDelete({ url, isAuth: true });
+  }
+
+  static async orders() {
+    const url = this.buildUrl(`orders/`);
+    return await this.sendGet({ url, isAuth: true });
+  }
+
+  static async getAllPaths() {
+    const url = this.buildUrl(`pickup_points/`);
+    return await this.sendGet({ url, isAuth: true });
+  }
+
+  static async getPoints(pickupPointId) {
+    const url = this.buildUrl(`paths/${pickupPointId}/`);
+    return await this.sendGet({ url, isAuth: true });
   }
 }
 
