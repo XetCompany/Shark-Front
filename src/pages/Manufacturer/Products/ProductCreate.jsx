@@ -29,7 +29,7 @@ const ProductCreateForm = observer(() => {
     weight: "",
     description: "",
     category: "",
-    is_available: true, // Пример для булевого поля
+    is_available: true,
     photo: null,
     photoName: null,
     imageValue: null,
@@ -37,7 +37,7 @@ const ProductCreateForm = observer(() => {
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
       [name]: value,
     }));
@@ -152,10 +152,12 @@ const ProductCreateForm = observer(() => {
             <Checkbox
               name="is_available"
               checked={formData.is_available}
-              onChange={() => setFormData(prevState => ({
-                ...prevState,
-                is_available: !prevState.is_available,
-              }))}
+              onChange={() =>
+                setFormData((prevState) => ({
+                  ...prevState,
+                  is_available: !prevState.is_available,
+                }))
+              }
             />
           }
           label="Доступен к заказу"

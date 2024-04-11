@@ -21,7 +21,7 @@ const PointCreateForm = observer(() => {
   const routerStore = useRouterStore();
   const [formData, setFormData] = useState({
     name: "",
-    type: "", // 'warehouse' or 'pickup_point' for example
+    type: "",
     city: "",
   });
 
@@ -41,7 +41,6 @@ const PointCreateForm = observer(() => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Logic to handle form submission, like sending data to backend or MobX store
     const { name, type, city } = formData;
     addPoint({ name, type, city });
   };
@@ -114,5 +113,3 @@ export const PointCreate = observer(() => {
     </ContentPageWrapper>
   );
 });
-
-

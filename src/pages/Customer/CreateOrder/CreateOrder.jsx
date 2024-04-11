@@ -1,13 +1,30 @@
-import { useState, useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { observer } from "mobx-react";
-import productsApi from "@/api/ProductsApi.js";
+import {
+  Typography,
+  Grid,
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
 import { customerStore } from "@store/CustomerStore.js";
+import productsApi from "@/api/ProductsApi.js";
+import { PATH_TYPE_RUS } from "@pages/Customer/Cart/constants.js";
+import { RouterContext } from "mobx-state-router";
+import { RoutesEnum } from "@/router/index.jsx";
 
 export const CreateOrder = observer(() => {
-  const [selectedPathId, setSelectedPathId] = useState("");
-  const [selectedPath, setSelectedPath] = useState(null);
+  const routerStore = useContext(RouterContext);
 
   useEffect(() => {
+    if (!customerStore.customerCurrentPath)
+      routerStore.goTo(RoutesEnum.PRODUCTS);
+
     async function fetchPoints() {
       const response = await productsApi.getPoints(
         customerStore.customerCurrentPath,
@@ -20,56 +37,115 @@ export const CreateOrder = observer(() => {
     fetchPoints();
   }, []);
 
-  const handlePathChange = (event) => {
-    const pathId = event.target.value;
-    const pathInfo =
-      customerStore.customerSearchInfo?.groups_paths
-        ?.flatMap((group) => group.paths)
-        .find((pathObj) => pathObj.path.id.toString() === pathId) ?? null;
-
-    if (pathInfo) {
-      setSelectedPathId(pathId);
-      setSelectedPath(pathInfo);
-    }
-  };
-
-  const handleSubmit = async () => {
-    if (selectedPath) {
-      // customerStore.setSelectedPath(selectedPath);
-      console.log("Сохраненный путь:", selectedPath);
-    }
+  const handleSelectPath = (pathId) => {
+    customerStore.setCustomerSelectedOrder(pathId);
+    routerStore.goTo(RoutesEnum.MAKE_ORDER);
+    console.log("Выбранный вариант:", pathId);
   };
 
   return (
-    <div className="create-order">
-      <div>
-        {selectedPath && (
-          <div>
-            <p>
-              Выбранный путь: От {selectedPath.path.point_a.name} до{" "}
-              {selectedPath.path.point_b.name}
-            </p>
-            <p>Тип: {selectedPath.path.type}</p>
-            <p>Время в пути: {selectedPath.path.time}</p>
-            <p>Цена: {selectedPath.path.price}</p>
-            <p>Длина: {selectedPath.path.length}</p>
-          </div>
-        )}
-      </div>
-      <select value={selectedPathId} onChange={handlePathChange}>
-        {customerStore.customerAllPaths?.groups_paths?.flatMap((group) =>
-          group.paths.map((pathObj, index) => {
-            console.log(pathObj, "pathObj");
-            return (
-              <option key={index} value={pathObj.path.id}>
-                От {pathObj.path.point_a.name} до {pathObj.path.point_b.name},{" "}
-                {pathObj.path.type}
-              </option>
-            );
-          }),
-        )}
-      </select>
-      <button onClick={handleSubmit}>Сохранить выбор</button>
-    </div>
+    <Grid container spacing={2} style={{ padding: 20 }}>
+      <Grid item xs={12}>
+        <Typography variant="h4" component="h2" gutterBottom>
+          Выбор заказа
+        </Typography>
+        <TableContainer component={Paper}>
+          <Table aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="center">Вариант</TableCell>
+                <TableCell align="center">Путь</TableCell>
+                <TableCell align="center">Тип</TableCell>
+                <TableCell align="center">Цена пути (руб.)</TableCell>
+                <TableCell align="center">Длина (км.)</TableCell>
+                <TableCell align="center">Продукт</TableCell>
+                <TableCell align="center">Цена продукта (руб.)</TableCell>
+                <TableCell align="center">Выбрать?</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {customerStore.customerSearchInfo?.map((info, index) => (
+                <TableRow
+                  key={index}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    Вариант {index + 1}
+                  </TableCell>
+                  <TableCell align="center">
+                    {info.groups_paths.map((group, idx) => (
+                      <div key={idx}>
+                        {group.paths
+                          .map(
+                            (path) =>
+                              `${path.path.point_a.name} --> ${path.path.point_b.name}`,
+                          )
+                          .join(", ")}
+                        <br />
+                        <br />
+                      </div>
+                    ))}
+                  </TableCell>
+                  <TableCell align="center">
+                    {info.groups_paths.map((group, idx) => (
+                      <div key={idx}>
+                        {PATH_TYPE_RUS[group.paths[0].path.type]}
+                        <br />
+                        <br />
+                      </div>
+                    ))}
+                  </TableCell>
+                  <TableCell align="center">
+                    {info.groups_paths.map((group, idx) => (
+                      <div key={idx}>
+                        {group.paths[0].path.price}
+                        <br />
+                        <br />
+                      </div>
+                    ))}
+                  </TableCell>
+                  <TableCell align="center">
+                    {info.groups_paths.map((group, idx) => (
+                      <div key={idx}>
+                        {group.paths[0].path.length}
+                        <br />
+                        <br />
+                      </div>
+                    ))}
+                  </TableCell>
+                  <TableCell align="center">
+                    {info.groups_paths.map((group, idx) => (
+                      <div key={idx}>
+                        {group.product.name}
+                        <br />
+                        <br />
+                      </div>
+                    ))}
+                  </TableCell>
+                  <TableCell align="center">
+                    {info.groups_paths.map((group, idx) => (
+                      <div key={idx}>
+                        {group.product.price}
+                        <br />
+                        <br />
+                      </div>
+                    ))}
+                  </TableCell>
+                  <TableCell align="center">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleSelectPath(info.id)}
+                    >
+                      Выбрать
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Grid>
+    </Grid>
   );
 });

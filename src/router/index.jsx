@@ -16,6 +16,7 @@ import { ManufacturerProductCreate } from "@pages/Manufacturer/Products/ProductC
 import { ManufacturerProductDetails } from "@pages/Manufacturer/Products/ProductDetail.jsx";
 import { Paths } from "@pages/Manufacturer/Paths/Paths.jsx";
 import { PathCreate } from "@pages/Manufacturer/Paths/PathCreate.jsx";
+import { MakeOrder } from "@pages/Customer/MakeOrder/MakeOrder.jsx";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const RoutesEnum = Object.freeze({
@@ -31,6 +32,7 @@ export const RoutesEnum = Object.freeze({
   CART: "cart",
   ORDERS: "orders",
   CREATE_ORDER: "create_order",
+  MAKE_ORDER: "make_order",
 
   // Manufacturer routes
   POINTS: "points",
@@ -59,6 +61,7 @@ export const PATHS = {
   [RoutesEnum.CART]: "/cart",
   [RoutesEnum.ORDERS]: "/orders",
   [RoutesEnum.CREATE_ORDER]: "/create/order",
+  [RoutesEnum.MAKE_ORDER]: "/make/order",
 
   // Manufacturer routes
   [RoutesEnum.POINTS]: "/points",
@@ -113,6 +116,10 @@ export const Routes = [
   {
     name: RoutesEnum.CREATE_ORDER,
     pattern: PATHS.create_order,
+  },
+  {
+    name: RoutesEnum.MAKE_ORDER,
+    pattern: PATHS.make_order,
   },
 
   // Manufacturer routes
@@ -193,6 +200,11 @@ export const viewMap = {
   create_order: (
     <div className="layout">
       <CreateOrder />
+    </div>
+  ),
+  make_order: (
+    <div className="layout">
+      <MakeOrder />
     </div>
   ),
   orders: (
