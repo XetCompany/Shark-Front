@@ -4,10 +4,16 @@ import { ContentPageWrapper } from "@components/PageWrapper/ContentPageWrapper.j
 import { SearchCreateComponent } from "@components/PageWrapper/SearchCreateComponent.jsx";
 import { RoutesEnum } from "@/router/index.jsx";
 import { manufacturerStore } from "@store/ManufacturerStore.js";
-import { Container, Typography } from "@mui/material";
+import { Box, Button, Container, Link, Modal, Stack, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useRouterStore } from "mobx-state-router";
 import { GRID_DEFAULT_LOCALE_TEXT_RUS, PATH_TYPES_RUS } from "@common/common.js";
+import DownloadIcon from "@mui/icons-material/Download";
+import PublishIcon from "@mui/icons-material/Publish";
+import { EXCEL_PATHS_PATTERN_URL } from "@/api/constants.js";
+import { CustomFileInput } from "@components/Input/CustomFileInput.jsx";
+import WHProductsApi from "@/api/Manufacturer/WarehouseProductsApi.js";
+import PathsApi from "@/api/Manufacturer/PathsApi.js";
 
 const PathContent = observer(({ searchValue }) => {
   useEffect(() => {
@@ -94,6 +100,9 @@ export const Paths = observer(() => {
   const routerStore = useRouterStore();
   const [searchValue, setSearchValue] = useState("");
 
+  const [dataFile64, setDataFile64] = useState(null);
+  const [dataFile, setDataFile] = useState(null);
+
   return (
     <ContentPageWrapper
       title="Маршруты"
@@ -104,14 +113,89 @@ export const Paths = observer(() => {
           routerStore={routerStore}
           createText="Добавить путь"
           routerName={RoutesEnum.PATH_CREATE}
-        />
+        >
+          <Container sx={{
+            display: "flex",
+            justifyContent: "center",
+          }} />
+        </SearchCreateComponent>
       }
     >
       <Container sx={{
         marginTop: 2,
       }}>
         <PathContent searchValue={searchValue} />
+        <PathExcel dataFile64={dataFile64} setDataFile64={setDataFile64} dataFile={dataFile} setDataFile={setDataFile} />
       </Container>
     </ContentPageWrapper>
   );
+});
+
+const PathExcel = observer(({ dataFile64, setDataFile64, dataFile, setDataFile }) => {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return <Stack direction="row" spacing={2} sx={{
+    marginTop: 2,
+  }}>
+    <Link href={EXCEL_PATHS_PATTERN_URL} target="_blank" download>
+      <Button variant="outlined" startIcon={<DownloadIcon />}>
+        Шаблон
+      </Button>
+    </Link>
+    <Button variant="contained" startIcon={<PublishIcon />} onClick={() => {
+      handleOpen();
+    }}>
+      Загрузить
+    </Button>
+
+    <Modal open={open} onClose={handleClose}>
+      <Box
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: 400,
+          bgcolor: "background.paper",
+          boxShadow: 24,
+          p: 4,
+        }}
+      >
+        <Typography variant="h6" gutterBottom>
+          Загрузка таблицы
+        </Typography>
+        <CustomFileInput
+          placeholder="Выберите таблицу"
+          accept=".xlsx"
+          fileData={dataFile}
+          setFileBase64={setDataFile64}
+          setFileData={setDataFile}
+        />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginTop: "10px",
+          }}
+        >
+          <Button
+            onClick={async () => {
+              await PathsApi.uploadExcelFile(dataFile64);
+              await manufacturerStore.updatePaths();
+              handleClose();
+            }}
+          >
+            Загрузить
+          </Button>
+          <Button onClick={handleClose}>Закрыть</Button>
+        </div>
+      </Box>
+    </Modal>
+  </Stack>;
 });

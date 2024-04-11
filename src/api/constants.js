@@ -6,3 +6,5 @@ const host =
 export const BASE_URL = `${host}api/`;
 
 export const MEDIA_URL = `${BASE_URL}app`;
+
+export const EXCEL_PATHS_PATTERN_URL = `${BASE_URL}app/manufacter/path/excel/`;

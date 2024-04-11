@@ -1,11 +1,21 @@
 import BaseApi from "@/api/base/BaseApi.js";
 
 class PathsApi extends BaseApi {
-  static INTERMEDIARY_URL = 'app/manufacter/path/';
+  static INTERMEDIARY_URL = "app/manufacter/path/";
 
   static async getPaths() {
     const url = this.buildUrl();
     return await this.sendGet({ url, isAuth: true });
+  }
+
+  static async uploadExcelFile(file) {
+    const url = this.buildUrl("excel/");
+    const data = {
+      excel: file,
+    };
+    return await this.sendPost({
+      url, data, isAuth: true,
+    });
   }
 }
 

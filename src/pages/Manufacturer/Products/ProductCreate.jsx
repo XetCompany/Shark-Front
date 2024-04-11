@@ -1,6 +1,4 @@
 import { observer } from "mobx-react";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-import CloseIcon from "@mui/icons-material/Close";
 import {
   Button,
   Checkbox,
@@ -19,7 +17,7 @@ import { manufacturerStore } from "@store/ManufacturerStore.js";
 import MProductsApi from "@/api/Manufacturer/MProductsApi.js";
 import { RoutesEnum } from "@/router/index.jsx";
 import { useRouterStore } from "mobx-state-router";
-import { MuiFileInput } from "mui-file-input";
+import { CustomFileInput } from "@components/Input/CustomFileInput.jsx";
 
 const ProductCreateForm = observer(() => {
   const routerStore = useRouterStore();
@@ -27,10 +25,10 @@ const ProductCreateForm = observer(() => {
   const [formData, setFormData] = useState({
     name: "",
     price: "",
-    sizes: null,
-    weight: null,
-    description: null,
-    category: null,
+    sizes: "",
+    weight: "",
+    description: "",
+    category: "",
     is_available: true, // Пример для булевого поля
     photo: null,
     photoName: null,
@@ -76,43 +74,21 @@ const ProductCreateForm = observer(() => {
         margin="normal"
         variant="outlined"
       />
-      <MuiFileInput
+      <CustomFileInput
         placeholder="Выберите изображение"
-        value={formData.imageValue}
-        onChange={(file) => {
-          // Create an instance of FileReader
-          const reader = new FileReader();
-
-          // Define what happens once the file is read
-          reader.onload = (event) => {
-            // Extract the Base64 string (event.target.result contains the Data URL)
-            const base64String = event.target.result;
-
-            // Update the component's state with the Base64 string
-            setFormData(prevState => ({
-              ...prevState,
-              imageValue: file,
-              photo: {
-                name: file.name,
-                data: base64String,
-              }
-            }));
-          };
-
-          // Read the file as a Data URL (Base64 string)
-          reader.readAsDataURL(file);
+        accept=".png, .jpeg, .jpg"
+        fileData={formData.imageValue}
+        setFileBase64={(base64) => {
+          setFormData(prevState => ({
+            ...prevState,
+            photo: base64,
+          }));
         }}
-        InputProps={{
-          inputProps: {
-            accept: ".png, .jpeg, .jpg",
-          },
-          startAdornment: (
-            <AttachFileIcon />
-          ),
-        }}
-        clearIconButtonProps={{
-          title: "Remove",
-          children: <CloseIcon fontSize="small" />,
+        setFileData={(data) => {
+          setFormData(prevState => ({
+            ...prevState,
+            imageValue: data,
+          }));
         }}
       />
       <TextField
