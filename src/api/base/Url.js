@@ -1,9 +1,9 @@
 import { BASE_URL } from "@/api/constants.js";
 
 export default class Url {
-  constructor({ serverUrl, route, queries }) {
+  constructor({ serverUrl, route, params }) {
     this.route = route;
-    this.queries = queries;
+    this.params = params;
     this.serverUrl = serverUrl || BASE_URL;
   }
 
@@ -21,7 +21,7 @@ export default class Url {
   }
 
   get formattedUrlWithQuery() {
-    return this.getDefaultUrl(`${this.route}?${this.#formattedUrlQueriesFromQueriesObject(this.queries)}`);
+    return this.getDefaultUrl(`${this.route}?${this.#formattedUrlQueriesFromQueriesObject(this.params)}`);
   }
 
   getDefaultUrl(route) {
@@ -30,13 +30,5 @@ export default class Url {
 
   get defaultUrl() {
     return this.serverUrl + this.route;
-  }
-
-  #setQueries(queries) {
-    this.queries = queries;
-  }
-
-  #setRoute(route) {
-    this.route = route;
   }
 }
