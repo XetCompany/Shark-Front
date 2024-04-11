@@ -1,9 +1,9 @@
-import axios from 'axios';
+import axios from "axios";
 import Url from "@/api/base/Url.js";
 import { getAccessTokenFromLocalStorage } from "@/api/utils.js";
 
 class ApiClass {
-  static INTERMEDIARY_URL = '';
+  static INTERMEDIARY_URL = "";
 
   static getDefaultHeaders({ isAuth = false }) {
     if (isAuth) {
@@ -20,7 +20,12 @@ class ApiClass {
     return new Url({ route }).defaultUrl;
   }
 
-  static async sendRequest({method, params = {}, data, url, isAuth = false}) {
+  static buildUrlWithParams(route = "", params = {}) {
+    route = this.INTERMEDIARY_URL + route;
+    return new Url({ route, params }).formattedUrlWithQuery;
+  }
+
+  static async sendRequest({ method, params = {}, data, url, isAuth = false }) {
     const headers = params.headers || {};
     for (const [key, value] of Object.entries(this.getDefaultHeaders({ isAuth }))) {
       if (!Object.prototype.hasOwnProperty.call(headers, key)) {
