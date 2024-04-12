@@ -13,7 +13,8 @@ import { RouterContext } from "mobx-state-router";
 import productsApi from "@/api/ProductsApi.js";
 import { RoutesEnum } from "@/router/index.jsx";
 import { customerStore } from "@store/CustomerStore.js";
-import { MEDIA_URL, NO_PHOTO } from "@/api/constants.js";
+import { MEDIA_URL } from "@/api/constants.js";
+import no_photo from "@assets/img/no_image.png";
 
 export const CustomerProducts = observer(() => {
   const routerStore = useContext(RouterContext);
@@ -56,7 +57,7 @@ export const CustomerProducts = observer(() => {
               component="img"
               height="200"
               image={
-                product.photo ? `${MEDIA_URL}${product.photo}` : `${NO_PHOTO}`
+                product.photo ? `${MEDIA_URL}${product.photo}` : `${no_photo}`
               }
               alt={product.name}
               sx={{ objectFit: "contain", width: "100%" }}
@@ -94,6 +95,7 @@ export const CustomerProducts = observer(() => {
                   !product.is_can_add_to_cart ||
                   addedToCart.ids.includes(product.id)
                 }
+                // если статус await... только тогда можно согласовать или отказаться
                 onClick={() => handleAddToCart(product)}
               >
                 {!product.is_can_add_to_cart ||

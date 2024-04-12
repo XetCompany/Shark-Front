@@ -48,6 +48,11 @@ class ProductsApi extends ApiClass {
     return await this.sendGet({ url, isAuth: true });
   }
 
+  static async orderStatus(data, orderId) {
+    const url = this.buildUrl(`orders/${orderId}/status/`);
+    return await this.sendPost({ url, data, isAuth: true });
+  }
+
   static async orderFromCart(orderId) {
     const url = this.buildUrl(`cart/from_order/${orderId}/`);
     return await this.sendPost({ url, isAuth: true });

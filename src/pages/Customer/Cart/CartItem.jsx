@@ -1,9 +1,10 @@
 import React from "react";
-import { MEDIA_URL, NO_PHOTO } from "@/api/constants.js";
+import { MEDIA_URL } from "@/api/constants.js";
 import { Card, CardContent, Typography, IconButton, Grid } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import no_photo from "@assets/img/no_image.png";
 
 export const CartItem = ({
   item,
@@ -28,7 +29,7 @@ export const CartItem = ({
         src={
           item.product.photo
             ? `${MEDIA_URL}${item.product.photo}`
-            : `${NO_PHOTO}`
+            : `${no_photo}`
         }
         alt={item.product.name}
         style={{ width: 150, height: 150, objectFit: "cover" }}
