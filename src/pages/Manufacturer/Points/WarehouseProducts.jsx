@@ -28,7 +28,7 @@ const WarehouseProduct = ({ product, count, updateProducts, point }) => {
     >
       <AccordionSummary>
         <Typography variant="body1" gutterBottom>
-          {count + 1}. {product.product.name} - {product.count}
+          {count + 1}. {product.product.name} - {product.count} шт.
         </Typography>
         <Button sx={{ marginLeft: "auto" }} onClick={(event) => {
           event.stopPropagation();
