@@ -9,11 +9,7 @@ function formatPaths(paths) {
     const path = paths[i];
 
     if (i === 0) {
-      if (i === paths.length - 1) {
-        result.push(`${path.path.point_a.name} ${TYPE_PATH_TO_EMOJI[path.path.type]} ⇨ ${path.path.point_b.name}`);
-      } else {
-        result.push(`${path.path.point_a.name} `);
-      }
+      result.push(`${path.path.point_a.name} ${TYPE_PATH_TO_EMOJI[path.path.type]} ⇨ ${path.path.point_b.name} `);
     } else {
       result.push(`${TYPE_PATH_TO_EMOJI[path.path.type]} ⇨ ${path.path.point_b.name}`);
     }
