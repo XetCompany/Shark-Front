@@ -6,9 +6,12 @@ import { RoutesEnum } from "@/router/index.jsx";
 import { manufacturerStore } from "@store/ManufacturerStore.js";
 import { ContentPageWrapper } from "@components/PageWrapper/ContentPageWrapper.jsx";
 import { SearchCreateComponent } from "@components/PageWrapper/SearchCreateComponent.jsx";
-import { Product } from "@components/Manufacturer/Product.jsx";
+import { ProductCard } from "@components/Manufacturer/ProductCard.jsx";
+import { ProductEditModal } from "@components/Manufacturer/ProductEditModal.jsx";
 
 const ProductsContent = observer(({ searchValue }) => {
+  const [editProductId, setEditProductId] = useState(null);
+
   useEffect(() => {
     manufacturerStore.loadProducts();
   }, []);
@@ -30,20 +33,23 @@ const ProductsContent = observer(({ searchValue }) => {
   });
 
   return (
-    <Grid
-      container
-      spacing={2}
-      justifyContent="center"
-      style={{
-        paddingTop: "16px",
-      }}
-    >
-      {filteredProducts.map((product) => (
-        <Grid item xs={12} sm={6} md={4} key={product.id}>
-          <Product product={product} />
-        </Grid>
-      ))}
-    </Grid>
+    <>
+      <Grid
+        container
+        spacing={2}
+        justifyContent="center"
+        style={{
+          paddingTop: "16px",
+        }}
+      >
+        {filteredProducts.map((product) => (
+          <Grid item xs={12} sm={6} md={4} key={product.id}>
+            <ProductCard product={product} editProductId={editProductId} setEditProductId={setEditProductId} />
+          </Grid>
+        ))}
+      </Grid>
+      <ProductEditModal editProductId={editProductId} setEditProductId={setEditProductId} />
+    </>
   );
 });
 

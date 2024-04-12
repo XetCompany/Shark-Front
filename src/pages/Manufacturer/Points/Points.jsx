@@ -8,7 +8,7 @@ import { manufacturerStore } from "@store/ManufacturerStore.js";
 import { RoutesEnum } from "@/router/index.jsx";
 import { ContentPageWrapper } from "@components/PageWrapper/ContentPageWrapper.jsx";
 import { SearchCreateComponent } from "@components/PageWrapper/SearchCreateComponent.jsx";
-import { Point } from "@components/Manufacturer/Point.jsx";
+import { PointCard } from "@components/Manufacturer/PointCard.jsx";
 
 const PointsContent = observer(({ searchValue }) => {
   useEffect(() => {
@@ -49,7 +49,7 @@ const PointsContent = observer(({ searchValue }) => {
     >
       {filteredPoints.map((point) => (
         <Grid item xs={12} sm={6} md={4} key={point.id}>
-          <Point point={point} />
+          <PointCard point={point} />
         </Grid>
       ))}
     </Grid>

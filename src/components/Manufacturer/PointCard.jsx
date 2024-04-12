@@ -13,7 +13,7 @@ import { POINT_TYPES_RUS } from "@common/common.js";
 import { manufacturerStore } from "@store/ManufacturerStore.js";
 import { RoutesEnum } from "@/router/index.jsx";
 
-export const Point = observer(({ point }) => {
+export const PointCard = observer(({ point }) => {
   const routerStore = useRouterStore();
 
   const handleDeletePoint = async () => {

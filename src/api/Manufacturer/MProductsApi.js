@@ -17,6 +17,11 @@ class MProductsApi extends BaseApi {
     const url = this.buildUrl(`${id}/`);
     return await this.sendDelete({ url, isAuth: true });
   }
+
+  static async updateProduct(id, data) {
+    const url = this.buildUrl(`${id}/`);
+    return await this.sendPut({ url, data, isAuth: true });
+  }
 }
 
 export default MProductsApi;

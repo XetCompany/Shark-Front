@@ -6,7 +6,7 @@ import logo from "@assets/img/no_image.png";
 import { manufacturerStore } from "@store/ManufacturerStore.js";
 import MProductsApi from "@/api/Manufacturer/MProductsApi.js";
 
-export function Product({ product }) {
+export function ProductCard({ product, editProductId, setEditProductId }) {
   const routerStore = useRouterStore();
 
   const handleDeleteProduct = async () => {
@@ -44,6 +44,14 @@ export function Product({ product }) {
           }}
         >
           Перейти
+        </Button>
+        <Button
+          size="small"
+          onClick={() => {
+            setEditProductId(product.id);
+          }}
+        >
+          Изменить
         </Button>
         <Button size="small" onClick={handleDeleteProduct}>
           Удалить

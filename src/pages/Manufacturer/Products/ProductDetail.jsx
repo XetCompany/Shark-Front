@@ -32,15 +32,11 @@ const Comments = ({ evaluations }) => {
           primary={evaluation.author.username}
           secondary={
             <React.Fragment>
-              <Rating name="read-only" value={evaluation.evaluation} readOnly />
-              <p style={{
-                margin: 0,
-              }}>
-                {evaluation.comment}
-              </p>
+              {evaluation.comment}
             </React.Fragment>
           }
         />
+        <Rating name="read-only" value={evaluation.evaluation} readOnly />
       </ListItem>
     );
   });
