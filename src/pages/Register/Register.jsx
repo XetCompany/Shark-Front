@@ -54,7 +54,7 @@ export const Register = () => {
       id: "username",
       name: "username",
       type: "text",
-      placeholder: "Логин",
+      placeholder: "Логин (отображаемое имя)",
       value: registerData.username,
       onChange: handleInputChange,
     },

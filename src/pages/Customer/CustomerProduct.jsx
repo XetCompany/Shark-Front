@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import { RouterContext } from "mobx-state-router";
-import { MEDIA_URL, NO_PHOTO } from "@/api/constants.js";
+import { MEDIA_URL } from "@/api/constants.js";
 import productsApi from "@/api/ProductsApi.js";
 import { customerStore } from "@store/CustomerStore.js";
 import {
@@ -11,10 +11,17 @@ import {
   Box,
   Typography,
   Card,
-  CardMedia,
   CardContent,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemAvatar,
+  Avatar,
   CardActions,
+  CardMedia,
+  Divider,
 } from "@mui/material";
+import no_photo from "@assets/img/no_image.png";
 
 export const CustomerProduct = observer(() => {
   const routerStore = useContext(RouterContext);
@@ -41,95 +48,85 @@ export const CustomerProduct = observer(() => {
 
   const handleAddToCart = async () => {
     setAddedToCart(true);
-    await productsApi.addToCart({ product_id: product.id, count: 1 });
+    await productsApi.addToCart({ product_id: productId, count: 1 });
   };
-
-  const product = customerStore.customerProduct;
 
   const handleSubmitReview = async () => {
     const data = { evaluation, comment };
     await customerStore.setCustomerEvaluate(data);
     setComment("");
     setEvaluation(0);
-    await productsApi.postEvaluate(product.id, data);
+    await productsApi.postEvaluate(productId, data);
+    await fetchProducts();
   };
+
+  const product = customerStore.customerProduct;
 
   return !product.company ? (
     <Typography variant="h6" color="error">
       Продукт не найден
     </Typography>
   ) : (
-    <Card
-      sx={{
-        maxWidth: 800,
-        margin: "auto",
-        p: 2,
-        minWidth: 500,
-        minHeight: 600,
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
+    <Card sx={{ maxWidth: 600, margin: "auto", mt: 4, p: 2 }}>
       <CardMedia
         component="img"
-        height="200"
-        image={product.photo ? `${MEDIA_URL}${product.photo}` : `${NO_PHOTO}`}
+        height="240"
+        image={product.photo ? `${MEDIA_URL}${product.photo}` : no_photo}
         alt={product.name}
         sx={{ objectFit: "contain" }}
       />
-      <CardContent
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 2,
-        }}
-      >
+      <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {product.name}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {product.desription ? (
+          {product.description || "Нет описания"}
+        </Typography>
+        <Typography variant="body2">Цена: {product.price} руб.</Typography>
+        <Typography variant="body2">
+          В наличии: {product.is_available ? "Да" : "Нет"}
+        </Typography>
+
+        <Divider sx={{ my: 2 }} />
+
+        <List>
+          {product.evaluations.length ? (
             <>
-              <b>Описание:</b> {product.description}
+              <Typography variant="subtitle1">Отзывы:</Typography>
+              {product.evaluations.map((evaluation) => (
+                <ListItem key={evaluation.id}>
+                  <ListItemAvatar>
+                    <Avatar src={evaluation.author.image || no_photo} />
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={evaluation.author.username}
+                    secondary={
+                      <>
+                        <Typography
+                          component="span"
+                          variant="body2"
+                          color="text.primary"
+                        >
+                          {`Оценка: ${evaluation.evaluation}`}
+                        </Typography>
+                        — {evaluation.comment}
+                      </>
+                    }
+                  />
+                </ListItem>
+              ))}
             </>
           ) : (
-            <b>Нет описания</b>
+            <Typography variant="h6">Пока нет отзывов</Typography>
           )}
-        </Typography>
-        <Typography variant="body2">
-          <b>Цена: </b>
-          {product.price} руб.
-        </Typography>
-        <Typography variant="body2">
-          <b>Размеры: {product.sizes}</b>
-        </Typography>
-        <Typography variant="body2">
-          <b>Вес: {product.weight} кг</b>
-        </Typography>
-        <Typography variant="body2">
-          <b>Доступность: </b>
-          {product.is_available ? "В наличии" : "Нет в наличии"}
-        </Typography>
+        </List>
       </CardContent>
-      <CardActions
-        disableSpacing
-        sx={{ display: "flex", flexDirection: "column" }}
-      >
-        <Button
-          disabled={!product.is_can_add_to_cart || addedToCart}
-          onClick={handleAddToCart}
-          variant="contained"
-          color="primary"
-        >
-          {!product.is_can_add_to_cart || addedToCart
-            ? "Товар в корзине"
-            : "Добавить в корзину"}
-        </Button>
-        <Box sx={{ flexGrow: 1 }} />
+      <CardActions sx={{ display: "flex", flexDirection: "column" }}>
         {product.is_need_comment && (
-          <>
-            {" "}
-            <p>Оставь отзыв:</p>
+          <Box mb={4}>
+            <Typography variant="subtitle1">
+              Оставьте оценку и отзыв:
+            </Typography>
             <Rating
               name="simple-controlled"
               value={evaluation}
@@ -137,21 +134,29 @@ export const CustomerProduct = observer(() => {
             />
             <TextField
               fullWidth
-              label="Комментарий"
+              label="Добавьте комментарий"
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               margin="normal"
-              size="medium"
+              variant="outlined"
             />
             <Button
               onClick={handleSubmitReview}
               variant="contained"
-              color="secondary"
+              color="primary"
             >
               Оставить отзыв
             </Button>
-          </>
+          </Box>
         )}
+        <Button
+          size="small"
+          color="primary"
+          disabled={!product.is_can_add_to_cart || addedToCart}
+          onClick={handleAddToCart}
+        >
+          {addedToCart ? "В корзине" : "Добавить в корзину"}
+        </Button>
       </CardActions>
     </Card>
   );
