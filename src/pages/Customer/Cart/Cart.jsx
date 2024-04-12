@@ -24,62 +24,69 @@ export const Cart = observer(() => {
   }, [fetchCart]);
 
   return (
-    <Box
-      sx={{ margin: "40px 0 35px", display: "flex", justifyContent: "center" }}
-    >
-      {customerStore.customerCart.length === 0 ? (
-        <Typography>Ваша корзина пуста.</Typography>
-      ) : (
-        <List
-          sx={{
-            width: "90vw",
-            maxWidth: 600,
-            bgcolor: "background.paper",
-            borderRadius: 1,
-            boxShadow: 1,
-            padding: 2,
-          }}
-        >
-          {customerStore.customerCart.map((item) => (
-            <CartItem
-              key={item.product.id}
-              item={item}
-              onQuantityChange={handleQuantityChange}
-              onRemove={handleQuantityChange}
-              onProductClick={handleProductClick}
-            />
-          ))}
-          <ListItem
+    <>
+      <Typography variant="h2">Корзина</Typography>
+      <Box
+        sx={{
+          margin: "40px 0 35px",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        {customerStore.customerCart.length === 0 ? (
+          <Typography>Ваша корзина пуста.</Typography>
+        ) : (
+          <List
             sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              borderBottom: 1,
-              borderColor: "divider",
-              paddingBottom: 1,
+              width: "90vw",
+              maxWidth: 600,
+              bgcolor: "background.paper",
+              borderRadius: 1,
+              boxShadow: 1,
+              padding: 2,
             }}
           >
-            <Typography>Итоговая цена:</Typography>
-            <Typography sx={{ fontWeight: "bold" }}>
-              {calculateTotalPrice()} руб.
-            </Typography>
-          </ListItem>
-          <ListItem
-            sx={{ display: "flex", justifyContent: "center", paddingTop: 2 }}
-          >
-            <Button variant="contained" onClick={handleCreateOrder}>
-              Оформить заказ
-            </Button>
-          </ListItem>
-        </List>
-      )}
-      <CitySelectionModal
-        isOpen={isModalOpen}
-        cities={customerStore.customerAllPaths}
-        selectedCity={selectedCity}
-        onSelectCity={handleCitySelect}
-        onClose={handleCloseModal}
-      />
-    </Box>
+            {customerStore.customerCart.map((item) => (
+              <CartItem
+                key={item.product.id}
+                item={item}
+                onQuantityChange={handleQuantityChange}
+                onRemove={handleQuantityChange}
+                onProductClick={handleProductClick}
+              />
+            ))}
+            <ListItem
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                borderBottom: 1,
+                borderColor: "divider",
+                paddingBottom: 1,
+              }}
+            >
+              <Typography>Итоговая цена:</Typography>
+              <Typography sx={{ fontWeight: "bold" }}>
+                {calculateTotalPrice()} руб.
+              </Typography>
+            </ListItem>
+            <ListItem
+              sx={{ display: "flex", justifyContent: "center", paddingTop: 2 }}
+            >
+              <Button variant="contained" onClick={handleCreateOrder}>
+                Оформить заказ
+              </Button>
+            </ListItem>
+          </List>
+        )}
+        <CitySelectionModal
+          isOpen={isModalOpen}
+          cities={customerStore.customerAllPaths}
+          selectedCity={selectedCity}
+          onSelectCity={handleCitySelect}
+          onClose={handleCloseModal}
+        />
+      </Box>
+    </>
   );
 });

@@ -4,187 +4,132 @@ import {
   Typography,
   Card,
   CardContent,
-  List,
-  ListItem,
-  Grid,
-  Divider,
+  CardActions,
+  Button,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-  Box,
-  Button,
+  Divider,
 } from "@mui/material";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import productsApi from "@/api/ProductsApi.js";
 import { customerStore } from "@store/CustomerStore.js";
-import {
-  ORDER_STATUS_RUS,
-  PATH_TYPE_RUS,
-} from "@pages/Customer/Cart/constants.js";
 import { RouterContext } from "mobx-state-router";
 import { RoutesEnum } from "@/router/index.jsx";
+import { ORDER_STATUS_RUS } from "@pages/Customer/Cart/constants.js";
 
 export const Orders = observer(() => {
   const routerStore = useContext(RouterContext);
 
   useEffect(() => {
-    async function fetchOrder() {
-      const response = await productsApi.orders();
-      customerStore.setCustomerOrders(response.data);
-      console.log(response.data, "Заказы загружены");
+    async function fetchOrders() {
+      try {
+        const response = await productsApi.orders();
+        customerStore.setCustomerOrders(response.data);
+        console.log(response.data, "Заказы загружены");
+      } catch (error) {
+        console.error("Ошибка при получении данных заказов:", error);
+      }
     }
 
-    fetchOrder();
+    fetchOrders();
   }, []);
 
-  const handleReorderClick = async (orderId) => {
+  const handleReorder = async (orderId) => {
     await productsApi.orderFromCart(orderId);
     await routerStore.goTo(RoutesEnum.CART);
   };
 
-  const handleOrderClick = (orderId) => {
+  const handleViewDetails = (orderId) => {
     routerStore.goTo(RoutesEnum.ORDER, { params: { orderId: orderId } });
   };
 
+  const calculateTotalPrice = (products) =>
+    products
+      .reduce(
+        (acc, product) =>
+          acc + product.count * parseFloat(product.product.price),
+        0,
+      )
+      .toFixed(2);
+
   const orders = customerStore.customerOrders;
-  console.log();
 
   return (
-    <div
-      style={{
-        margin: "20px 21.5%",
-        display: "flex",
-        justifyContent: "center",
-        flexWrap: "wrap",
-      }}
-    >
-      {customerStore.customerOrders.length > 0 ? (
-        orders
-          .slice()
-          .reverse()
-          .map((order) => (
-            <Card
-              key={order.id}
-              raised
-              sx={{
-                marginBottom: 2,
-                overflow: "visible",
-              }}
-            >
-              <CardContent
-                sx={{
-                  transition:
-                    "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
-                  "&:hover": {
-                    transform: "scale(1.03)",
-                    boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.25)",
-                  },
-                }}
-                onClick={() => handleOrderClick(order.id)}
-              >
-                <Typography variant="h5" gutterBottom>
-                  Заказ №: {order.id}
-                </Typography>
-                <Typography variant="subtitle1" color="textSecondary">
-                  Статус: {ORDER_STATUS_RUS[order.status] || "Не указан"}
-                </Typography>
-                {order.decline_reason && (
-                  <Typography variant="body2" color="error">
-                    Причина отказа: {order.decline_reason}
+    <>
+      <Typography variant="h2" gutterBottom>
+        Мои заказы
+      </Typography>
+      <Divider />
+      <div
+        style={{
+          margin: "20px",
+          display: "flex",
+          justifyContent: "center",
+          flexWrap: "wrap",
+          gap: 25,
+        }}
+      >
+        {customerStore.customerOrders.length ? (
+          orders
+            .slice()
+            .reverse()
+            .map((order) => (
+              <Card key={order.id} sx={{ maxWidth: 600, my: 2 }}>
+                <CardContent>
+                  <Typography variant="h5" gutterBottom>
+                    Заказ №{order.id}
                   </Typography>
-                )}
-
-                <Divider sx={{ margin: "20px 0" }} />
-
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginBottom: 2,
-                  }}
-                >
-                  <ShoppingCartIcon color="primary" sx={{ marginRight: 1 }} />
-                  <Typography variant="h6">Продукты:</Typography>
-                </Box>
-                <Table size="small">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Продукт</TableCell>
-                      <TableCell>Количество</TableCell>
-                      <TableCell>Цена за единицу</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {order.products.map((productOrder) => (
-                      <TableRow key={productOrder.id}>
-                        <TableCell>{productOrder.product.name}</TableCell>
-                        <TableCell>{productOrder.count} шт.</TableCell>
-                        <TableCell>{productOrder.product.price} руб.</TableCell>
+                  <Typography variant="subtitle1">
+                    Статус: {ORDER_STATUS_RUS[order.status] || "Не указан"}
+                  </Typography>
+                  <Table size="small">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Продукт</TableCell>
+                        <TableCell align="center">Количество</TableCell>
+                        <TableCell align="center">Цена за единицу</TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginBottom: 2,
-                    marginTop: 5,
-                  }}
-                >
-                  <LocalShippingIcon color="primary" sx={{ marginRight: 1 }} />
-                  <Typography variant="h6">Пути доставки:</Typography>
-                </Box>
-                <List>
-                  {order.group_paths.map((groupPath, index) => (
-                    <ListItem key={index} alignItems="flex-start">
-                      <Grid container spacing={2}>
-                        {groupPath.paths.map((path, idx) => (
-                          <Grid item xs={12} sm={6} key={idx}>
-                            <Typography>
-                              {path.path.point_a.name} {"--> "}
-                              {path.path.point_b.name} -{" "}
-                              {PATH_TYPE_RUS[path.path.type]}
-                            </Typography>
-                            <Typography variant="body2">
-                              <b>Цена:</b> {path.path.price} руб., <b>Длина:</b>{" "}
-                              {path.path.length}
-                              <br />
-                              <b>Продукт: </b>
-                              {groupPath.product.name}
-                            </Typography>
-                          </Grid>
-                        ))}
-                        <Grid item xs={12}>
-                          <Typography variant="body2">
-                            Склад: {groupPath.warehouse}, Количество:{" "}
-                            {groupPath.count}
-                          </Typography>
-
-                          <Divider sx={{ margin: "15px 0" }} />
-                        </Grid>
-                      </Grid>
-                    </ListItem>
-                  ))}
-                </List>
-              </CardContent>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => handleReorderClick(order.id)}
-                sx={{ marginBottom: 3 }}
-              >
-                Повторить заказ
-              </Button>
-            </Card>
-          ))
-      ) : (
-        <Typography>Заказы не найдены.</Typography>
-      )}
-    </div>
+                    </TableHead>
+                    <TableBody>
+                      {order.products.map((product) => (
+                        <TableRow key={product.id}>
+                          <TableCell>{product.product.name}</TableCell>
+                          <TableCell align="center">{product.count}</TableCell>
+                          <TableCell align="center">
+                            {product.product.price} руб.
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                  <Typography variant="h6" sx={{ mt: 2 }}>
+                    Всего: {calculateTotalPrice(order.products)} руб.
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button
+                    size="small"
+                    color="primary"
+                    onClick={() => handleViewDetails(order.id)}
+                  >
+                    Подробнее
+                  </Button>
+                  <Button
+                    size="small"
+                    color="primary"
+                    onClick={() => handleReorder(order.id)}
+                  >
+                    Повторить заказ
+                  </Button>
+                </CardActions>
+              </Card>
+            ))
+        ) : (
+          <Typography>Заказы не найдены.</Typography>
+        )}
+      </div>
+    </>
   );
 });
