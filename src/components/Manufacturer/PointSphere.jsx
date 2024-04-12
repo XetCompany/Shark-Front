@@ -67,8 +67,6 @@ export const PointSphere = observer(({ color, id, size, opacity, animated }) => 
     return null;
   }
 
-  console.log(renderType);
-
   switch (renderType) {
     case RENDER_TYPES.WAREHOUSE:
       return (

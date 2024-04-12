@@ -18,6 +18,7 @@ export const PATH_TYPE = Object.freeze({
   SEA: "sea",
   RIVER: "river",
   AIR: "air",
+  INSTANT: "instant",
 });
 
 export const PATH_TYPE_RUS = Object.freeze({
@@ -26,6 +27,7 @@ export const PATH_TYPE_RUS = Object.freeze({
   [PATH_TYPE.RIVER]: "Речной",
   [PATH_TYPE.RAILWAY]: "Железнодорожный",
   [PATH_TYPE.AUTOMOBILE]: "Автомобильный",
+  [PATH_TYPE.INSTANT]: "Мгновенный",
 });
 
 export const ORDER_STATUS = Object.freeze({

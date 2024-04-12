@@ -24,6 +24,7 @@ export const PATH_TYPES = Object.freeze({
   SEA: "sea",
   RIVER: "river",
   AIR: "air",
+  INSTANT: "instant",
 });
 
 export const PATH_TYPES_RUS = {
@@ -32,6 +33,7 @@ export const PATH_TYPES_RUS = {
   [PATH_TYPES.SEA]: "Морской",
   [PATH_TYPES.RIVER]: "Речной",
   [PATH_TYPES.AIR]: "Воздушный",
+  [PATH_TYPES.INSTANT]: "Мгновенный",
 };
 
 export const TYPE_PATH_TO_EMOJI = {
@@ -40,6 +42,7 @@ export const TYPE_PATH_TO_EMOJI = {
   [PATH_TYPES.SEA]: "🚢",
   [PATH_TYPES.AIR]: "🛩️",
   [PATH_TYPES.RIVER]: "🚤",
+  [PATH_TYPES.INSTANT]: "🚀",
 };
 
 export const GRID_DEFAULT_LOCALE_TEXT_RUS = {

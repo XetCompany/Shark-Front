@@ -159,7 +159,7 @@ export const ModalGraph = observer(() => {
       continue;
     }
     const edge = {
-      id: `${path.point_a.id}-${path.point_b.id}`,
+      id: `${path.point_a.id}-${path.point_b.id}-${path.type}`,
       source: `${path.point_a.id}`,
       target: `${path.point_b.id}`,
       // label: latinToEnglish(`${path.time}H, ${path.price}R, ${path.length} KM`),
@@ -286,12 +286,16 @@ const ModalGraphHeader = observer(() => {
           renderValue={(selected) => selected.map(type => PATH_TYPES_RUS[type]).join(", ")}
           label="Визуализация Маршрутов"
         >
-          {Object.values(PATH_TYPES).map((type) => (
-            <MenuItem key={type} value={type}>
-              <Checkbox checked={isPathTypeSelected(type)} />
-              <ListItemText primary={PATH_TYPES_RUS[type]} />
-            </MenuItem>
-          ))}
+          {Object.values(PATH_TYPES).map((type) => {
+              if (type === PATH_TYPES.INSTANT) {
+                return null;
+              }
+              return <MenuItem key={type} value={type}>
+                <Checkbox checked={isPathTypeSelected(type)} />
+                <ListItemText primary={PATH_TYPES_RUS[type]} />
+              </MenuItem>
+            }
+          )}
         </Select>
       </FormControl>
       <FormControl style={{
