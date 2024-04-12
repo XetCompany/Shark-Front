@@ -33,6 +33,10 @@ class ManufacturerStore {
     return this.points.find((point) => point.id === id);
   }
 
+  getPointByTypeAndCityId(type, cityId) {
+    return this.points.find((point) => point.type === type && point.city === cityId);
+  }
+
   getPathById(id) {
     return this.paths.find((path) => path.id === id);
   }

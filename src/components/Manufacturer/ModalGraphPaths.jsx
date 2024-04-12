@@ -17,8 +17,10 @@ import { manufacturerStore } from "@store/ManufacturerStore.js";
 import { GraphCanvas, Sphere } from "reagraph";
 import { appStore } from "@store/AppStore.js";
 import { makeAutoObservable } from "mobx";
-import { PATH_TYPES, PATH_TYPES_RUS } from "@common/common.js";
+import { PATH_TYPES, PATH_TYPES_RUS, POINT_TYPES } from "@common/common.js";
 import PathsApi from "@/api/Manufacturer/PathsApi.js";
+import { useRouterStore } from "mobx-state-router";
+import { RoutesEnum } from "@/router/index.jsx";
 
 const symbolsMap = {
   "а": "a",
@@ -99,8 +101,8 @@ function latinToEnglish(str) {
 }
 
 class GraphPathsStore {
-  pathType = PATH_TYPES.AIR;
-  pathTypes = [PATH_TYPES.AIR, PATH_TYPES.AUTOMOBILE, PATH_TYPES.RAILWAY, PATH_TYPES.RIVER, PATH_TYPES.SEA];
+  pathType = PATH_TYPES.AUTOMOBILE;
+  pathTypes = [PATH_TYPES.AUTOMOBILE, PATH_TYPES.AIR, PATH_TYPES.RAILWAY, PATH_TYPES.RIVER, PATH_TYPES.SEA];
   selectedNodeId = null;
   selectedSecondNodeId = null;
 
@@ -262,8 +264,8 @@ const ModalGraphHeader = observer(() => {
             graphStore.setPathType(event.target.value);
           }}
         >
-          <MenuItem value={PATH_TYPES.AIR}>{PATH_TYPES_RUS[PATH_TYPES.AIR]}</MenuItem>
           <MenuItem value={PATH_TYPES.AUTOMOBILE}>{PATH_TYPES_RUS[PATH_TYPES.AUTOMOBILE]}</MenuItem>
+          <MenuItem value={PATH_TYPES.AIR}>{PATH_TYPES_RUS[PATH_TYPES.AIR]}</MenuItem>
           <MenuItem value={PATH_TYPES.RAILWAY}>{PATH_TYPES_RUS[PATH_TYPES.RAILWAY]}</MenuItem>
           <MenuItem value={PATH_TYPES.RIVER}>{PATH_TYPES_RUS[PATH_TYPES.RIVER]}</MenuItem>
           <MenuItem value={PATH_TYPES.SEA}>{PATH_TYPES_RUS[PATH_TYPES.SEA]}</MenuItem>
@@ -274,6 +276,8 @@ const ModalGraphHeader = observer(() => {
 });
 
 const GraphCanvasComponent = observer(({ nodes, edges }) => {
+  const routerStore = useRouterStore();
+
   return <GraphCanvas
     nodes={nodes}
     edges={edges}
@@ -283,7 +287,18 @@ const GraphCanvasComponent = observer(({ nodes, edges }) => {
     edgeArrowPosition={"none"}
     // edgeInterpolation={"curved"}
     onNodeClick={
-      ({ id }) => {
+      (params, params1, params2) => {
+        const id = params.id;
+        // const point = manufacturerStore.getPointById(id);
+        if ((params2.altKey || params2.ctrlKey) && (params2.altKey !== params2.ctrlKey)) {
+          const pointType = params2.ctrlKey ? POINT_TYPES.WAREHOUSE : POINT_TYPES.PICKUP_POINT;
+          const point = manufacturerStore.getPointByTypeAndCityId(pointType, parseInt(id));
+          if (point) {
+            routerStore.goTo(RoutesEnum.POINT_DETAILS, { params: { id: point.id } });
+          }
+          return;
+        }
+
         if (graphStore.selectedNodeId === id) {
           graphStore.setSelectedNodeId(null);
         } else {
@@ -293,12 +308,12 @@ const GraphCanvasComponent = observer(({ nodes, edges }) => {
             graphStore.setSelectedSecondNodeId(id);
             const tempSecondSelectedNodeId = id;
 
-            const firstPoint = appStore.cities.find(city => city.id === parseInt(graphStore.selectedNodeId));
-            const secondPoint = appStore.cities.find(city => city.id === parseInt(tempSecondSelectedNodeId));
-            if (firstPoint && secondPoint) {
+            const firstCity = appStore.cities.find(city => city.id === parseInt(graphStore.selectedNodeId));
+            const secondCity = appStore.cities.find(city => city.id === parseInt(tempSecondSelectedNodeId));
+            if (firstCity && secondCity) {
               const path = manufacturerStore.paths.find(path => {
-                return (path.point_a.id === firstPoint.id && path.point_b.id === secondPoint.id) ||
-                  (path.point_a.id === secondPoint.id && path.point_b.id === firstPoint.id);
+                return (path.point_a.id === firstCity.id && path.point_b.id === secondCity.id) ||
+                  (path.point_a.id === secondCity.id && path.point_b.id === firstCity.id);
               });
               if (path) {
                 PathsApi.deletePath(path.id).then(() => {
@@ -306,8 +321,8 @@ const GraphCanvasComponent = observer(({ nodes, edges }) => {
                 });
               } else {
                 PathsApi.createPath({
-                  point_a: firstPoint.id,
-                  point_b: secondPoint.id,
+                  point_a: firstCity.id,
+                  point_b: secondCity.id,
                   type: graphStore.pathType,
                   time: 0,
                   price: 0,
