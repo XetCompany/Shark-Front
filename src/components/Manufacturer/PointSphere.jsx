@@ -35,6 +35,9 @@ export const PointSphere = observer(({ color, id, size, opacity, animated }) => 
   }
 
   const renderType = useMemo(() => {
+    if (isWarehousePoint && isPickupPoint) {
+      return RENDER_TYPES.ALL;
+    }
     if (isWarehousePoint) {
       return RENDER_TYPES.WAREHOUSE;
     }
@@ -108,6 +111,7 @@ export const PointSphere = observer(({ color, id, size, opacity, animated }) => 
           />
         </a.mesh>
       );
+
   }
 
   return (
