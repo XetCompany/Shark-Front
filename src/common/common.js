@@ -34,6 +34,14 @@ export const PATH_TYPES_RUS = {
   [PATH_TYPES.AIR]: "Воздушный",
 };
 
+export const TYPE_PATH_TO_EMOJI = {
+  [PATH_TYPES.AUTOMOBILE]: "🚘",
+  [PATH_TYPES.RAILWAY]: "🚂",
+  [PATH_TYPES.SEA]: "🚢",
+  [PATH_TYPES.AIR]: "🛩️",
+  [PATH_TYPES.RIVER]: "🚤",
+};
+
 export const GRID_DEFAULT_LOCALE_TEXT_RUS = {
   // Root
   noRowsLabel: 'Нет строк',

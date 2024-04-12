@@ -17,6 +17,7 @@ import productsApi from "@/api/ProductsApi.js";
 import { PATH_TYPE_RUS } from "@pages/Customer/Cart/constants.js";
 import { RouterContext } from "mobx-state-router";
 import { RoutesEnum } from "@/router/index.jsx";
+import { PathsSerializer } from "@components/Paths/PathsSerializer.jsx";
 
 export const CreateOrder = observer(() => {
   const routerStore = useContext(RouterContext);
@@ -73,16 +74,7 @@ export const CreateOrder = observer(() => {
                     Вариант {index + 1}
                   </TableCell>
                   <TableCell align="center">
-                    {info.groups_paths.map((group, idx) => (
-                      <div key={idx}>
-                        {group.paths
-                          .map(
-                            (path) =>
-                              `${path.path.point_a.name} --> ${path.path.point_b.name}`,
-                          )
-                          .join(" | ")}
-                      </div>
-                    ))}
+                    <PathsSerializer paths={info.groups_paths} />
                   </TableCell>
                   <TableCell align="center">
                     {info.groups_paths.map((group, idx) => (

@@ -27,6 +27,7 @@ import {
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import { RoutesEnum } from "@/router/index.jsx";
+import { TYPE_PATH_TO_EMOJI } from "@common/common.js";
 
 export const Order = observer(() => {
   const routerStore = useContext(RouterContext);
@@ -147,9 +148,8 @@ export const Order = observer(() => {
                           {groupPath.paths.map((path, idx) => (
                             <Grid item xs={12} sm={6} key={idx}>
                               <Typography>
-                                {path.path.point_a.name} {"--> "}
-                                {path.path.point_b.name} -{" "}
-                                {PATH_TYPE_RUS[path.path.type]}
+                                {path.path.point_a.name} {TYPE_PATH_TO_EMOJI[path.path.type]} {"⇨ "}
+                                {path.path.point_b.name}
                               </Typography>
                               <Typography variant="body2">
                                 <b>Цена:</b> {path.path.price} руб.,{" "}

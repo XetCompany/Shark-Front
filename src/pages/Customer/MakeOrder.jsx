@@ -18,6 +18,7 @@ import {
   ORDER_STATUS_RUS,
   PATH_TYPE_RUS,
 } from "@pages/Customer/Cart/constants.js";
+import { TYPE_PATH_TO_EMOJI } from "@common/common.js";
 
 export const MakeOrder = observer(() => {
   const routerStore = useContext(RouterContext);
@@ -76,11 +77,17 @@ export const MakeOrder = observer(() => {
             </Typography>
             {order.group_paths.map((group, index) => (
               <List key={index} sx={{ mb: 2 }}>
+                <Typography variant="h6" mt={2} textAlign="left">
+                  Продукт: {group.product.name}
+                </Typography>
+                <Typography variant="subtitle1" textAlign="left">
+                  Количество: {group.count} шт.
+                </Typography>
                 {group.paths.map((path, idx) => (
                   <ListItem key={idx} divider>
                     <ListItemText
-                      primary={`${path.path.point_a.name} --> ${path.path.point_b.name}`}
-                      secondary={`Тип: ${PATH_TYPE_RUS[path.path.type]}, Цена: ${path.path.price} руб., Длина: ${path.path.length} км, Продукт: ${group.product.name}`}
+                      primary={`${path.path.point_a.name} ${TYPE_PATH_TO_EMOJI[path.path.type]} ⇨ ${path.path.point_b.name}`}
+                      secondary={`Тип: ${PATH_TYPE_RUS[path.path.type]}, Цена: ${path.path.price} руб., Длина: ${path.path.length} км`}
                     />
                   </ListItem>
                 ))}
