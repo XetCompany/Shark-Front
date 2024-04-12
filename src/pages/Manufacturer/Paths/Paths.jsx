@@ -99,8 +99,6 @@ const PathContent = observer(({ searchValue }) => {
     { field: "length", headerName: "Протяженность(в км.)", width: 180, editable: true },
   ];
 
-  // console.log(rowSelectionModel.length && apiRef?.current?.getRow(rowSelectionModel[0]))
-
   return (
     <div style={{ height: 600, width: "100%" }}>
       <DataGrid
