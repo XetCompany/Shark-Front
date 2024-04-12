@@ -3,25 +3,28 @@ import {
   Box,
   Button,
   Checkbox,
-  FormControl, IconButton,
+  FormControl,
+  IconButton,
   InputLabel,
   ListItemText,
   MenuItem,
   Modal,
-  Select, Tooltip,
+  Select,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import React from "react";
 import { pathsStore } from "@store/PathsStore.js";
 import { manufacturerStore } from "@store/ManufacturerStore.js";
-import { GraphCanvas, Sphere } from "reagraph";
+import { GraphCanvas } from "reagraph";
 import { appStore } from "@store/AppStore.js";
 import { makeAutoObservable } from "mobx";
 import { PATH_TYPES, PATH_TYPES_RUS, POINT_TYPES } from "@common/common.js";
 import PathsApi from "@/api/Manufacturer/PathsApi.js";
 import { useRouterStore } from "mobx-state-router";
 import { RoutesEnum } from "@/router/index.jsx";
-import InfoIcon from '@mui/icons-material/Info';
+import InfoIcon from "@mui/icons-material/Info";
+import { PointSphere } from "@components/Manufacturer/PointSphere.jsx";
 
 const symbolsMap = {
   "а": "a",
@@ -93,12 +96,16 @@ const symbolsMap = {
 };
 
 function latinToEnglish(str) {
-  return str.split("").map((char) => {
-    if (symbolsMap[char]) {
-      return symbolsMap[char];
+  let formattedText = "";
+  for (let i = 0; i < str.length; i++) {
+    const symbol = str[i];
+    if (symbolsMap[symbol] !== undefined) {
+      formattedText += symbolsMap[symbol];
+    } else {
+      formattedText += symbol;
     }
-    return char;
-  }).join("");
+  }
+  return formattedText;
 }
 
 class GraphPathsStore {
@@ -155,7 +162,7 @@ export const ModalGraph = observer(() => {
       id: `${path.point_a.id}-${path.point_b.id}`,
       source: `${path.point_a.id}`,
       target: `${path.point_b.id}`,
-      label: latinToEnglish(`${path.time}H, ${path.price}R, ${path.length} KM`),
+      // label: latinToEnglish(`${path.time}H, ${path.price}R, ${path.length} KM`),
     };
     edges.push(edge);
   }
@@ -239,7 +246,7 @@ const ModalGraphHeader = observer(() => {
         Чтобы перейти к пункту выдачи города, кликните на город с зажатой клавишей Alt.
       </Typography>
     </>
-  )
+  );
 
   return <div style={{
     display: "flex",
@@ -314,91 +321,96 @@ const ModalGraphHeader = observer(() => {
 const GraphCanvasComponent = observer(({ nodes, edges }) => {
   const routerStore = useRouterStore();
 
-  return <GraphCanvas
-    nodes={nodes}
-    edges={edges}
-    // layoutType={"forceDirected3d"}
-    layoutType={"circular2d"}
-    // labelType={"all"}
-    edgeArrowPosition={"none"}
-    // edgeInterpolation={"curved"}
-    onNodeClick={
-      (params, params1, params2) => {
-        const id = params.id;
-        // const point = manufacturerStore.getPointById(id);
-        if ((params2.altKey || params2.ctrlKey) && (params2.altKey !== params2.ctrlKey)) {
-          const pointType = params2.ctrlKey ? POINT_TYPES.WAREHOUSE : POINT_TYPES.PICKUP_POINT;
-          const point = manufacturerStore.getPointByTypeAndCityId(pointType, parseInt(id));
-          if (point) {
-            routerStore.goTo(RoutesEnum.POINT_DETAILS, { params: { id: point.id } });
-          }
-          return;
-        }
+  const handleNodeClick = (params, params1, params2) => {
+    const id = params.id;
+    // const point = manufacturerStore.getPointById(id);
+    if ((params2.altKey || params2.ctrlKey) && (params2.altKey !== params2.ctrlKey)) {
+      const pointType = params2.ctrlKey ? POINT_TYPES.WAREHOUSE : POINT_TYPES.PICKUP_POINT;
+      const point = manufacturerStore.getPointByTypeAndCityId(pointType, parseInt(id));
+      if (point) {
+        routerStore.goTo(RoutesEnum.POINT_DETAILS, { params: { id: point.id } });
+      }
+      return;
+    }
 
-        if (graphStore.selectedNodeId === id) {
-          graphStore.setSelectedNodeId(null);
-        } else {
-          if (graphStore.selectedNodeId === null) {
-            graphStore.setSelectedNodeId(id);
+    if (graphStore.selectedNodeId === id) {
+      graphStore.setSelectedNodeId(null);
+    } else {
+      if (graphStore.selectedNodeId === null) {
+        graphStore.setSelectedNodeId(id);
+      } else {
+        graphStore.setSelectedSecondNodeId(id);
+        const tempSecondSelectedNodeId = id;
+
+        const firstCity = appStore.cities.find(city => city.id === parseInt(graphStore.selectedNodeId));
+        const secondCity = appStore.cities.find(city => city.id === parseInt(tempSecondSelectedNodeId));
+        if (firstCity && secondCity) {
+          const path = manufacturerStore.paths.find(path => {
+            return (path.point_a.id === firstCity.id && path.point_b.id === secondCity.id) ||
+              (path.point_a.id === secondCity.id && path.point_b.id === firstCity.id);
+          });
+          if (path) {
+            PathsApi.deletePath(path.id).then(() => {
+              manufacturerStore.loadPaths();
+            });
           } else {
-            graphStore.setSelectedSecondNodeId(id);
-            const tempSecondSelectedNodeId = id;
-
-            const firstCity = appStore.cities.find(city => city.id === parseInt(graphStore.selectedNodeId));
-            const secondCity = appStore.cities.find(city => city.id === parseInt(tempSecondSelectedNodeId));
-            if (firstCity && secondCity) {
-              const path = manufacturerStore.paths.find(path => {
-                return (path.point_a.id === firstCity.id && path.point_b.id === secondCity.id) ||
-                  (path.point_a.id === secondCity.id && path.point_b.id === firstCity.id);
-              });
-              if (path) {
-                PathsApi.deletePath(path.id).then(() => {
-                  manufacturerStore.loadPaths();
-                });
-              } else {
-                PathsApi.createPath({
-                  point_a: firstCity.id,
-                  point_b: secondCity.id,
-                  type: graphStore.pathType,
-                  time: 1,
-                  price: 100,
-                  length: 10,
-                }).then(() => {
-                  manufacturerStore.loadPaths();
-                });
-              }
-              graphStore.setSelecteds(null, null);
-            } else {
-              throw new Error("City not found");
-            }
-
+            PathsApi.createPath({
+              point_a: firstCity.id,
+              point_b: secondCity.id,
+              type: graphStore.pathType,
+              time: 1,
+              price: 100,
+              length: 10,
+            }).then(() => {
+              manufacturerStore.loadPaths();
+            });
           }
+          graphStore.setSelecteds(null, null);
+        } else {
+          throw new Error("City not found");
         }
+
       }
     }
-    renderNode={({
-                   id,
-                   color,
-                   size: nodeSize,
-                   active: combinedActiveState,
-                   opacity: selectionOpacity,
-                   animated,
-                   node,
-                 }) => {
-      const params = {
-        id,
-        size: nodeSize,
-        opacity: selectionOpacity,
-        animated,
-        color: id === graphStore.selectedNodeId || id === graphStore.selectedSecondNodeId ? "#4285b4" : color,
-        node,
-        active: combinedActiveState,
-      };
-      return (
-        <Sphere
-          {...params}
-        />
-      );
-    }}
-  />;
+  };
+
+  return (
+    <GraphCanvas
+      nodes={nodes}
+      edges={edges}
+      // layoutType={"forceDirected3d"}
+      layoutType={"circular2d"}
+      // labelType={"all"}
+      edgeArrowPosition={"none"}
+      // edgeInterpolation={"curved"}
+      // layoutType="forceDirected3d"
+      onNodeClick={handleNodeClick}
+      renderNode={({
+                     id,
+                     color,
+                     size: nodeSize,
+                     active: combinedActiveState,
+                     opacity: selectionOpacity,
+                     animated,
+                     node,
+                   }) => {
+        const params = {
+          id,
+          size: nodeSize,
+          opacity: selectionOpacity,
+          animated,
+          color: id === graphStore.selectedNodeId || id === graphStore.selectedSecondNodeId ? "#4285b4" : color,
+          node,
+          active: combinedActiveState,
+        };
+        return (
+          <PointSphere
+            {...params}
+          />
+        );
+      }}
+    >
+      <directionalLight position={[0, 5, 1]} intensity={1} />
+    </GraphCanvas>
+  );
 });
