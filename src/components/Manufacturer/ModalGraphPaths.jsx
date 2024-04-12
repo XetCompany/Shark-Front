@@ -3,7 +3,8 @@ import { Box, Button, Container, Modal, Typography } from "@mui/material";
 import React from "react";
 import { pathsStore } from "@store/PathsStore.js";
 import { manufacturerStore } from "@store/ManufacturerStore.js";
-import { GraphCanvas } from "reagraph";
+import { GraphCanvas, Sphere } from "reagraph";
+import { appStore } from "@store/AppStore.js";
 
 const symbolsMap = {
   "а": "a",
@@ -84,43 +85,13 @@ function latinToEnglish(str) {
 }
 
 export const ModalGraph = observer(() => {
-
-  // format in manufacturerStore.paths[]
-  //     {
-  //         "id": 1,
-  //         "point_a": {
-  //             "id": 1,
-  //             "name": "Москва"
-  //         },
-  //         "point_b": {
-  //             "id": 2,
-  //             "name": "Санкт-Петербург"
-  //         },
-  //         "time": 5,
-  //         "price": "100.00",
-  //         "length": "10.00",
-  //         "type": "automobile"
-  //     },
-
-
   const nodes = [];
-  for (let i = 0; i < manufacturerStore.paths.length; i++) {
-    const path = manufacturerStore.paths[i];
-    const nodeA = {
-      id: `${path.point_a.id}`,
-      label: latinToEnglish(`${path.point_a.name}`)
+  for (let city of appStore.cities) {
+    const node = {
+      id: `${city.id}`,
+      label: latinToEnglish(`${city.name}`)
     };
-    const nodeB = {
-      id: `${path.point_b.id}`,
-      label: latinToEnglish(`${path.point_b.name}`)
-    };
-    console.log("nodeA", nodeA, "nodeB", nodeB);
-    if (!nodes.find((node) => node.id == nodeA.id)) {
-      nodes.push(nodeA);
-    }
-    if (!nodes.find((node) => node.id == nodeB.id)) {
-      nodes.push(nodeB);
-    }
+    nodes.push(node);
   }
 
   const edges = [];
@@ -134,32 +105,6 @@ export const ModalGraph = observer(() => {
     };
     edges.push(edge);
   }
-
-  // const nodes = [
-  //   {
-  //     id: '1',
-  //     label: '1'
-  //   },
-  //   {
-  //     id: '2',
-  //     label: '2'
-  //   }
-  // ];
-  //
-  // const edges = [
-  //   {
-  //     source: '1',
-  //     target: '2',
-  //     id: '1-2',
-  //     label: '1-2'
-  //   },
-  //   {
-  //     source: '2',
-  //     target: '1',
-  //     id: '2-1',
-  //     label: '2-1'
-  //   }
-  // ];
 
   return (
     <Modal open={pathsStore.isShowModalGraph} onClose={() => {
@@ -181,7 +126,11 @@ export const ModalGraph = observer(() => {
         <Typography variant="h6" gutterBottom>
           Граф
         </Typography>
-        <Container>
+        <div style={{
+          position: "relative",
+          width: "100%",
+          height: "90%",
+        }}>
           <GraphCanvas
             nodes={nodes}
             edges={edges}
@@ -190,9 +139,29 @@ export const ModalGraph = observer(() => {
             // labelType={"all"}
             edgeArrowPosition={"none"}
             // edgeInterpolation={"curved"}
-            // renderNode
+            renderNode={({
+                           id,
+                           color,
+                           size: nodeSize,
+                           active: combinedActiveState,
+                           opacity: selectionOpacity,
+                           animated,
+                           node
+                         }) => {
+              return (
+                <Sphere
+                  id={id}
+                  size={nodeSize}
+                  opacity={selectionOpacity}
+                  animated={animated}
+                  color={color}
+                  node={node}
+                  active={combinedActiveState}
+                />
+              );
+            }}
           />
-        </Container>
+        </div>
         <div
           style={{
             display: "flex",
