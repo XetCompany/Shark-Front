@@ -3,12 +3,12 @@ import {
   Box,
   Button,
   Checkbox,
-  FormControl,
+  FormControl, IconButton,
   InputLabel,
   ListItemText,
   MenuItem,
   Modal,
-  Select,
+  Select, Tooltip,
   Typography,
 } from "@mui/material";
 import React from "react";
@@ -21,6 +21,7 @@ import { PATH_TYPES, PATH_TYPES_RUS, POINT_TYPES } from "@common/common.js";
 import PathsApi from "@/api/Manufacturer/PathsApi.js";
 import { useRouterStore } from "mobx-state-router";
 import { RoutesEnum } from "@/router/index.jsx";
+import InfoIcon from '@mui/icons-material/Info';
 
 const symbolsMap = {
   "а": "a",
@@ -214,14 +215,49 @@ const ModalGraphHeader = observer(() => {
     return graphStore.pathTypes.includes(type);
   };
 
+  const descriptionText = (
+    <>
+      <Typography variant="h6" gutterBottom>
+        Описание
+      </Typography>
+      <Typography variant="body1" gutterBottom>
+        Визуализация маршрутов между городами.
+      </Typography>
+      <Typography variant="body1" gutterBottom>
+        Выберите типы маршрутов, которые вы хотите увидеть на графе.
+      </Typography>
+      <Typography variant="body1" gutterBottom>
+        Выберите тип создания маршрута и кликните на два города, чтобы создать маршрут между ними.
+      </Typography>
+      <Typography variant="body1" gutterBottom>
+        Чтобы удалить маршрут, кликните на два города, между которыми он проходит.
+      </Typography>
+      <Typography variant="body1" gutterBottom>
+        Чтобы перейти к складу города, кликните на город с зажатой клавишей Ctrl.
+      </Typography>
+      <Typography variant="body1" gutterBottom>
+        Чтобы перейти к пункту выдачи города, кликните на город с зажатой клавишей Alt.
+      </Typography>
+    </>
+  )
+
   return <div style={{
     display: "flex",
     justifyContent: "space-between",
     marginBottom: "10px",
   }}>
-    <Typography variant="h6" gutterBottom>
-      Граф
-    </Typography>
+    <div style={{ position: "relative", width: "210px", padding: "10px" }}>
+      <Typography variant="h6" gutterBottom>
+        Граф Маршрутов
+      </Typography>
+      <div style={{ position: "absolute", top: 0, right: 0 }}>
+        <Tooltip title={descriptionText}>
+          <IconButton>
+            <InfoIcon />
+          </IconButton>
+        </Tooltip>
+      </div>
+    </div>
     <div>
       <FormControl style={{
         width: 300,
@@ -324,9 +360,9 @@ const GraphCanvasComponent = observer(({ nodes, edges }) => {
                   point_a: firstCity.id,
                   point_b: secondCity.id,
                   type: graphStore.pathType,
-                  time: 0,
-                  price: 0,
-                  length: 0,
+                  time: 1,
+                  price: 100,
+                  length: 10,
                 }).then(() => {
                   manufacturerStore.loadPaths();
                 });
