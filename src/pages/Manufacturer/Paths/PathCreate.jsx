@@ -86,7 +86,7 @@ const PathCreateForm = observer(() => {
         getOptionLabel={(option) => option.name}
         value={
           formData.point_b
-            ? appStore.cities.find((city) => city.id === formData.point_a)
+            ? appStore.cities.find((city) => city.id === formData.point_b)
             : null
         }
         onChange={(event, newValue) => {
