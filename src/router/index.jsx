@@ -18,6 +18,8 @@ import { Paths } from "@pages/Manufacturer/Paths/Paths.jsx";
 import { PathCreate } from "@pages/Manufacturer/Paths/PathCreate.jsx";
 import { MakeOrder } from "@pages/Customer/MakeOrder.jsx";
 import { Order } from "@pages/Customer/Order.jsx";
+import { ManufacturerOrders } from "@pages/Manufacturer/Orders/ManufacturerOrders.jsx";
+import { ManufacturerOrder } from "@pages/Manufacturer/Orders/ManufacturerOrder.jsx";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const RoutesEnum = Object.freeze({
@@ -47,6 +49,9 @@ export const RoutesEnum = Object.freeze({
 
   PATHS: "paths",
   PATH_CREATE: "path_create",
+
+  M_ORDERS: "m_orders",
+  M_ORDER: "m_order",
 });
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -77,6 +82,9 @@ export const PATHS = {
 
   [RoutesEnum.PATHS]: "/paths",
   [RoutesEnum.PATH_CREATE]: "/paths/create",
+
+  [RoutesEnum.M_ORDERS]: "/m_orders",
+  [RoutesEnum.M_ORDER]: "/m_order/:orderId",
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -162,6 +170,14 @@ export const Routes = [
     name: RoutesEnum.PATH_CREATE,
     pattern: PATHS.path_create,
   },
+  {
+    name: RoutesEnum.M_ORDERS,
+    pattern: PATHS.m_orders,
+  },
+  {
+    name: RoutesEnum.M_ORDER,
+    pattern: PATHS.m_order,
+  },
 ];
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -190,4 +206,6 @@ export const viewMap = {
   m_products_details: <ManufacturerProductDetails />,
   paths: <Paths />,
   path_create: <PathCreate />,
+  m_orders: <ManufacturerOrders />,
+  m_order: <ManufacturerOrder />,
 };
