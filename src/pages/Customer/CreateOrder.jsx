@@ -58,6 +58,7 @@ export const CreateOrder = observer(() => {
                 <TableCell align="center">Путь</TableCell>
                 <TableCell align="center">Тип</TableCell>
                 <TableCell align="center">Цена пути (руб.)</TableCell>
+                <TableCell align="center">Время пути (ч.)</TableCell>
                 <TableCell align="center">Длина (км.)</TableCell>
                 <TableCell align="center">Продукт</TableCell>
                 <TableCell align="center">Цена продукта (руб.)</TableCell>
@@ -88,14 +89,28 @@ export const CreateOrder = observer(() => {
                   <TableCell align="center">
                     {info.groups_paths.map((group, idx) => (
                       <div key={idx}>
-                        {group.paths.map((path) => path.path.price).join(", ")}
+                        {group.paths.reduce((acc, path) => {
+                          return acc + parseFloat(path.path.price);
+                        }, 0)}
                       </div>
                     ))}
                   </TableCell>
                   <TableCell align="center">
+                    {info.groups_paths.reduce((acc, group) => {
+                      return (
+                        acc +
+                        group.paths.reduce((acc, path) => {
+                          return acc + path.path.time;
+                        }, 0)
+                      );
+                    }, 0)}
+                  </TableCell>
+                  <TableCell align="center">
                     {info.groups_paths.map((group, idx) => (
                       <div key={idx}>
-                        {group.paths.map((path) => path.path.length).join(", ")}
+                        {group.paths.reduce((acc, path) => {
+                          return acc + parseFloat(path.path.length);
+                        }, 0)}
                       </div>
                     ))}
                   </TableCell>
