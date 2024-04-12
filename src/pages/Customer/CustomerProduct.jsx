@@ -82,11 +82,22 @@ export const CustomerProduct = observer(() => {
         <Typography variant="body2" color="text.secondary">
           {product.description || "Нет описания"}
         </Typography>
-        <Typography variant="body2">Цена: {product.price} руб.</Typography>
         <Typography variant="body2">
-          В наличии: {product.is_available ? "Да" : "Нет"}
+          <b>Цена: </b>
+          {product.price} руб.
         </Typography>
-
+        {!!product.sizes && (
+          <Typography variant="body2">
+            <b>Размеры: {product.sizes}</b>
+          </Typography>
+        )}
+        <Typography variant="body2">
+          <b>Вес:</b> {product.weight} кг
+        </Typography>
+        <Typography variant="body2">
+          <b>Доступность: </b>
+          {product.is_available ? "В наличии" : "Нет в наличии"}
+        </Typography>
         <Divider sx={{ my: 2 }} />
 
         <List>
@@ -102,14 +113,15 @@ export const CustomerProduct = observer(() => {
                     primary={evaluation.author.username}
                     secondary={
                       <>
+                        <Rating value={evaluation.evaluation} readOnly />
                         <Typography
                           component="span"
                           variant="body2"
-                          color="text.primary"
+                          color="text.secondary"
                         >
-                          {`Оценка: ${evaluation.evaluation}`}
+                          <br />
+                          {evaluation.comment}
                         </Typography>
-                        — {evaluation.comment}
                       </>
                     }
                   />
