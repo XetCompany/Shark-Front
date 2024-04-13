@@ -39,7 +39,7 @@ export const Login = () => {
       id: "username",
       name: "username",
       type: "text",
-      placeholder: "Логин",
+      placeholder: "Логин или email",
       value: loginData.username,
       onChange: handleInputChange,
     },

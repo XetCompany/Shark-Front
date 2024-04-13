@@ -15,9 +15,11 @@ import { RoutesEnum } from "@/router/index.jsx";
 import { customerStore } from "@store/CustomerStore.js";
 import { MEDIA_URL } from "@/api/constants.js";
 import no_photo from "@assets/img/no_image.png";
+import { SearchInput } from "@components/Input/SearchInput.jsx";
 
 export const CustomerProducts = observer(() => {
   const routerStore = useContext(RouterContext);
+  const [searchTerm, setSearchTerm] = useState("");
   const [hoveredProductId, setHoveredProductId] = useState(null);
   const [addedToCart, setAddedToCart] = useState({
     ids: [],
@@ -28,7 +30,6 @@ export const CustomerProducts = observer(() => {
       try {
         const response = await productsApi.customerProducts();
         customerStore.setCustomerProducts(response.data);
-        console.log(response.data, "Продукты загружены");
       } catch (error) {
         console.error("Ошибка при получении продуктов:", error);
       }
@@ -48,9 +49,26 @@ export const CustomerProducts = observer(() => {
     routerStore.goTo(RoutesEnum.PRODUCT, { params: { prodId: `${prodId}` } });
   };
 
+  const filteredProducts = searchTerm
+    ? customerStore.customerProducts.filter((product) =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase()),
+      )
+    : customerStore.customerProducts;
+
   return (
     <Grid container spacing={3} style={{ padding: "25px 70px" }}>
-      {customerStore.customerProducts.map((product) => (
+      <Grid container item xs={12}>
+        <SearchInput
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Поиск по названию"
+          ariaLabel="поиск по названию"
+          styles={{
+            borderRadius: "4px 0px 0px 4px",
+          }}
+        />
+      </Grid>
+      {filteredProducts.map((product) => (
         <Grid item key={product.id} xs={12} sm={6} md={4}>
           <Card>
             <CardMedia
@@ -95,7 +113,6 @@ export const CustomerProducts = observer(() => {
                   !product.is_can_add_to_cart ||
                   addedToCart.ids.includes(product.id)
                 }
-                // если статус await... только тогда можно согласовать или отказаться
                 onClick={() => handleAddToCart(product)}
               >
                 {!product.is_can_add_to_cart ||
