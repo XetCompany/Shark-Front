@@ -158,7 +158,8 @@ const ModalNotifications = observer(({ anchorEl, setAnchorEl }) => {
             Прочитать все
           </Button>
         </div>
-        {userStore.notifications.map((notification, index) => (
+        {/* только первые 5 уведов */}
+        {userStore.notifications.slice(0, 5).map((notification, index) => (
           <NotificationWrapper key={index} notification={notification} index={index} />
         ))}
       </Box>
