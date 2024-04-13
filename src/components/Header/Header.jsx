@@ -102,6 +102,14 @@ export const Header = observer(() => {
                 Склады и ПВЗ
               </RouterLink>
             </li>
+            <li>
+              <RouterLink
+                className="header-nav--link"
+                routeName={RoutesEnum.M_ORDERS}
+              >
+                Заказы
+              </RouterLink>
+            </li>
           </ul>
         )
       )}

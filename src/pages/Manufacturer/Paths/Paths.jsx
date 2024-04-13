@@ -94,9 +94,9 @@ const PathContent = observer(({ searchValue }) => {
     { field: "point_a", headerName: "Точка А", width: 170, valueGetter: (value, row) => row.point_a.name },
     { field: "point_b", headerName: "Точка Б", width: 170, valueGetter: (value, row) => row.point_b.name },
     { field: "type", headerName: "Тип транспортировки", width: 200, valueGetter: (value) => PATH_TYPES_RUS[value] },
-    { field: "time", headerName: "Время(в часах)", width: 120, editable: true },
-    { field: "price", headerName: "Цена(в руб.)", width: 140, editable: true },
-    { field: "length", headerName: "Протяженность(в км.)", width: 180, editable: true },
+    { field: "time", headerName: "Время(в часах)", width: 120, editable: true, type: "number" },
+    { field: "price", headerName: "Цена(в руб.)", width: 140, editable: true, type: "number" },
+    { field: "length", headerName: "Протяженность(в км.)", width: 180, editable: true, type: "number" },
   ];
 
   return (
