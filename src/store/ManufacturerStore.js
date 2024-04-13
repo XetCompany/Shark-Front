@@ -3,6 +3,7 @@ import PointsApi from "@/api/Manufacturer/PointsApi.js";
 import MProductsApi from "@/api/Manufacturer/MProductsApi.js";
 import PathsApi from "@/api/Manufacturer/PathsApi.js";
 import MOrdersApi from "@/api/Manufacturer/MOrdersApi.js";
+import { POINT_TYPES } from "@common/common.js";
 
 class ManufacturerStore {
   points = [];

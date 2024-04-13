@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import { useRouterStore } from "mobx-state-router";
 import { manufacturerStore } from "@store/ManufacturerStore.js";
 import {
-  Avatar,
+  Avatar, Button,
   Container,
   Divider,
   ListItem,
@@ -18,6 +18,8 @@ import { MEDIA_URL } from "@/api/constants.js";
 import logo from "@assets/img/no_image.png";
 import React from "react";
 import List from "@mui/material/List";
+import { POINT_TYPES } from "@common/common.js";
+import { RoutesEnum } from "@/router/index.jsx";
 
 
 const Comments = ({ evaluations }) => {
@@ -81,6 +83,45 @@ const Comments = ({ evaluations }) => {
   );
 };
 
+const ProductStocks = observer(({ product }) => {
+  const routerStore = useRouterStore();
+
+  if (!product.warehouses) {
+    return (
+      <Typography variant="body1" gutterBottom>
+        Нет информации о наличии
+      </Typography>
+    );
+  }
+
+  return (
+    <List sx={{
+      width: "100%",
+      // maxWidth: 360,
+      borderRadius: 2,
+    }}>
+      {product.warehouses.map((warehouse, index) => {
+        return (
+          <ListItem key={index} alignItems="flex-start">
+            <ListItemText
+              primary={manufacturerStore.getPointById(warehouse.id).name}
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                routerStore.goTo(RoutesEnum.POINT_DETAILS, {params: {id: warehouse.id}})
+              }}
+            >
+              Перейти
+            </Button>
+          </ListItem>
+        );
+      })}
+    </List>
+  );
+})
+
 
 export const ManufacturerProductDetails = observer(() => {
   const routerStore = useRouterStore();
@@ -140,6 +181,11 @@ export const ManufacturerProductDetails = observer(() => {
           <Typography variant="body1" gutterBottom>
             Статус: {product.is_available ? "Доступен" : "Недоступен"}
           </Typography>
+          <Divider />
+          <Typography variant="h6" component="h2" gutterBottom>
+            Наличие на складе:
+          </Typography>
+          <ProductStocks product={product} />
           <Divider />
           <Typography variant="h6" component="h2" gutterBottom>
             Комментарии:
