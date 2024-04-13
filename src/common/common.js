@@ -45,6 +45,14 @@ export const TYPE_PATH_TO_EMOJI = {
   [PATH_TYPES.INSTANT]: "🚀",
 };
 
+export const NOTIFICATION_TYPES = Object.freeze({
+  TEXT: "text",
+  EVALUATION: "evaluation",
+  ORDER: "order",
+  DELIVERED: "delivered",
+  CAN_COMMENT: "can_comment",
+});
+
 export const GRID_DEFAULT_LOCALE_TEXT_RUS = {
   // Root
   noRowsLabel: 'Нет строк',

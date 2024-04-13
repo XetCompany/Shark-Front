@@ -5,6 +5,7 @@ import { RouterLink, useRouterStore } from "mobx-state-router";
 import { RoutesEnum } from "@/router/index.jsx";
 import { ROLES_RUS } from "@common/common.js";
 import "./Header.css";
+import { NotificationBadge } from "@components/Common/NotificationBadge.jsx";
 
 export const Header = observer(() => {
   const routerStore = useRouterStore();
@@ -126,14 +127,20 @@ export const Header = observer(() => {
               {/*  }}*/}
               {/*  onClick={toggleModal}*/}
               {/*/>*/}
-              <img
-                src={defaultUserImage}
-                alt="User"
-                className="header-user-icon"
-                width="40px"
-                height="40px"
-                onClick={toggleModal}
-              />
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+              }}>
+                <NotificationBadge />
+                <img
+                  src={defaultUserImage}
+                  alt="User"
+                  className="header-user-icon"
+                  width="40px"
+                  height="40px"
+                  onClick={toggleModal}
+                />
+              </div>
               {showModal && (
                 <div className="user-modal">
                   <span>{userStore.username} </span>

@@ -3,6 +3,7 @@ import { getAccessTokenFromLocalStorage } from "@/api/utils.js";
 import UserApi from "@/api/UserApi.js";
 import { ROLES } from "@common/common.js";
 import { manufacturerStore } from "@store/ManufacturerStore.js";
+import { NotificationsApi } from "@/api/NotificationsApi.js";
 
 class UserStore {
   accessToken = null;
@@ -12,6 +13,9 @@ class UserStore {
   username = null;
   email = null;
   isLoad = false;
+
+  notifications = [];
+  timeoutUpdateNotifications = null;
 
   constructor() {
     this.init();
@@ -30,9 +34,30 @@ class UserStore {
     const user = response.data;
     this.updateUserData(user);
 
+    this.onInitUser();
+  }
+
+  onInitUser() {
     if (this.meIsManufacturer) {
       manufacturerStore.init();
     }
+
+    this.timeoutUpdateNotifications = setInterval(() => {
+      this.updateNotifications();
+    }, 5000);
+  }
+
+  onDestroyUser() {
+    clearInterval(this.timeoutUpdateNotifications);
+  }
+
+  async updateNotifications() {
+    const response = await NotificationsApi.getNotifications();
+    this.setNotifications(response.data);
+  }
+
+  setNotifications(notifications) {
+    this.notifications = notifications;
   }
 
   updateUserData(user) {
@@ -64,6 +89,8 @@ class UserStore {
     this.username = null;
     this.email = null;
     this.isLoad = false;
+
+    this.onDestroyUser();
   }
 
   get meIsManufacturer() {
