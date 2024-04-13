@@ -55,7 +55,7 @@ export const CitySelectionModal = observer(
       await routerStore.goTo(RoutesEnum.CREATE_ORDER);
     };
 
-    return !localStorage.getItem("token") ? null : (
+    return (
       <Modal
         open={isOpen}
         onClose={onClose}
