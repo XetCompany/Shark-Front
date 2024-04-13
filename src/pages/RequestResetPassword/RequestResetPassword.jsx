@@ -10,7 +10,7 @@ export const RequestResetPassword = observer(() => {
   const [newPassword, setNewPassword] = useState({ password: "" });
   const [passwordReseted, setPasswordReseted] = useState(false);
   const routerStore = useContext(RouterContext);
-  const paramToken = routerStore?.routerState.params.userId ?? "";
+  const paramToken = routerStore?.routerState.params.id ?? "";
 
   const handleInputChange = (e) => {
     const { value } = e.target;

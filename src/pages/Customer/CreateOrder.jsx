@@ -116,7 +116,7 @@ export const CreateOrder = observer(() => {
                   </TableCell>
                   <TableCell align="center">
                     {info.groups_paths.map((group, idx) => (
-                      <div key={idx}>{group.product.name}</div>
+                      <div key={idx}>{group.product.name} - {group.count} шт.</div>
                     ))}
                   </TableCell>
                   <TableCell align="center">

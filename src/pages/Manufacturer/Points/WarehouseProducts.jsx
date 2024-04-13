@@ -159,7 +159,7 @@ const WarehouseProductsContent = observer(
     return (
       <div>
         {products.map((product, count) => (
-          <WarehouseProduct key={product.id} product={product} count={count} />
+          <WarehouseProduct key={product.id} product={product} count={count} point={point} updateProducts={updateProducts} />
         ))}
         <Button sx={{ marginTop: "10px" }} onClick={handleOpen}>
           Добавить продукт
