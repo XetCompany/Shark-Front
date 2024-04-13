@@ -14,63 +14,16 @@ import {
 import WHProductsApi from "@/api/Manufacturer/WarehouseProductsApi.js";
 import { manufacturerStore } from "@store/ManufacturerStore.js";
 import { appStore } from "@store/AppStore.js";
+import { useRouterStore } from "mobx-state-router";
+import { RoutesEnum } from "@/router/index.jsx";
 
 const WarehouseProduct = ({ product, count, updateProducts, point }) => {
+  const routerStore = useRouterStore();
+
   const handleDelete = async () => {
     await WHProductsApi.removeProduct(point.id, product.product.id);
     await updateProducts();
   }
-
-   //         "id": 6,
-  //         "product": {
-  //             "id": 1,
-  //             "photo": null,
-  //             "evaluations": [
-  //                 {
-  //                     "id": 6,
-  //                     "author": {
-  //                         "id": 4,
-  //                         "username": "customer",
-  //                         "email": "customer@mail.ru",
-  //                         "fullname": null,
-  //                         "phone": null,
-  //                         "description": null,
-  //                         "image": null,
-  //                         "groups": [
-  //                             "customer"
-  //                         ]
-  //                     },
-  //                     "evaluation": 5,
-  //                     "comment": "Для меня sumsung на одном уровне с apple, но дешевле и более разнообразно"
-  //                 },
-  //                 {
-  //                     "id": 7,
-  //                     "author": {
-  //                         "id": 5,
-  //                         "username": "Ruzya0_0",
-  //                         "email": "salimovaruzila02@gmail.com",
-  //                         "fullname": "asdasd",
-  //                         "phone": "+79689769871",
-  //                         "description": "asdfawsdasd",
-  //                         "image": null,
-  //                         "groups": [
-  //                             "customer"
-  //                         ]
-  //                     },
-  //                     "evaluation": 5,
-  //                     "comment": "Кайф"
-  //                 }
-  //             ],
-  //             "name": "Samsung",
-  //             "price": "14.00",
-  //             "sizes": null,
-  //             "weight": "0.00",
-  //             "description": null,
-  //             "is_available": true,
-  //             "category": 1,
-  //             "average_rating": 5.0
-  //         },
-  //         "count": 7
 
   return (
     <Accordion
@@ -109,6 +62,13 @@ const WarehouseProduct = ({ product, count, updateProducts, point }) => {
         <Typography variant="body1" gutterBottom>
           Категория: {appStore.getCategoryNameById(product.product.category)}
         </Typography>
+        <Button onClick={() => {
+          routerStore.goTo(RoutesEnum.M_PRODUCTS_DETAILS, {
+            params: {
+              id: product.product.id.toString(),
+            },
+          });
+        }}>Подробнее</Button>
       </AccordionDetails>
     </Accordion>
   );
