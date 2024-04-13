@@ -7,23 +7,33 @@ class UserApi extends ApiClass {
   }
 
   static async register(data) {
-    const url = this.buildUrl('auth/signup/');
+    const url = this.buildUrl("auth/signup/");
     return await this.sendPost({ url, data });
   }
 
   static async resetPassword(data) {
-    const url = this.buildUrl('auth/reset_password/request/');
+    const url = this.buildUrl("auth/reset_password/request/");
     return await this.sendPost({ url, data });
   }
 
   static async requestResetPassword(data) {
-    const url = this.buildUrl('auth/reset_password/reset/');
+    const url = this.buildUrl("auth/reset_password/reset/");
     return await this.sendPost({ url, data });
   }
 
   static async getUserInfo() {
     const url = this.buildUrl("app/common/account/");
     return await this.sendGet({ url, isAuth: true });
+  }
+
+  static async putUserInfo(data) {
+    const url = this.buildUrl("app/common/account/");
+    return await this.sendPut({ url, data, isAuth: true });
+  }
+
+  static async changePassword(data) {
+    const url = this.buildUrl("auth/change_password/");
+    return await this.sendPost({ url, data, isAuth: true });
   }
 }
 

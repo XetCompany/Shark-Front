@@ -13,6 +13,10 @@ class UserStore {
   username = null;
   email = null;
   isLoad = false;
+  fullName = null;
+  phone = null;
+  image = null;
+  description = null;
 
   notifications = [];
   timeoutUpdateNotifications = null;
@@ -70,6 +74,10 @@ class UserStore {
     this.email = user.email;
     this.role = user.groups[0];
     this.isLoad = true;
+    this.image = user.image;
+    this.description = user.description;
+    this.fullName = user.fullname;
+    this.phone = user.phone;
   }
 
   setAccessToken(accessToken) {
