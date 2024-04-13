@@ -19,6 +19,10 @@ import MProductsApi from "@/api/Manufacturer/MProductsApi.js";
 export const ProductEditModal = ({ editProductId, setEditProductId }) => {
   const product = manufacturerStore.getProductById(editProductId);
 
+  if (product === undefined) {
+    return null;
+  }
+
   const [formData, setFormData] = useState({
     name: product.name,
     price: product.price,

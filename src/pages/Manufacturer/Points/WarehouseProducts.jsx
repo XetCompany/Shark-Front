@@ -23,6 +23,7 @@ const WarehouseProduct = ({ product, count, updateProducts, point }) => {
   const handleDelete = async () => {
     await WHProductsApi.removeProduct(point.id, product.product.id);
     await updateProducts();
+    await manufacturerStore.loadProducts();
   }
 
   return (
@@ -124,6 +125,7 @@ const AddProductWareHouseModalContent = observer(
                 count,
               );
               await updateProducts();
+              await manufacturerStore.loadProducts();
               handleClose();
             }}
           >
