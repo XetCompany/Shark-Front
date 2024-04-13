@@ -17,7 +17,7 @@ export function SearchCreateComponent({
           flexDirection: "row",
           justifyContent: "center",
           alignItems: "center",
-          gap: 2,
+          // gap: 2,
         }}
       >
         <SearchInput
@@ -25,10 +25,17 @@ export function SearchCreateComponent({
           onChange={(e) => setSearchValue(e.target.value)}
           placeholder="Поиск по названию"
           ariaLabel="поиск по названию"
+          styles={{
+            borderRadius: "4px 0px 0px 4px",
+          }}
         />
         <Button
           variant="contained"
           color="primary"
+          sx={{
+            height: "48px",
+            borderRadius: "0px 4px 4px 0px",
+          }}
           onClick={() => {
             routerStore.goTo(routerName);
           }}
