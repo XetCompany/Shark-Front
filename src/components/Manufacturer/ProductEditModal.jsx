@@ -17,10 +17,6 @@ import { manufacturerStore } from "@store/ManufacturerStore.js";
 import MProductsApi from "@/api/Manufacturer/MProductsApi.js";
 
 export const ProductEditModal = ({ editProductId, setEditProductId }) => {
-  if (editProductId === null) {
-    return null;
-  }
-
   const product = manufacturerStore.getProductById(editProductId);
 
   const [formData, setFormData] = useState({
@@ -46,6 +42,10 @@ export const ProductEditModal = ({ editProductId, setEditProductId }) => {
     is_available: false,
     photo: false,
   });
+
+  if (editProductId === null) {
+    return null;
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
