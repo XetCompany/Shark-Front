@@ -13,12 +13,64 @@ import {
 } from "@mui/material";
 import WHProductsApi from "@/api/Manufacturer/WarehouseProductsApi.js";
 import { manufacturerStore } from "@store/ManufacturerStore.js";
+import { appStore } from "@store/AppStore.js";
 
 const WarehouseProduct = ({ product, count, updateProducts, point }) => {
   const handleDelete = async () => {
     await WHProductsApi.removeProduct(point.id, product.product.id);
     await updateProducts();
   }
+
+   //         "id": 6,
+  //         "product": {
+  //             "id": 1,
+  //             "photo": null,
+  //             "evaluations": [
+  //                 {
+  //                     "id": 6,
+  //                     "author": {
+  //                         "id": 4,
+  //                         "username": "customer",
+  //                         "email": "customer@mail.ru",
+  //                         "fullname": null,
+  //                         "phone": null,
+  //                         "description": null,
+  //                         "image": null,
+  //                         "groups": [
+  //                             "customer"
+  //                         ]
+  //                     },
+  //                     "evaluation": 5,
+  //                     "comment": "Для меня sumsung на одном уровне с apple, но дешевле и более разнообразно"
+  //                 },
+  //                 {
+  //                     "id": 7,
+  //                     "author": {
+  //                         "id": 5,
+  //                         "username": "Ruzya0_0",
+  //                         "email": "salimovaruzila02@gmail.com",
+  //                         "fullname": "asdasd",
+  //                         "phone": "+79689769871",
+  //                         "description": "asdfawsdasd",
+  //                         "image": null,
+  //                         "groups": [
+  //                             "customer"
+  //                         ]
+  //                     },
+  //                     "evaluation": 5,
+  //                     "comment": "Кайф"
+  //                 }
+  //             ],
+  //             "name": "Samsung",
+  //             "price": "14.00",
+  //             "sizes": null,
+  //             "weight": "0.00",
+  //             "description": null,
+  //             "is_available": true,
+  //             "category": 1,
+  //             "average_rating": 5.0
+  //         },
+  //         "count": 7
 
   return (
     <Accordion
@@ -38,6 +90,24 @@ const WarehouseProduct = ({ product, count, updateProducts, point }) => {
       <AccordionDetails>
         <Typography variant="body1" gutterBottom>
           Описание: {product.product.description || "Отсутствует"}
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          Цена: {product.product.price} руб.
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          Вес: {product.product.weight} кг.
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          Размеры: {product.product.sizes || "Отсутствуют"}
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          Средний рейтинг: {product.product.average_rating}
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          Статус: {product.product.is_available ? "Доступен" : "Недоступен"}
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          Категория: {appStore.getCategoryNameById(product.product.category)}
         </Typography>
       </AccordionDetails>
     </Accordion>
