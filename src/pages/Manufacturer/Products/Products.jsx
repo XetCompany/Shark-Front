@@ -59,7 +59,7 @@ export function ManufacturerProducts() {
 
   return (
     <ContentPageWrapper
-      title="Товары"
+      title="Мои Товары"
       componentHeader={
         <SearchCreateComponent
           searchValue={searchValue}

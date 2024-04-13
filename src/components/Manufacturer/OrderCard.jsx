@@ -4,11 +4,7 @@ import { RoutesEnum } from "@/router/index.jsx";
 import React from "react";
 import { useRouterStore } from "mobx-state-router";
 import { ORDER_STATUS_RUS } from "@pages/Customer/Cart/constants.js";
-
-function formatDate(date) {
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
-  return new Date(date).toLocaleDateString(undefined, options);
-}
+import { formatCustomDate } from "@/api/utils.js";
 
 export const OrderCard = observer(({ order }) => {
   const routerStore = useRouterStore();
@@ -20,7 +16,7 @@ export const OrderCard = observer(({ order }) => {
           Заказ №{order.id}
         </Typography>
         <Typography variant="body2" color="text.secondary" align="left">
-          Cоздан: {formatDate(order.created_at)}
+          Cоздан: {formatCustomDate(order.created_at)}
         </Typography>
         <Typography variant="body2" color="text.secondary" align="left">
           Покупатель: {order.user.username}
@@ -47,11 +43,11 @@ export const OrderCard = observer(({ order }) => {
           Итого время пути: {order.total_path_time} ч.
         </Typography>
       </CardContent>
-      {/*<CardActions>*/}
-      {/*  <Button size="small" onClick={() => routerStore.goTo(RoutesEnum.ORDER, { id: order.id })}>*/}
-      {/*    Подробнее*/}
-      {/*  </Button>*/}
-      {/*</CardActions>*/}
+      <CardActions>
+        <Button size="small" onClick={() => routerStore.goTo(RoutesEnum.M_ORDER, {params: {orderId: order.id}})}>
+          Подробнее
+        </Button>
+      </CardActions>
     </Card>
   );
 });

@@ -87,8 +87,6 @@ export const ManufacturerProductDetails = observer(() => {
   const { params } = routerStore.routerState;
   const product = manufacturerStore.getProductById(parseInt(params.id));
 
-  console.log(product);
-
   if (!product) {
     return (
       <ContentPageWrapper title="Информация о Продукте">

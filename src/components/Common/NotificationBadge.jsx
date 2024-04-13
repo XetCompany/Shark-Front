@@ -35,16 +35,12 @@ const Notification = observer(({ notification }) => {
       <div>
         <Typography variant="body1">На ваш продукт оставлен заказ</Typography>
         <Button
-          // onClick={() => {
-          //   routerStore.goTo(RoutesEnum.M_ORDER, {
-          //     params: {
-          //       orderId: notification.additional_data.order_id.toString(),
-          //     },
-          //   });
-          // }}
           onClick={() => {
-            // ToDo когда будет страница заказа
-            routerStore.goTo(RoutesEnum.M_ORDERS);
+            routerStore.goTo(RoutesEnum.M_ORDER, {
+              params: {
+                orderId: notification.additional_data.order_id.toString(),
+              },
+            });
           }}
         >
           Перейти к заказу
