@@ -12,6 +12,8 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
+import { LoadingModal } from "@components/Common/LoadingModal.jsx";
+import { ErrorModal } from "@components/Common/ErrorModal.jsx";
 
 const darkTheme = createTheme({
   palette: {
@@ -31,6 +33,8 @@ export const App = () => {
           <RouterView viewMap={viewMap} />
         </div>
         <Footer />
+        <LoadingModal />
+        <ErrorModal />
       </RouterContext.Provider>
     </ThemeProvider>
   );

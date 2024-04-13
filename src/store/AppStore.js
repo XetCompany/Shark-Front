@@ -3,7 +3,12 @@ import CommonApi from "@/api/CommonApi.js";
 
 class AppStore {
   cities = [];
+  citiesIsLoading = false;
+
   categories = [];
+  categoriesIsLoading = false;
+
+  errorMessage = null;
 
   constructor() {
     this.init();
@@ -22,27 +27,43 @@ class AppStore {
     return city ? city.name : "";
   }
 
-  getCategoryNameById(id) {
-    const category = this.categories.find((category) => category.id === id);
-    return category ? category.name : "";
-  }
-
   async updateCities() {
+    this.setCitiesIsLoading(true);
     const response = await CommonApi.getCities();
     this.setCities(response.data);
-  }
-
-  async updateCategories() {
-    const response = await CommonApi.getCategories();
-    this.setCategories(response.data);
+    this.setCitiesIsLoading(false);
   }
 
   setCities(cities) {
     this.cities = cities;
   }
 
+  setCitiesIsLoading(isLoading) {
+    this.citiesIsLoading = isLoading;
+  }
+
+  getCategoryNameById(id) {
+    const category = this.categories.find((category) => category.id === id);
+    return category ? category.name : "";
+  }
+
+  async updateCategories() {
+    this.setCategoriesIsLoading(true);
+    const response = await CommonApi.getCategories();
+    this.setCategories(response.data);
+    this.setCategoriesIsLoading(false);
+  }
+
   setCategories(categories) {
     this.categories = categories;
+  }
+
+  setCategoriesIsLoading(isLoading) {
+    this.categoriesIsLoading = isLoading;
+  }
+
+  setErrorMessage(message) {
+    this.errorMessage = message;
   }
 }
 

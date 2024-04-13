@@ -1,6 +1,7 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import Url from "@/api/base/Url.js";
 import { getAccessTokenFromLocalStorage } from "@/api/utils.js";
+import errorStore from "@store/ErrorStore.js";
 
 class ApiClass {
   static INTERMEDIARY_URL = "";
@@ -35,10 +36,27 @@ class ApiClass {
     params.headers = headers;
 
     let response;
-    if (data === undefined) {
-      response = await method(url, params);
-    } else {
-      response = await method(url, data, params);
+    try {
+      if (data === undefined) {
+        response = await method(url, params);
+      } else {
+        response = await method(url, data, params);
+      }
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response) {
+          try {
+            errorStore.setError(JSON.stringify(error.response.data));
+          } catch (e) {
+            errorStore.setError(error.response.data.toString());
+          }
+        } else {
+          errorStore.setError("Network error");
+        }
+      } else {
+        errorStore.setError("Network error");
+      }
+      throw error;
     }
 
     return response;
