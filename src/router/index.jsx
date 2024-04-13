@@ -18,8 +18,10 @@ import { Paths } from "@pages/Manufacturer/Paths/Paths.jsx";
 import { PathCreate } from "@pages/Manufacturer/Paths/PathCreate.jsx";
 import { MakeOrder } from "@pages/Customer/MakeOrder.jsx";
 import { Order } from "@pages/Customer/Order.jsx";
+import { Profile } from "@pages/Profile/Profile.jsx";
 import { ManufacturerOrders } from "@pages/Manufacturer/Orders/ManufacturerOrders.jsx";
 import { ManufacturerOrder } from "@pages/Manufacturer/Orders/ManufacturerOrder.jsx";
+import { ChangePassword } from "@pages/ChangePassword/ChangePassword.jsx";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const RoutesEnum = Object.freeze({
@@ -28,6 +30,8 @@ export const RoutesEnum = Object.freeze({
   REGISTER: "register",
   RESET_PASSWORD: "reset_password",
   RESET_PASSWORD_REQUEST: "reset_password_request",
+  PROFILE: "profile",
+  CHANGE_PASSWORD: "change_password",
 
   // Customer routes
   PRODUCTS: "products",
@@ -61,6 +65,8 @@ export const PATHS = {
   [RoutesEnum.REGISTER]: "/register",
   [RoutesEnum.RESET_PASSWORD]: "/reset-password/request",
   [RoutesEnum.RESET_PASSWORD_REQUEST]: `/reset-password/:id`,
+  [RoutesEnum.PROFILE]: "/profile",
+  [RoutesEnum.CHANGE_PASSWORD]: "/change_password",
 
   // Customer routes
   [RoutesEnum.PRODUCTS]: "/",
@@ -105,6 +111,14 @@ export const Routes = [
   {
     name: RoutesEnum.RESET_PASSWORD_REQUEST,
     pattern: PATHS[RoutesEnum.RESET_PASSWORD_REQUEST],
+  },
+  {
+    name: RoutesEnum.PROFILE,
+    pattern: PATHS.profile,
+  },
+  {
+    name: RoutesEnum.CHANGE_PASSWORD,
+    pattern: PATHS.change_password,
   },
 
   // Customer routes
@@ -187,6 +201,8 @@ export const viewMap = {
   register: <Register />,
   reset_password: <ResetPassword />,
   reset_password_request: <RequestResetPassword />,
+  profile: <Profile />,
+  change_password: <ChangePassword />,
 
   // Customer routes
   products: <CustomerProducts />,

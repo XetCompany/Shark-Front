@@ -1,26 +1,38 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { observer } from "mobx-react";
-import userStore from "@store/UserStore.js";
 import { RouterLink, useRouterStore } from "mobx-state-router";
 import { RoutesEnum } from "@/router/index.jsx";
-import { ROLES_RUS } from "@common/common.js";
+import {
+  Popover,
+  Typography,
+  Avatar,
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
+} from "@mui/material";
+import userStore from "@store/UserStore.js";
 import "./Header.css";
 import { NotificationBadge } from "@components/Common/NotificationBadge.jsx";
 
 export const Header = observer(() => {
   const routerStore = useRouterStore();
-  const [showModal, setShowModal] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
 
-  const defaultUserImage =
-    "https://cdn-icons-png.freepik.com/512/3177/3177440.png";
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-  const toggleModal = () => {
-    setShowModal(!showModal);
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   const logout = () => {
     userStore.removeAuthData();
     routerStore.goTo(RoutesEnum.HOME);
+    handleClose();
   };
 
   return (
@@ -118,40 +130,67 @@ export const Header = observer(() => {
         <ul className="header-nav--links">
           {userStore.isLoad && (
             <li>
-              {/*<AccountCircle*/}
-              {/*  style={{*/}
-              {/*    fontSize: "50px",*/}
-              {/*    color: "white",*/}
-              {/*    cursor: "pointer",*/}
-
-              {/*  }}*/}
-              {/*  onClick={toggleModal}*/}
-              {/*/>*/}
-              <div style={{
-                display: "flex",
-                alignItems: "center",
-              }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
                 <NotificationBadge />
-                <img
-                  src={defaultUserImage}
-                  alt="User"
-                  className="header-user-icon"
-                  width="40px"
-                  height="40px"
-                  onClick={toggleModal}
-                />
+                {userStore.isLoad && (
+                  <Avatar
+                    src={
+                      userStore.image ||
+                      "https://cdn-icons-png.freepik.com/512/3177/3177440.png"
+                    }
+                    alt="User"
+                    onClick={handleClick}
+                    sx={{ cursor: "pointer", width: 40, height: 40 }}
+                  />
+                )}
+                <Popover
+                  id={id}
+                  open={open}
+                  anchorEl={anchorEl}
+                  onClose={handleClose}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "center",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "center",
+                  }}
+                >
+                  <Typography sx={{ p: 2 }}>
+                    {userStore.fullName ?? userStore.username}
+                  </Typography>
+                  <Divider />
+                  <List component="nav" dense>
+                    <ListItem
+                      button
+                      component={RouterLink}
+                      routeName={RoutesEnum.PROFILE}
+                    >
+                      <ListItemText primary="Редактировать профиль" />
+                    </ListItem>
+                    <ListItem
+                      button
+                      component={RouterLink}
+                      routeName={RoutesEnum.CHANGE_PASSWORD}
+                    >
+                      <ListItemText primary="Сменить пароль" />
+                    </ListItem>
+                    <ListItem button onClick={logout}>
+                      <ListItemText primary="Выйти из аккаунта" />
+                    </ListItem>
+                  </List>
+                </Popover>
               </div>
-              {showModal && (
-                <div className="user-modal">
-                  <span>{userStore.username} </span>
-                  <span>{userStore.email}</span>
-                  <span>{ROLES_RUS[userStore.role]}</span>
-                </div>
-              )}
             </li>
           )}
           <li>
-            {!userStore.isLoad ? (
+            {!userStore.isLoad && (
               <div className="header-nav--buttons">
                 <RouterLink
                   className="header-nav--button"
@@ -166,12 +205,6 @@ export const Header = observer(() => {
                   Зарегистрироваться
                 </RouterLink>
               </div>
-            ) : (
-              <>
-                <button onClick={logout} className="header-nav--button">
-                  Выйти из аккаунта
-                </button>
-              </>
             )}
           </li>
         </ul>
