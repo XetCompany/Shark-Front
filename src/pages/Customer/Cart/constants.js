@@ -38,8 +38,8 @@ export const ORDER_STATUS = Object.freeze({
 });
 
 export const ORDER_STATUS_RUS = Object.freeze({
-  [ORDER_STATUS.AWAITING]: "Ожидает забора",
+  [ORDER_STATUS.AWAITING]: "Ожидает на ПВЗ",
   [ORDER_STATUS.ADOPTED]: "Принят",
   [ORDER_STATUS.DECLINED]: "Отклонен",
-  [ORDER_STATUS.IN_PROGRESS]: "В процессе",
+  [ORDER_STATUS.IN_PROGRESS]: "Доставляется",
 });

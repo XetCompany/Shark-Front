@@ -13,5 +13,4 @@ html {
     min-height: calc(100vh - 55px);
     display: flex;
     flex-direction: column;
-    padding-top: 100px;
 }

@@ -2,6 +2,7 @@ import { makeAutoObservable } from "mobx";
 import PointsApi from "@/api/Manufacturer/PointsApi.js";
 import MProductsApi from "@/api/Manufacturer/MProductsApi.js";
 import PathsApi from "@/api/Manufacturer/PathsApi.js";
+import MOrdersApi from "@/api/Manufacturer/MOrdersApi.js";
 
 class ManufacturerStore {
   points = [];
@@ -13,6 +14,9 @@ class ManufacturerStore {
   paths = [];
   pathsIsLoading = false;
 
+  orders = [];
+  ordersIsLoading = false;
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -22,6 +26,7 @@ class ManufacturerStore {
       this.updatePoints();
       this.updateProducts();
       this.updatePaths();
+      this.updateOrders();
     });
   }
 
@@ -39,6 +44,10 @@ class ManufacturerStore {
 
   getPathById(id) {
     return this.paths.find((path) => path.id === id);
+  }
+
+  getOrderById(id) {
+    return this.orders.find((order) => order.id === id);
   }
 
   async updatePoints() {
@@ -74,6 +83,17 @@ class ManufacturerStore {
     this.setPaths(response.data);
   }
 
+  async updateOrders() {
+    this.setOrdersIsLoading(true);
+    await this.loadOrders();
+    this.setOrdersIsLoading(false);
+  }
+
+  async loadOrders() {
+    const response = await MOrdersApi.getOrders();
+    this.setOrders(response.data);
+  }
+
   setPointsIsLoading(value) {
     this.pointsIsLoading = value;
   }
@@ -96,6 +116,14 @@ class ManufacturerStore {
 
   setPaths(paths) {
     this.paths = paths;
+  }
+
+  setOrdersIsLoading(value) {
+    this.ordersIsLoading = value;
+  }
+
+  setOrders(orders) {
+    this.orders = orders;
   }
 }
 

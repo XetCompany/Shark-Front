@@ -4,7 +4,7 @@ import { ContentPageWrapper } from "@components/PageWrapper/ContentPageWrapper.j
 import { SearchCreateComponent } from "@components/PageWrapper/SearchCreateComponent.jsx";
 import { RoutesEnum } from "@/router/index.jsx";
 import { manufacturerStore } from "@store/ManufacturerStore.js";
-import { Box, Button, Container, Link, Modal, Stack, Typography } from "@mui/material";
+import { Box, Button, ButtonGroup, Container, Link, Modal, Stack, Typography } from "@mui/material";
 import {
   DataGrid,
   GridToolbarColumnsButton,
@@ -184,16 +184,18 @@ const PathExcel = observer(({ dataFile64, setDataFile64, dataFile, setDataFile }
   return <Stack direction="row" spacing={2} sx={{
     marginTop: 2,
   }}>
-    <Link href={EXCEL_PATHS_PATTERN_URL} target="_blank" download>
-      <Button variant="outlined" startIcon={<DownloadIcon />}>
-        Шаблон
+    <ButtonGroup>
+      <Link href={EXCEL_PATHS_PATTERN_URL} target="_blank" download>
+        <Button variant="outlined" startIcon={<DownloadIcon />}>
+          Шаблон
+        </Button>
+      </Link>
+      <Button variant="contained" startIcon={<PublishIcon />} onClick={() => {
+        handleOpen();
+      }}>
+        Загрузить
       </Button>
-    </Link>
-    <Button variant="contained" startIcon={<PublishIcon />} onClick={() => {
-      handleOpen();
-    }}>
-      Загрузить
-    </Button>
+    </ButtonGroup>
 
     <Modal open={open} onClose={handleClose}>
       <Box
