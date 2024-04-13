@@ -33,11 +33,11 @@ export const Profile = observer(() => {
   const classes = useStyles();
   const routerStore = useRouterStore();
   const [profile, setProfile] = useState({
-    username: "",
-    fullname: "",
-    phone: "",
-    description: "",
-    image: "",
+    username: null,
+    fullname: null,
+    phone: null,
+    description: null,
+    image: null,
   });
 
   useEffect(() => {
@@ -48,9 +48,7 @@ export const Profile = observer(() => {
         fullname: userStore.fullName,
         phone: userStore.phone,
         description: userStore.description,
-        image:
-          userStore.image ||
-          "https://www.example.com/path-to-default-image.jpg",
+        image: userStore.image || null,
       });
     };
     loadProfile();
