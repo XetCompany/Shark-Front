@@ -22,9 +22,15 @@ import {
   Divider,
 } from "@mui/material";
 import no_photo from "@assets/img/no_image.png";
+import { RoutesEnum } from "@/router/index.jsx";
+import userStore from "@store/UserStore.js";
 
 export const CustomerProduct = observer(() => {
   const routerStore = useContext(RouterContext);
+  if (!userStore.accessToken) {
+    routerStore.goTo(RoutesEnum.HOME);
+    return;
+  }
   const productId = parseInt(
     routerStore?.routerState?.params?.prodId ?? "0",
     10,
