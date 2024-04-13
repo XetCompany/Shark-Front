@@ -30,21 +30,30 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const Profile = observer(() => {
-  if (!userStore.username) userStore.updateUser();
-  const routerStore = useRouterStore();
   const classes = useStyles();
-
+  const routerStore = useRouterStore();
   const [profile, setProfile] = useState({
-    username: userStore.username,
-    fullname: userStore.fullName,
-    phone: userStore.phone,
-    description: userStore.description,
-    image: userStore.image,
-    photoName: null,
-    imageValue: null,
+    username: "",
+    fullname: "",
+    phone: "",
+    description: "",
+    image: "",
   });
+
   useEffect(() => {
-    userStore.updateUser();
+    const loadProfile = async () => {
+      await userStore.updateUser();
+      setProfile({
+        username: userStore.username,
+        fullname: userStore.fullName,
+        phone: userStore.phone,
+        description: userStore.description,
+        image:
+          userStore.image ||
+          "https://www.example.com/path-to-default-image.jpg",
+      });
+    };
+    loadProfile();
   }, []);
 
   const handleChange = (event) => {
@@ -52,36 +61,33 @@ export const Profile = observer(() => {
     setProfile((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handlePhoneChange = (event) => {
+    const { value } = event.target;
+    setProfile((prev) => ({
+      ...prev,
+      phone: value.startsWith("+") ? value : `+${value}`,
+    }));
+  };
+
   const handleSaveUser = async () => {
-    await userApi.putUserInfo(profile);
-    await routerStore.goTo(RoutesEnum.HOME);
+    try {
+      await userApi.putUserInfo(profile);
+      routerStore.goTo(RoutesEnum.HOME);
+    } catch (error) {
+      console.error("Ошибка при сохранении профиля:", error);
+    }
   };
 
   return (
     <Card className={classes.card}>
       <CardContent>
         <Box display="flex" flexDirection="column" alignItems="center">
-          <Avatar
-            src={
-              profile.image ||
-              "https://www.example.com/path-to-default-image.jpg"
-            }
-            className={classes.avatar}
-          />
+          <Avatar src={profile.image} className={classes.avatar} />
           <CustomFileInput
-            fileData={profile.imageValue}
-            setFileBase64={(base64) => {
-              setProfile((prevState) => ({
-                ...prevState,
-                image: base64,
-              }));
-            }}
-            setFileData={(data) => {
-              setProfile((prevState) => ({
-                ...prevState,
-                imageValue: data,
-              }));
-            }}
+            fileData={profile.image}
+            setFileBase64={(base64) =>
+              setProfile((prevState) => ({ ...prevState, image: base64 }))
+            }
             accept=".png, .jpeg, .jpg"
             placeholder="Выберите изображение"
           />
@@ -108,7 +114,7 @@ export const Profile = observer(() => {
           name="phone"
           margin="normal"
           value={profile.phone}
-          onChange={handleChange}
+          onChange={handlePhoneChange}
         />
         <TextField
           fullWidth

@@ -25,12 +25,12 @@ export const CitySelectionModal = observer(
     const [isSea, setIsSea] = useState(true);
     const [isRiver, setIsRiver] = useState(true);
     const [isAir, setIsAir] = useState(true);
-    const [minPrice, setMinPrice] = useState(0);
-    const [maxPrice, setMaxPrice] = useState(0);
-    const [minTime, setMinTime] = useState(0);
-    const [maxTime, setMaxTime] = useState(0);
-    const [minDistance, setMinDistance] = useState(0);
-    const [maxDistance, setMaxDistance] = useState(0);
+    const [minPrice, setMinPrice] = useState(null);
+    const [maxPrice, setMaxPrice] = useState(null);
+    const [minTime, setMinTime] = useState(null);
+    const [maxTime, setMaxTime] = useState(null);
+    const [minDistance, setMinDistance] = useState(null);
+    const [maxDistance, setMaxDistance] = useState(null);
 
     let options = cities.map((city) => city.city);
 

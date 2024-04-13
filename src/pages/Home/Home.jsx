@@ -1,5 +1,13 @@
 import React from "react";
-import { Box, Typography, Button, Container, Grid, Paper } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Button,
+  Container,
+  Grid,
+  Paper,
+  Card,
+} from "@mui/material";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
@@ -14,12 +22,12 @@ export const Home = () => {
             'url("https://cdn.dorik.com/661154201d6c29001119b9a0/images/photo-1614086138082-8f9f4bed81e4-JAyyF.jpeg")',
           backgroundSize: "cover",
           color: "#fff",
-          py: 35,
+          py: 20,
           textAlign: "center",
         }}
       >
-        <Container maxWidth="md">
-          <Typography variant="h3" gutterBottom component="h1">
+        <Container>
+          <Typography variant="h3" gutterBottom>
             Эффективная доставка товаров
           </Typography>
           <Button
@@ -33,146 +41,99 @@ export const Home = () => {
       </Box>
 
       {/* Second Section */}
-      <Grid
-        container
-        spacing={2}
-        sx={{ p: 3, alignItems: "center", backgroundColor: "secondary.main" }}
-      >
-        <Grid item xs={12} md={6}>
-          <Typography variant="h4" gutterBottom>
-            Доставка товаров потребителям
-          </Typography>
-          <Typography>
-            Компании могут использовать нашу платформу для эффективной доставки
-            своих готовых товаров покупателям, организуя маршруты между
-            складами, магазинами и пунктами выдачи. Покупатели могут легко
-            заказать доставку товаров в ближайший пункт выдачи.
-          </Typography>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Paper
-            elevation={3}
+      <Container sx={{ py: 8 }}>
+        <Grid container spacing={4}>
+          <Grid item xs={12} md={6}>
+            <Typography variant="h4" gutterBottom>
+              Доставка товаров потребителям
+            </Typography>
+            <Typography>
+              Компании могут использовать нашу платформу для эффективной
+              доставки своих готовых товаров покупателям, организуя маршруты
+              между складами, магазинами и пунктами выдачи.
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            md={6}
             sx={{
-              p: 2,
               display: "flex",
-              flexDirection: "column",
+              justifyContent: "center",
               alignItems: "center",
             }}
           >
-            <ShoppingCartIcon color="primary" sx={{ fontSize: 50 }} />
-            <Typography variant="h5">Склады</Typography>
-            <Typography>
-              Хранение товаров на складах в ожидании заказов на доставку
-            </Typography>
-          </Paper>
+            <Paper elevation={6} sx={{ p: 3, width: "100%", maxWidth: 360 }}>
+              <ShoppingCartIcon color="primary" sx={{ fontSize: 60, mb: 2 }} />
+              <Typography variant="h5">Склады</Typography>
+              <Typography>
+                Хранение товаров на складах в ожидании заказов на доставку
+              </Typography>
+            </Paper>
+          </Grid>
         </Grid>
-      </Grid>
+      </Container>
 
       {/* Third Section */}
-      <Box
-        sx={{ bgcolor: "#3788d8", color: "#fff", p: 3, textAlign: "center" }}
-      >
-        <Container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-          }}
-        >
-          <Typography variant="h4">О сервисе Shark Cat:</Typography>
+      <Box sx={{ bgcolor: "#3788d8", py: 8 }}>
+        <Container>
+          <Typography variant="h4" color="common.white" gutterBottom>
+            О сервисе Shark Cat:
+          </Typography>
           <Paper
-            sx={{
-              maxWidth: 600,
-              my: 4,
-              minHeight: 400,
-              padding: 10,
-            }}
-            elevation={3}
+            elevation={6}
+            sx={{ p: 4, bgcolor: "common.white", color: "black" }}
           >
-            <Typography align="center" variant="h5" gutterBottom>
+            <Typography variant="h5" align="center" gutterBottom>
               Доставка по всему миру
             </Typography>
-            <Typography align="left">
-              Shark Cat специализируется на организации быстрой и
-              <br />
-              удобной доставки готовых изделий
-              <br />
-              от производителей до покупателей.
-              <br />
-              Мы работаем с производителями со всего мира, помогая им
-              оптимизировать логистику и
-              <br />
-              сократить расходы на доставку.
-              <br /> А покупатели получают возможность быстро и
-              <br />
-              просто заказывать готовые изделия из любой точки мира.
+            <Typography>
+              Shark Cat специализируется на организации быстрой и удобной
+              доставки готовых изделий от производителей до покупателей. Мы
+              работаем с производителями со всего мира, помогая им
+              оптимизировать логистику и сократить расходы на доставку.
             </Typography>
+            <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+              <Button variant="contained" sx={{ bgcolor: "primary.main" }}>
+                Узнать больше
+              </Button>
+            </Box>
           </Paper>
-          <Button variant="contained" sx={{ mt: 2 }}>
-            Узнать больше
-          </Button>
         </Container>
       </Box>
 
       {/* Fourth Section */}
-      <Box sx={{ py: 6, bgcolor: "background.default" }}>
-        <Container>
-          <Typography variant="h4" gutterBottom>
-            Основные возможности
-          </Typography>
-          <Typography gutterBottom>
-            Мы предлагаем несколько ключевых возможностей для эффективной
-            доставки вашей продукции.
-          </Typography>
-          <Grid container spacing={4}>
-            <Grid item xs={12} md={6}>
-              <Paper elevation={3} sx={{ p: 4, textAlign: "center" }}>
-                <LocalShippingIcon color="primary" sx={{ fontSize: 50 }} />
-                <Typography variant="h5">Оптимизация маршрутов</Typography>
-                <Typography>
-                  Наша система логистики позволяет находить оптимальные
-                  <br />
-                  маршруты для доставки, сокращая время и стоимость.
-                </Typography>
-              </Paper>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Paper elevation={3} sx={{ p: 4, textAlign: "center" }}>
-                <ShoppingCartIcon color="primary" sx={{ fontSize: 50 }} />
-                <Typography variant="h5">Прозрачное ценообразование</Typography>
-                <Typography>
-                  Полная прозрачность в ценообразовании без скрытых
-                  <br />
-                  сборов и дополнительных расходов.
-                </Typography>
-              </Paper>
-            </Grid>
+      <Container sx={{ py: 8 }}>
+        <Typography variant="h4" gutterBottom>
+          Основные возможности
+        </Typography>
+        <Typography gutterBottom>
+          Мы предлагаем несколько ключевых возможностей для эффективной доставки
+          вашей продукции.
+        </Typography>
+        <Grid container spacing={4}>
+          <Grid item xs={12} md={6}>
+            <Card sx={{ textAlign: "center", p: 3 }}>
+              <LocalShippingIcon color="primary" sx={{ fontSize: 60, mb: 2 }} />
+              <Typography variant="h5">Оптимизация маршрутов</Typography>
+              <Typography>
+                Наша система логистики позволяет находить оптимальные маршруты
+                для доставки, сокращая время и стоимость.
+              </Typography>
+            </Card>
           </Grid>
-        </Container>
-      </Box>
-      <Box
-        sx={{
-          bgcolor: "primary.main",
-          color: "#fff",
-          p: 3,
-          textAlign: "center",
-        }}
-      >
-        <Container>
-          <Typography variant="h4" gutterBottom>
-            Удобство и доступность
-          </Typography>
-          <Typography>
-            Предоставляем максимальное удобство при заказе через нашу
-            <br />
-            веб-платформу, с мгновенным подтверждением заказа и трекингом.
-          </Typography>
-          <Button variant="contained" sx={{ mt: 2 }}>
-            Исследовать сервисы
-          </Button>
-        </Container>
-      </Box>
+          <Grid item xs={12} md={6}>
+            <Card sx={{ textAlign: "center", p: 3 }}>
+              <ShoppingCartIcon color="primary" sx={{ fontSize: 60, mb: 2 }} />
+              <Typography variant="h5">Прозрачное ценообразование</Typography>
+              <Typography>
+                Полная прозрачность в ценообразовании без скрытых сборов и
+                дополнительных расходов.
+              </Typography>
+            </Card>
+          </Grid>
+        </Grid>
+      </Container>
     </Box>
   );
 };
