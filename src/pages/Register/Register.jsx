@@ -112,7 +112,7 @@ export const Register = () => {
               onChange={handleInputChange}
               required
             />
-            Я Заказчик
+            Я Покупатель
           </label>
         </div>
         <Button type="submit">Зарегистрироваться</Button>
