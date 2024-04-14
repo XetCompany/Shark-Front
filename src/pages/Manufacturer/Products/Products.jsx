@@ -21,7 +21,7 @@ const ProductsContent = observer(({ searchValue }) => {
   }
 
   if (manufacturerStore.products.length === 0) {
-    return <Typography variant="body1">Нет пунктов</Typography>;
+    return <Typography variant="body1">Нет товаров</Typography>;
   }
 
   const lowerCaseSearchValue = searchValue.toLowerCase();

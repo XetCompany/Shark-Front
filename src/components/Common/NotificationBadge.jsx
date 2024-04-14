@@ -172,7 +172,7 @@ export const NotificationBadge = observer(() => {
       // position: "relative",
     }}>
       <Badge
-        badgeContent={userStore.notifications.filter((notification) => !notification.is_read).length}
+        badgeContent={userStore.notifications ? userStore.notifications.filter((notification) => !notification.is_read).length : 0}
         color="primary"
         style={{
           cursor: "pointer",
