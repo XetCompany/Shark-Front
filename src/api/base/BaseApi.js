@@ -8,10 +8,18 @@ class ApiClass {
 
   static getDefaultHeaders({ isAuth = false }) {
     if (isAuth) {
-      return {
-        Authorization: `Bearer ${getAccessTokenFromLocalStorage()}`,
-        "Content-Type": "application/json",
-      };
+      const access = getAccessTokenFromLocalStorage();
+      if (access) {
+        return {
+          Authorization: `Bearer ${getAccessTokenFromLocalStorage()}`,
+          "Content-Type": "application/json",
+        };
+      } else {
+        console.warn("No access token found in local storage");
+        return {
+          "Content-Type": "application/json",
+        };
+      }
     }
     return {};
   }
